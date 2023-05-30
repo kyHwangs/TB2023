@@ -1,0 +1,42 @@
+Plots:
+
+  Basic: on
+
+  Cases:
+    Pre-shower:
+      average time structure:
+        xScale: 0.4
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
+    Muon Counter:
+      average time structure:
+        xScale: 0.4
+
+      integrated ADC:
+        nBin: 400
+        xMin: -10000
+        xMax: 50000
+        interval: [840, 960]
+
+Cut:
+  DWC:
+    Correlation: 1.5
+
+Output:
+  Path: ./
+  Name: output
+
+
+
+
