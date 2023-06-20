@@ -8,6 +8,7 @@ from ROOT import TRootCanvas
 
 import argparse
 
+ROOT.gApplication = ROOT.nullptr
 app = TApplication("app", ROOT.nullptr, ROOT.nullptr)
 
 parser = argparse.ArgumentParser()
