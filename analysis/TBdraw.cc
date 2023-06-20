@@ -8,9 +8,14 @@
 #include "TPad.h"
 #include "TString.h"
 #include "TFile.h"
+#include "TApplication.h"
+#include "TRootCanvas.h"
 
-int TBdraw(int runNum) {
-    TFile* hist_file = TFile::Open( (("DQM_Run") + std::to_string(runNum) + ".root").c_str() );
+int main(int argc, char* argv[]) {
+    TApplication app("app", &argc, argv);
+
+    std::string runNum = argv[1];
+    TFile* hist_file = TFile::Open( (("DQM_Run") + runNum + ".root").c_str() );
 
     TList* hist_list = hist_file->GetListOfKeys();
     std::vector<std::string> hist_name_list;
@@ -41,9 +46,9 @@ int TBdraw(int runNum) {
         pad_idx++;
     }
 
-    std::cout << "Type any key if you want to quit..." << std::endl;
-    std::string key;
-    std::cin >> key;
+    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
+    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    app.Run();
     
     hist_file->Close();
     return 0;

@@ -3,8 +3,12 @@ from ROOT import TFile
 from ROOT import TCanvas
 from ROOT import TH1
 from ROOT import TList
+from ROOT import TApplication
+from ROOT import TRootCanvas
 
 import argparse
+
+app = TApplication("app", ROOT.nullptr, ROOT.nullptr)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--runNum", "-rn", type=str, required=True, action="store", help="run number of DQM file")
@@ -39,5 +43,8 @@ for hist_name in hist_name_list :
     c.Update()
     pad_idx += 1
 
-input("Type any key to exit...")
+rc = c.GetCanvasImp()
+rc.Connect("CloseWindow()", "TApplication", ROOT.gApplication, "Terminate()");
+app.Run()
+
 DQM_file.Close()
