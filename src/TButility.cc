@@ -204,3 +204,15 @@ TBcid TButility::getcid(TBdetector::detid did, int module, int tower, int column
 
   return TBcid(0, 0);
 }
+
+TBcid TButility::getcid(TBdetector::detid did, int tower, int column, int row, bool isCeren) const {
+
+  for ( auto detInfo : mapping_ ) 
+    if ( detInfo.second.det() == did 
+      && detInfo.second.column() == column
+      && detInfo.second.row() == row
+      && detInfo.second.isCeren() == isCeren )
+      return detInfo.first;
+
+  return TBcid(0, 0);
+}
