@@ -32,19 +32,10 @@ public:
   TBcid getcid(int module, int tower, bool isCeren) const;
   TBcid getcid(TBdetector::detid did, int module, int tower, int column, int plate, bool isCeren) const;
 
-  void setPSpedcut(float in) { PSpedcut_ = in; }
-  void setPS1mipcut(float in) { PS1mipcut_ = in; }
-  void setPS3mipcut(float in) { PS3mipcut_ = in; }
-  void setMuoncut(float in) { muoncut_ = in; }
-
 private:
   std::map<TBcid, TBdetector> mapping_;
   std::map<TBcid, float> pedmap_;
-
-  float PSpedcut_;
-  float PS1mipcut_;
-  float PS3mipcut_;
-  float muoncut_;
+  
 };
 
 #endif
