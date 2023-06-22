@@ -156,11 +156,7 @@ public:
 	enum PlotInfo {
 		kIntADC = 0,
 		kPeakADC,
-		kAvgTimeStruc,
-		kDWCx1y1,
-		kDWCx2y2,
-		kDWCx1x2,
-		kDWCy1y2,
+		kAvgTimeStruc
 	};
 
 	void init();

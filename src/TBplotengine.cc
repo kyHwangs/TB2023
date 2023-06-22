@@ -59,16 +59,16 @@ void TBplotengine::init() {
 }
 
 TBcid TBplotengine::getCid(std::string input) {
-	if ( input == "Pre-shower" )
-		return fUtility.getcid(TBdetector::preshower);
-		// return TBcid(1,1);
+	// if ( input == "Pre-shower" )
+	// 	return fUtility.getcid(TBdetector::preshower);
+	// 	// return TBcid(1,1);
 
-	if ( input == "Muon Counter" )
-		return fUtility.getcid(TBdetector::muon);
-		// return TBcid(1,2);
+	// if ( input == "Muon Counter" )
+	// 	return fUtility.getcid(TBdetector::muon);
+	// 	// return TBcid(1,2);
 
-	if ( input == "DWC" )
-		return TBcid(1,3);
+	// if ( input == "DWC" )
+	// 	return TBcid(1,3);
 		// return fUtility.getcid(TBdetector::DWC1analogue);
 
 	if ( input.find("MID") != std::string::npos && input.find("CH") != std::string::npos ) {
@@ -83,6 +83,8 @@ TBcid TBplotengine::getCid(std::string input) {
 
 		return TBcid(mid, ch);
 	}
+
+	return TBcid(1, 1);
 
 }
 
