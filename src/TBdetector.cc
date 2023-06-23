@@ -5,6 +5,9 @@
 TBcid::TBcid(int midin, int channelin)
 : mid_(midin), channel_(channelin) {}
 
+TBcid::TBcid()
+: mid_(0), channel_(0) {}
+
 bool TBcid::operator<(const TBcid& rh) const {
   if (mid_!=rh.mid())
     return mid_ < rh.mid();

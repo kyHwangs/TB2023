@@ -7,6 +7,7 @@
 class TBcid {
 public:
   TBcid(int midin, int channelin);
+  TBcid();
   ~TBcid() {}
 
   bool operator< (const TBcid& rh) const;
