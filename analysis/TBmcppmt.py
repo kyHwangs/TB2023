@@ -13,14 +13,18 @@ args = parser.parse_args()
 RunNumber = args.RunNumber
 MaxEvent = args.MaxEvent
 
-MCPPMT = ROOT.TBmcppmt('TBwaveform')(RunNumber, 0, 0)
-MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230622/TB2023/mapping/mapping_TB2021July_v1.root");
+# MCPPMT = ROOT.TBmcppmt('TBwaveform')(RunNumber, 0, 0)
+# MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
+
+MCPPMT = ROOT.TBmcppmt('TBfastmode')(RunNumber, 3, 0)
+MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
 
 if MaxEvent != -1:
 	MCPPMT.SetMaxEvent(MaxEvent)
 
+MCPPMT.SetPlotRangeX(1000, -3000, 300000)
 MCPPMT.PreparePlots()
-MCPPMT.SetHeatmap()
+# MCPPMT.SetHeatmap()
 MCPPMT.Loop()
 
 print("Done at",datetime.now())
