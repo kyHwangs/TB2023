@@ -13,7 +13,7 @@ template <class T>
 class FileController
 {
 public:
-  FileController(int fRunNum_, int fMID_, std::string fBaseDir_);
+  FileController(int fRunNum_, int fMID_, std::string fBaseDir_, int fMaxFileNum_);
   ~FileController()
   {
     fclose(fRawData);
@@ -61,6 +61,7 @@ private:
   int fRunNum;
   int fMID;
   int fNextFileNum;
+  int fMaxFileNum;
 
   int fTotalEventNum;
   int fCurrentEventNum;
@@ -72,7 +73,7 @@ template <class T>
 class TBread
 {
 public:
-  TBread(int fRunNum_, int fMaxEvent_, std::string fBaseDir_, std::vector<int> fMIDMap_);
+  TBread(int fRunNum_, int fMaxEvent_, int fMaxFile_, std::string fBaseDir_, std::vector<int> fMIDMap_);
   ~TBread() {}
 
   TBevt<T> GetAnEvent();
@@ -83,6 +84,7 @@ private:
 
   int fRunNum;
   int fMaxEvent;
+  int fMaxFile;
   std::string fBaseDir;
 
   std::vector<int> fMIDMap;

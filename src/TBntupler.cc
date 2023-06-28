@@ -9,7 +9,7 @@ TBntupler::TBntupler(std::string fInPath_, std::string fOutPath_, std::string fO
 void TBntupler::ntuplizeWaveform()
 {
     // Prepare raw file reader
-    TBread<TBwaveform> *file_reader = new TBread<TBwaveform>(fRunNumber, fMaxEntry, fInPath, fMIDtoUse);
+    TBread<TBwaveform> *file_reader = new TBread<TBwaveform>(fRunNumber, fMaxEntry, -1, fInPath, fMIDtoUse);
 
     // Set maximum number of entries, if not set, use total entries
     int entries = fMaxEntry;
@@ -70,7 +70,7 @@ void TBntupler::ntuplizeWaveform()
 void TBntupler::ntuplizeFastmode()
 {
     // Prepare raw file reader
-    TBread<TBfastmode> *file_reader = new TBread<TBfastmode>(fRunNumber, fMaxEntry, fInPath, fMIDtoUse);
+    TBread<TBfastmode> *file_reader = new TBread<TBfastmode>(fRunNumber, fMaxEntry, -1, fInPath, fMIDtoUse);
 
     // Set maximum number of entries, if not set, use total entries
     int entries = fMaxEntry;

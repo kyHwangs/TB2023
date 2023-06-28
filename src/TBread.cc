@@ -8,8 +8,8 @@
 #include "TTree.h"
 
 template <typename T>
-FileController<T>::FileController(int fRunNum_, int fMID_, std::string fBaseDir_)
-    : fMode(), fRawData(0), fRunNum(fRunNum_), fMID(fMID_), fBaseDir(fBaseDir_), fNextFileNum(0), fTotalEventNum(0), fCurrentEventNum(0), fTotalMaxEventNum(0), fCurrentMaxEventNum(0)
+FileController<T>::FileController(int fRunNum_, int fMID_, std::string fBaseDir_, int fMaxFileNum_)
+    : fMode(), fRawData(0), fRunNum(fRunNum_), fMID(fMID_), fBaseDir(fBaseDir_), fNextFileNum(0), fMaxFileNum(fMaxFileNum_), fTotalEventNum(0), fCurrentEventNum(0), fTotalMaxEventNum(0), fCurrentMaxEventNum(0)
 {
   init();
 }
@@ -18,7 +18,7 @@ template <typename T>
 void FileController<T>::init()
 {
 
-  for (int i = 0; i < 999; i++)
+  for (int i = 0; i < fMaxFileNum; i++)
   {
     std::string aFileName = GetFileName(fMode, i);
 
@@ -361,9 +361,11 @@ TBmid<TBfastmode> FileController<T>::ReadFastmodeMid()
 }
 
 template <typename T>
-TBread<T>::TBread(int fRunNum_, int fMaxEvent_, std::string fBaseDir_, std::vector<int> fMIDMap_)
-    : fRunNum(fRunNum_), fMaxEvent(fMaxEvent_), fBaseDir(fBaseDir_), fMIDMap(fMIDMap_)
+TBread<T>::TBread(int fRunNum_, int fMaxEvent_, int fMaxFile_, std::string fBaseDir_, std::vector<int> fMIDMap_)
+    : fRunNum(fRunNum_), fMaxEvent(fMaxEvent_), fMaxFile(fMaxFile_), fBaseDir(fBaseDir_), fMIDMap(fMIDMap_)
 {
+  if (fMaxFile == -1)
+    fMaxFile = 999;
 
   init();
 }
@@ -375,7 +377,7 @@ void TBread<T>::init()
   fFileMap.clear();
 
   for (auto aMid : fMIDMap)
-    fFileMap.insert(std::make_pair(aMid, new FileController<T>(fRunNum, aMid, fBaseDir)));
+    fFileMap.insert(std::make_pair(aMid, new FileController<T>(fRunNum, aMid, fBaseDir, fMaxFile)));
 
   int tmpMax = 99999999;
   for (int i = 0; i < fMIDMap.size(); i++)

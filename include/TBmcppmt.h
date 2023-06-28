@@ -44,12 +44,12 @@ public:
 
     void SetReader(TBwaveform mode)
     {
-        fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+        fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
         fReaderFast = nullptr;
     }
     void SetReader(TBfastmode mode)
     {
-        fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+        fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
         fReaderWave = nullptr;
     }
 
