@@ -54,9 +54,13 @@ public:
 
 	virtual void Fill(std::vector<short> aWave)
 	{
+		float aTmpPed = ped;
+		if (ped == -1)
+			aTmpPed = std::accumulate(aWave.begin() + 1, aWave.begin() + 101, 0.) / 100.;
+
 		std::vector<float> aWavePedCorr;
 		for (int i = 0; i < aWave.size(); i++)
-			aWavePedCorr.push_back(ped - aWave.at(i));
+			aWavePedCorr.push_back(aTmpPed - aWave.at(i));
 
 		aHist->Fill(std::accumulate(aWavePedCorr.begin() + pStart, aWavePedCorr.begin() + pFinish, 0.));
 	}
@@ -86,9 +90,13 @@ public:
 
 	virtual void Fill(std::vector<short> aWave)
 	{
+		float aTmpPed = ped;
+		if (ped == -1)
+			aTmpPed = std::accumulate(aWave.begin() + 1, aWave.begin() + 101, 0.) / 100.;
+
 		std::vector<float> aWavePedCorr;
 		for (int i = 0; i < aWave.size(); i++)
-			aWavePedCorr.push_back(ped - aWave.at(i));
+			aWavePedCorr.push_back(aTmpPed - aWave.at(i));
 
 		aHist->Fill(*std::max_element(aWavePedCorr.begin() + pStart, aWavePedCorr.begin() + pFinish));
 	}

@@ -13,17 +13,18 @@
 #include <TH2.h>
 #include <TFile.h>
 
-class TButility {
+class TButility
+{
 public:
   TButility() {}
   ~TButility() {}
 
-  void loading(const std::string& path);
-  void loadped(const std::string& path);
+  void loading(const std::string &path);
+  void loadped(const std::string &path);
 
   TBdetector::detid detid(int tid) const;
-  TBdetector find(const TBcid& cid) const;
-  float retrievePed(const TBcid& cid) const;
+  TBdetector find(const TBcid &cid) const;
+  float retrievePed(const TBcid &cid) const;
   int pid(float psadc, float muadc) const;
 
   TBcid getcid(TBdetector::detid did) const;
@@ -36,7 +37,6 @@ public:
 private:
   std::map<TBcid, TBdetector> mapping_;
   std::map<TBcid, float> pedmap_;
-  
 };
 
 #endif

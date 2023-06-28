@@ -28,26 +28,29 @@ template <class T>
 class TBmcppmt
 {
 public:
-
-    enum calculator {
+    enum calculator
+    {
         AvgTimeStruc = 0,
         PeakADC,
         IntADC
     };
 
     TBmcppmt(int fRunNum_, calculator fCalc_, bool fUseExPed_);
-    ~TBmcppmt() {
+    ~TBmcppmt()
+    {
         delete fReaderWave;
         delete fReaderFast;
     }
 
-    void SetReader(TBwaveform mode) { 
-        fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4}); 
-        fReaderFast = nullptr; 
+    void SetReader(TBwaveform mode)
+    {
+        fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+        fReaderFast = nullptr;
     }
-    void SetReader(TBfastmode mode) { 
-        fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4}); 
-        fReaderWave = nullptr;    
+    void SetReader(TBfastmode mode)
+    {
+        fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+        fReaderWave = nullptr;
     }
 
     void Loop();
@@ -66,7 +69,7 @@ public:
 
     void Fill(TBfastmode mode);
 
-    void Fill(TBwaveform mode);    
+    void Fill(TBwaveform mode);
     void FillAverageTimeStruc();
     void FillPeakADC();
     void FillIntADC();
@@ -82,11 +85,10 @@ public:
     int GetRow(int input) { return (int)(input / 5) + 1; }
     int GetCol(int input) { return (int)(input % 5) + 1; }
 
-    TH2F* GetScintHeatmap();
-    TH2F* GetCerenHeatmap();
+    TH2F *GetScintHeatmap();
+    TH2F *GetCerenHeatmap();
 
 private:
-
     T fMode;
 
     int fRunNum;
@@ -97,11 +99,11 @@ private:
 
     TButility fUtility;
 
-    TBread<TBwaveform>* fReaderWave;
-    TBread<TBfastmode>* fReaderFast;
+    TBread<TBwaveform> *fReaderWave;
+    TBread<TBfastmode> *fReaderFast;
 
-    std::vector<TH1F*> fPlotCeren;
-    std::vector<TH1F*> fPlotScint;
+    std::vector<TH1F *> fPlotCeren;
+    std::vector<TH1F *> fPlotScint;
 
     std::vector<TBcid> fCIDCeren;
     std::vector<TBcid> fCIDScint;
@@ -121,14 +123,6 @@ private:
 
     float fCalcRangeMin;
     float fCalcRangeMax;
-
 };
-
-
-
-
-
-
-
 
 #endif

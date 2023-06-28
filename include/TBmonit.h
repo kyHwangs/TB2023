@@ -12,9 +12,10 @@
 #include "TBread.h"
 
 template <class T>
-class TBmonit {
+class TBmonit
+{
 public:
-  TBmonit(const std::string& fConfig_, int fRunNum_);
+  TBmonit(const std::string &fConfig_, int fRunNum_);
   ~TBmonit() {}
 
   void Loop();
@@ -22,7 +23,7 @@ public:
   void LoopFast(); //FIXME!! Fast engine should be integrated into TBplotengine, and work using template!!
 
   void SetMaxEvent(int fMaxEvent_) { fMaxEvent = fMaxEvent_; }
-  
+
 private:
   TBconfig fConfig;
 

@@ -9,7 +9,6 @@ TBplotengine::TBplotengine(const YAML::Node fNodePlot_, int fRunNum_, TButility 
 
 void TBplotengine::init()
 {
-
 	fUtility.loading("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
 	if (fUseExPed)
 		fUtility.loadped("/Users/khwang/scratch/TB2023July/sample/Info/Run" + std::to_string(fRunNum) + "_pedestalHist_mean.root");
@@ -71,6 +70,81 @@ TBcid TBplotengine::getCid(std::string input)
 			throw std::runtime_error("TBplotengine::getCid - allowed CH {1..32}, input is : " + std::to_string(ch));
 
 		return TBcid(mid, ch);
+	}
+
+	if (input.find("LEGO") != std::string::npos)
+	{
+		int nChannel = -1;
+		int isCeren = -1;
+		if (input.find("L1") != std::string::npos)
+			nChannel = 1;
+
+		if (input.find("L2") != std::string::npos)
+			nChannel = 2;
+
+		if (input.find("L3") != std::string::npos)
+			nChannel = 3;
+
+		if (input.find("L4") != std::string::npos)
+			nChannel = 4;
+
+		if (input.find("Ceren") != std::string::npos)
+			isCeren = 1;
+
+		if (input.find("Scint") != std::string::npos)
+			isCeren = 0;
+
+		return fUtility.getcid(TBdetector::detid::LEGO, 11, nChannel, isCeren);
+	}
+
+	if (input.find("SFHS") != std::string::npos)
+	{
+		int nChannel = -1;
+		int isCeren = -1;
+		if (input.find("HW") != std::string::npos)
+			nChannel = 0;
+
+		if (input.find("H1") != std::string::npos)
+			nChannel = 1;
+
+		if (input.find("H2") != std::string::npos)
+			nChannel = 2;
+
+		if (input.find("H3") != std::string::npos)
+			nChannel = 3;
+
+		if (input.find("Ceren") != std::string::npos)
+			isCeren = 1;
+
+		if (input.find("Scint") != std::string::npos)
+			isCeren = 0;
+
+		return fUtility.getcid(TBdetector::detid::SFHS, 10, nChannel, isCeren);
+	}
+
+	if (input.find("MCPPMT") != std::string::npos)
+	{
+		int nChannel = -1;
+		int isCeren = -1;
+		if (input.find("mid") != std::string::npos)
+			nChannel = 0;
+
+		if (input.find("W1") != std::string::npos)
+			nChannel = 1;
+
+		if (input.find("W2") != std::string::npos)
+			nChannel = 2;
+
+		if (input.find("W3") != std::string::npos)
+			nChannel = 3;
+
+		if (input.find("Ceren") != std::string::npos)
+			isCeren = 1;
+
+		if (input.find("Scint") != std::string::npos)
+			isCeren = 0;
+
+		return fUtility.getcid(TBdetector::detid::MCPPMT_gen, 12, nChannel, isCeren);
 	}
 
 	return TBcid(1, 1);

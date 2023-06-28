@@ -8,7 +8,8 @@
 #include "TBdetector.h"
 
 template <class T>
-class TBevt {
+class TBevt
+{
 public:
   TBevt();
   ~TBevt() {}
@@ -22,7 +23,7 @@ public:
   TBmid<T> Mid(unsigned idx) const;
   int Size() const { return static_cast<int>(fMapMids.size()); }
 
-  const T GetData(const TBcid& cid) const;
+  const T GetData(const TBcid &cid) const;
 
 private:
   int fEvent;
