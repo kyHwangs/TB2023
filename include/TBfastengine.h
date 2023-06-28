@@ -66,7 +66,7 @@ class fTiming : public fastPlotter {
 
         virtual void Fill(int clock_timing) {
             if (fWaveformBinSize == -1) throw std::runtime_error("Waveform bin size not defined, please set it before filling histogram!");
-            float real_timing = ( WaveformBinSize * (1./16.)  * (float)clock_timing );
+            float real_timing = ( fWaveformBinSize * (1./16.)  * (float)clock_timing );
             fHist->Fill(real_timing);
         }
         virtual void Set(int fWaveformBinSize_) { fWaveformBinSize = (float) fWaveformBinSize_; }
@@ -86,8 +86,8 @@ class TBfastengine {
         ~TBfastengine() {}
 
         enum PlotInfo {
-            kIntADC = 0;
-            kTiming = 0;
+            kIntADC = 0,
+            kTiming
         };
 
         void init();
