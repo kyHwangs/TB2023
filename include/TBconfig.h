@@ -6,6 +6,7 @@
 
 #include "yaml-cpp/yaml.h"
 #include "TBplotengine.h"
+#include "TBfastengine.h"
 
 class TBconfig
 {

@@ -1,0 +1,21 @@
+Plots:
+
+  Basic: on
+
+  Cases:
+    MID2-CH2:
+      integrated ADC:
+        nBin: 400
+        xMin: -3000
+        xMax: 30000
+
+    MID3-CH2:
+      timing:
+        timeWindow: 400
+        nBin: 1000
+        xMin: 0
+        xMax: 400000
+
+Output:
+  Path: ./
+  Name: output

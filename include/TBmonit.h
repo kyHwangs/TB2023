@@ -19,6 +19,8 @@ public:
 
   void Loop();
 
+  void LoopFast(); //FIXME!! Fast engine should be integrated into TBplotengine, and work using template!!
+
   void SetMaxEvent(int fMaxEvent_) { fMaxEvent = fMaxEvent_; }
   
 private:
