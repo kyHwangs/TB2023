@@ -26,7 +26,7 @@ TBmonit<T>::TBmonit(const std::string& fConfig_, int fRunNum_)
 
 template<typename T>
 void TBmonit<T>::Loop() {
-  TBplotengine enginePlot = TBplotengine(fConfig.GetConfig()["Plots"], fRunNum, TButility());
+  TBplotengine enginePlot = TBplotengine(fConfig.GetConfig()["Plots"], fRunNum, TButility(), false);
   TBread<TBwaveform> readerWave = TBread<TBwaveform>(fRunNum, fMaxEvent, "/Users/khwang/scratch/TB2023July/sample", enginePlot.getMIDtoLoad());
 
   std::chrono::time_point time_begin = std::chrono::system_clock::now(); 
