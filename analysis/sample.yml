@@ -1,6 +1,6 @@
 Plots:
   Cases:
-    MID1-CH12:
+    LEGO-L1-Ceren:
       average time structure:
         xScale: 0.2
 
@@ -16,109 +16,371 @@ Plots:
         xMax: 4096
         interval: [220, 390]
 
-    MID1-CH16:
+    LEGO-L1-Scint:
       average time structure:
         xScale: 0.2
 
       integrated ADC:
         nBin: 400
-        xMin: -10000
-        xMax: 50000
-        interval: [840, 960]
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
 
-    LEGO-L1-Ceren:
-      average time structure:
-        xScale: 0.2
-
-    LEGO-L1-Scint:
-      average time structure:
-        xScale: 0.2
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     LEGO-L2-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     LEGO-L2-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     LEGO-L3-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     LEGO-L3-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     LEGO-L4-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     LEGO-L4-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     SFHS-HW-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     SFHS-HW-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     SFHS-H1-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     SFHS-H1-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     SFHS-H2-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     SFHS-H2-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     SFHS-H3-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     SFHS-H3-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     MCPPMT-mid-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     MCPPMT-mid-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     MCPPMT-W1-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     MCPPMT-W1-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     MCPPMT-W2-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     MCPPMT-W2-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
     MCPPMT-W3-Ceren:
       average time structure:
         xScale: 0.2
 
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
+
     MCPPMT-W3-Scint:
       average time structure:
         xScale: 0.2
+
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+        interval: [220, 390]
+
+      peak ADC:
+        nBin: 400
+        xMin: 0
+        xMax: 4096
+        interval: [220, 390]
 
