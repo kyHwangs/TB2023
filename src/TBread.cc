@@ -7,23 +7,29 @@
 #include "TFile.h"
 #include "TTree.h"
 
-template<typename T>
+template <typename T>
 FileController<T>::FileController(int fRunNum_, int fMID_, std::string fBaseDir_)
-: fMode(), fRawData(0), fRunNum(fRunNum_), fMID(fMID_), fBaseDir(fBaseDir_), fNextFileNum(0), fTotalEventNum(0), fCurrentEventNum(0), fTotalMaxEventNum(0), fCurrentMaxEventNum(0) {
+    : fMode(), fRawData(0), fRunNum(fRunNum_), fMID(fMID_), fBaseDir(fBaseDir_), fNextFileNum(0), fTotalEventNum(0), fCurrentEventNum(0), fTotalMaxEventNum(0), fCurrentMaxEventNum(0)
+{
   init();
 }
 
-template<typename T>
-void FileController<T>::init() {
+template <typename T>
+void FileController<T>::init()
+{
 
-  for ( int i = 0; i < 999; i++ ) {
+  for (int i = 0; i < 999; i++)
+  {
     std::string aFileName = GetFileName(fMode, i);
 
-    if ( !access(aFileName.c_str(), F_OK) ) {
+    if (!access(aFileName.c_str(), F_OK))
+    {
       int maxEvent = GetMaximum(fMode, aFileName);
       fTotalMaxEventNum += maxEvent;
       std::cout << "file scanning : " << aFileName << " - Max Event : " << maxEvent << " / " << fTotalMaxEventNum << std::endl;
-    } else {
+    }
+    else
+    {
       break;
     }
   }
@@ -31,27 +37,31 @@ void FileController<T>::init() {
   OpenFile();
 }
 
-template<typename T>
-std::string FileController<T>::GetFileName() {
+template <typename T>
+std::string FileController<T>::GetFileName()
+{
   return GetFileName(fMode, fNextFileNum);
 }
 
-template<typename T>
-std::string FileController<T>::GetFileName(TBwaveform fMode_, int aFileNum) {
+template <typename T>
+std::string FileController<T>::GetFileName(TBwaveform fMode_, int aFileNum)
+{
   return fBaseDir + "/Run_" + std::to_string(fRunNum) + "/Run_" + std::to_string(fRunNum) + "_Wave/Run_" + std::to_string(fRunNum) + "_Wave_MID_" + std::to_string(fMID) + "/Run_" + std::to_string(fRunNum) + "_Wave_MID_" + std::to_string(fMID) + "_FILE_" + std::to_string(aFileNum) + ".dat";
 }
 
-template<typename T>
-std::string FileController<T>::GetFileName(TBfastmode fMode_, int aFileNum) {
+template <typename T>
+std::string FileController<T>::GetFileName(TBfastmode fMode_, int aFileNum)
+{
   return fBaseDir + "/Run_" + std::to_string(fRunNum) + "/Run_" + std::to_string(fRunNum) + "_Fast/Run_" + std::to_string(fRunNum) + "_Fast_MID_" + std::to_string(fMID) + "/Run_" + std::to_string(fRunNum) + "_Fast_MID_" + std::to_string(fMID) + "_FILE_" + std::to_string(aFileNum) + ".dat";
 }
 
-template<typename T>
-void FileController<T>::OpenFile() {
+template <typename T>
+void FileController<T>::OpenFile()
+{
 
   fFileName = GetFileName();
 
-  if ( access(fFileName.c_str(), F_OK) )
+  if (access(fFileName.c_str(), F_OK))
     throw std::runtime_error("FileController<T>::OpenFile - Does not exist : " + fFileName);
 
   fCurrentMaxEventNum = GetMaximum();
@@ -65,14 +75,16 @@ void FileController<T>::OpenFile() {
   fNextFileNum++;
 }
 
-template<typename T>
-TBmid<T> FileController<T>::ReadEvent() {
+template <typename T>
+TBmid<T> FileController<T>::ReadEvent()
+{
 
   return std::move(ReadEvent(fMode));
 }
 
-template<typename T>
-TBmid<TBwaveform> FileController<T>::ReadEvent(TBwaveform fMode_) {
+template <typename T>
+TBmid<TBwaveform> FileController<T>::ReadEvent(TBwaveform fMode_)
+{
 
   CheckOverflow();
   fTotalEventNum++;
@@ -81,9 +93,10 @@ TBmid<TBwaveform> FileController<T>::ReadEvent(TBwaveform fMode_) {
   return std::move(ReadWaveformMid());
 }
 
-template<typename T>
-TBmid<TBfastmode> FileController<T>::ReadEvent(TBfastmode fMode_) {
-  
+template <typename T>
+TBmid<TBfastmode> FileController<T>::ReadEvent(TBfastmode fMode_)
+{
+
   CheckOverflow();
   fTotalEventNum++;
   fCurrentEventNum++;
@@ -91,15 +104,17 @@ TBmid<TBfastmode> FileController<T>::ReadEvent(TBfastmode fMode_) {
   return std::move(ReadFastmodeMid());
 }
 
-template<typename T>
-int FileController<T>::GetMaximum() {
+template <typename T>
+int FileController<T>::GetMaximum()
+{
   return FileController<T>::GetMaximum(fMode, fFileName);
 }
 
-template<typename T>
-int FileController<T>::GetMaximum(TBwaveform fMode_, std::string filename) {
+template <typename T>
+int FileController<T>::GetMaximum(TBwaveform fMode_, std::string filename)
+{
 
-  FILE* aFile = fopen(filename.c_str(), "rb");
+  FILE *aFile = fopen(filename.c_str(), "rb");
   fseek(aFile, 0L, SEEK_END);
   long long size = ftell(aFile);
   fclose(aFile);
@@ -108,10 +123,11 @@ int FileController<T>::GetMaximum(TBwaveform fMode_, std::string filename) {
   return nEvent;
 }
 
-template<typename T>
-int FileController<T>::GetMaximum(TBfastmode fMode_, std::string filename) {
+template <typename T>
+int FileController<T>::GetMaximum(TBfastmode fMode_, std::string filename)
+{
 
-  FILE* aFile = fopen(filename.c_str(), "rb");
+  FILE *aFile = fopen(filename.c_str(), "rb");
 
   fseek(aFile, 0L, SEEK_END);
   long long size = ftell(aFile);
@@ -121,10 +137,12 @@ int FileController<T>::GetMaximum(TBfastmode fMode_, std::string filename) {
   return nEvent;
 }
 
-template<typename T>
-void FileController<T>::CheckOverflow() {
+template <typename T>
+void FileController<T>::CheckOverflow()
+{
 
-  if ( fCurrentEventNum == fCurrentMaxEventNum ) {
+  if (fCurrentEventNum == fCurrentMaxEventNum)
+  {
     std::cout << "end of the file!" << std::endl;
     fclose(fRawData);
     OpenFile();
@@ -133,8 +151,9 @@ void FileController<T>::CheckOverflow() {
 template class FileController<TBwaveform>;
 template class FileController<TBfastmode>;
 
-template<typename T>
-TBmidbase FileController<T>::readMetadata() {
+template <typename T>
+TBmidbase FileController<T>::readMetadata()
+{
   char data[64];
   int data_length;
   int run_number;
@@ -188,7 +207,7 @@ TBmidbase FileController<T>::readMetadata() {
 
   // TCB trigger time
   fine_time = data[11] & 0xFF;
-  fine_time = fine_time * 11;     // actually * (1000 / 90)
+  fine_time = fine_time * 11; // actually * (1000 / 90)
   coarse_time = data[12] & 0xFF;
   ltmp = data[13] & 0xFF;
   ltmp = ltmp << 8;
@@ -205,7 +224,7 @@ TBmidbase FileController<T>::readMetadata() {
   ltmp = data[17] & 0xFF;
   ltmp = ltmp << 40;
   coarse_time = coarse_time + ltmp;
-  coarse_time = coarse_time * 1000;   // get ns
+  coarse_time = coarse_time * 1000; // get ns
   tcb_trig_time = fine_time + coarse_time;
 
   // mid
@@ -237,7 +256,7 @@ TBmidbase FileController<T>::readMetadata() {
 
   // local trigger time
   fine_time = data[27] & 0xFF;
-  fine_time = fine_time * 11;     // actually * (1000 / 90)
+  fine_time = fine_time * 11; // actually * (1000 / 90)
   coarse_time = data[28] & 0xFF;
   ltmp = data[29] & 0xFF;
   ltmp = ltmp << 8;
@@ -254,18 +273,19 @@ TBmidbase FileController<T>::readMetadata() {
   ltmp = data[33] & 0xFF;
   ltmp = ltmp << 40;
   coarse_time = coarse_time + ltmp;
-  coarse_time = coarse_time * 1000;   // get ns
+  coarse_time = coarse_time * 1000; // get ns
   local_trig_time = fine_time + coarse_time;
 
-  auto amid = TBmidbase(tcb_trig_number,run_number,mid);
-  amid.setTCB(tcb_trig_type,tcb_trig_number,tcb_trig_time);
-  amid.setLocal(local_trig_number,local_trigger_pattern,local_trig_time);
+  auto amid = TBmidbase(tcb_trig_number, run_number, mid);
+  amid.setTCB(tcb_trig_type, tcb_trig_number, tcb_trig_time);
+  amid.setLocal(local_trig_number, local_trigger_pattern, local_trig_time);
 
   return std::move(amid);
 }
 
-template<typename T>
-TBmid<TBwaveform> FileController<T>::ReadWaveformMid() {
+template <typename T>
+TBmid<TBwaveform> FileController<T>::ReadWaveformMid()
+{
   const auto base = readMetadata();
 
   short adc[32736];
@@ -279,17 +299,19 @@ TBmid<TBwaveform> FileController<T>::ReadWaveformMid() {
   std::vector<TBwaveform> waveforms;
   waveforms.reserve(channelsize);
 
-  for (unsigned int idx = 0; idx < channelsize; idx++) {
+  for (unsigned int idx = 0; idx < channelsize; idx++)
+  {
     auto awave = TBwaveform();
-    awave.setChannel(idx+1); // WARNING channel number 1 - 32
+    awave.setChannel(idx + 1); // WARNING channel number 1 - 32
     awave.init();
     waveforms.emplace_back(awave);
   }
 
   // fill waveform for channel
-  for (int i = 0; i < 1024; i++) {
+  for (int i = 0; i < 1024; i++)
+  {
     for (unsigned int idx = 0; idx < channelsize; idx++)
-      waveforms.at(idx).fill(i,adc[i*32+idx]); // should be always 32 here
+      waveforms.at(idx).fill(i, adc[i * 32 + idx]); // should be always 32 here
   }
 
   amid.setChannels(waveforms);
@@ -297,8 +319,9 @@ TBmid<TBwaveform> FileController<T>::ReadWaveformMid() {
   return std::move(amid);
 }
 
-template<typename T>
-TBmid<TBfastmode> FileController<T>::ReadFastmodeMid() {
+template <typename T>
+TBmid<TBfastmode> FileController<T>::ReadFastmodeMid()
+{
   const auto base = readMetadata();
 
   short data[96];
@@ -314,9 +337,10 @@ TBmid<TBfastmode> FileController<T>::ReadFastmodeMid() {
   std::vector<TBfastmode> fastmodes;
   fastmodes.reserve(channelsize);
 
-  for (unsigned int idx = 0; idx < channelsize; idx++) {
+  for (unsigned int idx = 0; idx < channelsize; idx++)
+  {
     auto afast = TBfastmode();
-    afast.setChannel(idx+1); // WARNING channel number 1 - 32
+    afast.setChannel(idx + 1); // WARNING channel number 1 - 32
 
     // fill waveform for channel to plot
     energy = data[idx * 3 + 1] & 0xFFFF;
@@ -336,17 +360,17 @@ TBmid<TBfastmode> FileController<T>::ReadFastmodeMid() {
   return std::move(amid);
 }
 
-
-
-template<typename T>
+template <typename T>
 TBread<T>::TBread(int fRunNum_, int fMaxEvent_, std::string fBaseDir_, std::vector<int> fMIDMap_)
-: fRunNum(fRunNum_), fMaxEvent(fMaxEvent_), fBaseDir(fBaseDir_), fMIDMap(fMIDMap_) {
+    : fRunNum(fRunNum_), fMaxEvent(fMaxEvent_), fBaseDir(fBaseDir_), fMIDMap(fMIDMap_)
+{
 
   init();
 }
 
-template<typename T>
-void TBread<T>::init() {
+template <typename T>
+void TBread<T>::init()
+{
 
   fFileMap.clear();
 
@@ -355,32 +379,35 @@ void TBread<T>::init() {
 
   int tmpMax = 99999999;
   for (int i = 0; i < fMIDMap.size(); i++)
-    if ( tmpMax >  fFileMap.at(fMIDMap.at(i))->GetTotalMaxEventNum() )
+    if (tmpMax > fFileMap.at(fMIDMap.at(i))->GetTotalMaxEventNum())
       tmpMax = fFileMap.at(fMIDMap.at(i))->GetTotalMaxEventNum();
 
-  if ( fMaxEvent == -1 ) {
+  if (fMaxEvent == -1)
+  {
     std::cout << " Maximum Event # is set to " << tmpMax << std::endl;
     fMaxEvent = tmpMax;
   }
 
-  if ( fMaxEvent > tmpMax ) {
+  if (fMaxEvent > tmpMax)
+  {
     std::cout << " Input Maximum Event # : " << fMaxEvent << " is larger than maximum of input file : " << tmpMax << " ! " << std::endl;
     std::cout << " Maximum Event # is set to " << tmpMax << std::endl;
     fMaxEvent = tmpMax;
   }
 }
 
-template<typename T>
-TBevt<T> TBread<T>::GetAnEvent() {
+template <typename T>
+TBevt<T> TBread<T>::GetAnEvent()
+{
 
   TBevt<T> returnEvt;
   std::map<int, TBmid<T>> anEvent;
-  for (int i = 0; i < fMIDMap.size(); i++) 
+  for (int i = 0; i < fMIDMap.size(); i++)
     anEvent.insert(std::make_pair(fMIDMap.at(i), fFileMap.at(fMIDMap.at(i))->ReadEvent()));
 
   int ref_event = fFileMap.at(fMIDMap.at(0))->GetTotalEventNum();
   for (int i = 1; i < fMIDMap.size(); i++)
-    if( fFileMap.at(fMIDMap.at(i))->GetTotalEventNum() != ref_event )
+    if (fFileMap.at(fMIDMap.at(i))->GetTotalEventNum() != ref_event)
       throw std::runtime_error("TBread<T>::GetAnEvent() - event num does not match MID : " + std::to_string(fMIDMap.at(i)));
 
   // for (auto aMID : anEvent) {
@@ -396,4 +423,3 @@ TBevt<T> TBread<T>::GetAnEvent() {
 
 template class TBread<TBwaveform>;
 template class TBread<TBfastmode>;
-

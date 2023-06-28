@@ -9,23 +9,13 @@
 #include "TBevt.h"
 #include <string>
 
-// class RawToMid {
-// public:
-//   RawToMid() {}
-//   ~RawToMid() {}
-
-//   TBmid<TBwaveform> ReadWaveformMid(FILE* fp);
-//   TBmid<TBfastmode> ReadFastmodeMid(FILE* fp);
-
-// private:
-//   TBmidbase readMetadata(FILE* fp);
-// };
-
 template <class T>
-class FileController {
+class FileController
+{
 public:
   FileController(int fRunNum_, int fMID_, std::string fBaseDir_);
-  ~FileController() {
+  ~FileController()
+  {
     fclose(fRawData);
   }
 
@@ -51,7 +41,7 @@ public:
   TBmid<TBfastmode> ReadEvent(TBfastmode fMode_);
 
   void CheckOverflow();
-  
+
   int GetMaximum();
   int GetMaximum(TBwaveform fMode_, std::string filename);
   int GetMaximum(TBfastmode fMode_, std::string filename);
@@ -61,7 +51,7 @@ private:
 
   T fMode;
 
-  FILE* fRawData;
+  FILE *fRawData;
   TBmidbase readMetadata();
 
   // RawToMid fReader;
@@ -78,10 +68,9 @@ private:
   int fCurrentMaxEventNum;
 };
 
-
 template <class T>
 class TBread
-{  
+{
 public:
   TBread(int fRunNum_, int fMaxEvent_, std::string fBaseDir_, std::vector<int> fMIDMap_);
   ~TBread() {}
@@ -96,12 +85,9 @@ private:
   int fMaxEvent;
   std::string fBaseDir;
 
-  std::vector<int> fMIDMap; 
+  std::vector<int> fMIDMap;
 
-  std::map<int, FileController<T>*> fFileMap;
-
-
+  std::map<int, FileController<T> *> fFileMap;
 };
-
 
 #endif

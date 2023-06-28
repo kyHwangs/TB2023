@@ -12,15 +12,16 @@
 #include "TBread.h"
 
 template <class T>
-class TBmonit {
+class TBmonit
+{
 public:
-  TBmonit(const std::string& fConfig_, int fRunNum_);
+  TBmonit(const std::string &fConfig_, int fRunNum_);
   ~TBmonit() {}
 
   void Loop();
 
   void SetMaxEvent(int fMaxEvent_) { fMaxEvent = fMaxEvent_; }
-  
+
 private:
   TBconfig fConfig;
 

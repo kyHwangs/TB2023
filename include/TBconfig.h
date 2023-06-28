@@ -10,10 +10,10 @@
 class TBconfig
 {
 public:
-    TBconfig(const std::string& config_, int fRunNumber_);
-    ~TBconfig() {};
+    TBconfig(const std::string &config_, int fRunNumber_);
+    ~TBconfig(){};
 
-    const auto& GetConfig() { return config; }
+    const auto &GetConfig() { return config; }
 
 private:
     YAML::Node config;

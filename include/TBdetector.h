@@ -4,13 +4,14 @@
 #include <vector>
 #include <iostream>
 
-class TBcid {
+class TBcid
+{
 public:
   TBcid(int midin, int channelin);
   TBcid();
   ~TBcid() {}
 
-  bool operator< (const TBcid& rh) const;
+  bool operator<(const TBcid &rh) const;
 
   int mid() const { return mid_; }
   int channel() const { return channel_; }
@@ -22,9 +23,11 @@ private:
   int channel_;
 };
 
-class TBdetector {
+class TBdetector
+{
 public:
-  enum detid {
+  enum detid
+  {
     nulldet = -1,
     aux = 0,
     SFHS = 10,
@@ -33,6 +36,7 @@ public:
     MCPPMT,
     SiPM
   };
+
 public:
   TBdetector();
   TBdetector(detid in);
@@ -42,16 +46,16 @@ public:
   int detType() const { return static_cast<int>(det_); }
   uint64_t id() const { return id_; }
 
-  bool isSiPM() const { return det_==detid::SiPM; }
-  bool isMCPPMT() const { return det_==detid::MCPPMT; }
+  bool isSiPM() const { return det_ == detid::SiPM; }
+  bool isMCPPMT() const { return det_ == detid::MCPPMT; }
 
-  bool isSFHS() const { return det_==detid::SFHS; }
-  bool isLEGO() const { return det_==detid::LEGO; }
-  bool isMCPPMT_gen() const { return det_==detid::MCPPMT_gen; }
+  bool isSFHS() const { return det_ == detid::SFHS; }
+  bool isLEGO() const { return det_ == detid::LEGO; }
+  bool isMCPPMT_gen() const { return det_ == detid::MCPPMT_gen; }
 
   bool isGeneric() const { return isSFHS() || isLEGO() || isMCPPMT_gen(); }
 
-  bool isNull() const { return det_==detid::nulldet; }
+  bool isNull() const { return det_ == detid::nulldet; }
 
   void encodeModule(int mod, int tow, bool isc);
   void encodeMultiCh(int row, int column);

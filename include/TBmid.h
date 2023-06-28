@@ -5,7 +5,8 @@
 #include <algorithm>
 #include <iterator>
 
-class TBwaveform {
+class TBwaveform
+{
 public:
   TBwaveform();
   ~TBwaveform() {}
@@ -18,16 +19,18 @@ public:
   std::vector<short> waveform() const { return waveform_; }
 
   std::vector<float> pedcorrectedWaveform(float ped) const;
-  float pedcorrectedADC(float ped, int buffer=24) const;
-  float emulfastADC(int rise, int width, int buffer=24) const;
+  float pedcorrectedADC(float ped, int buffer = 24) const;
+  float emulfastADC(int rise, int width, int buffer = 24) const;
 
   void fill(unsigned int bin, short val) { waveform_.at(bin) = val; }
+
 private:
   int channel_;
   std::vector<short> waveform_;
 };
 
-class TBfastmode {
+class TBfastmode
+{
 public:
   TBfastmode();
   ~TBfastmode() {}
@@ -46,7 +49,8 @@ private:
   int timing_;
 };
 
-class TBmidbase {
+class TBmidbase
+{
 public:
   TBmidbase();
   TBmidbase(int ev, int ru, int mi);
@@ -69,8 +73,10 @@ public:
   int channelsize() const { return channelsize_; }
 
   void print();
+
 protected:
   int channelsize_;
+
 private:
   // metadata
   int evt_;
@@ -85,15 +91,17 @@ private:
 };
 
 template <class T> // waveform or fastmode
-class TBmid : public TBmidbase {
+class TBmid : public TBmidbase
+{
 public:
   TBmid();
-  TBmid(const TBmidbase& base);
+  TBmid(const TBmidbase &base);
   TBmid(int ev, int ru, int mi);
   ~TBmid() {}
 
   const T channel(unsigned int idx) const { return channels_.at(idx); }
   void setChannels(std::vector<T> ch);
+
 private:
   std::vector<T> channels_;
 };
