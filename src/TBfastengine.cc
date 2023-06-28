@@ -109,8 +109,8 @@ fastPlotter *TBfastengine::getPlot(TBcid cid, TBfastengine::PlotInfo plot_enum, 
 		int timeWindow = node["timeWindow"].as<int>();
 
 		fastPlotter *aPlotter = new fTiming();
-		aPlotter->Set(timeWindow);
-		aPlotter->SetHisto(new TH1F(name, (TString)(";ns; N_{events}"), nBin, xMin, xMax));
+                aPlotter->Set(timeWindow);
+		aPlotter->SetHisto(new TH1F(name, (TString)(";ps; N_{events}"), nBin, xMin, xMax));
 
 		return aPlotter;
 	}
