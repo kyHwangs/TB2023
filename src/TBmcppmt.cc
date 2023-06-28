@@ -83,6 +83,14 @@ void TBmcppmt<T>::GetData(TBfastmode mode)
 template <typename T>
 void TBmcppmt<T>::Fill(TBfastmode mode)
 {
+
+    for (int i = 0; i < fChCerenFast.size(); i++)
+        for (int j = 1; j <= 1000; j++)
+            fPlotCeren.at(i)->Fill(fChCerenFast.at(i).adc());
+
+    for (int i = 0; i < fChScintFast.size(); i++)
+        for (int j = 1; j <= 1000; j++)
+            fPlotScint.at(i)->Fill(fChScintFast.at(i).adc());
 }
 
 template <typename T>
