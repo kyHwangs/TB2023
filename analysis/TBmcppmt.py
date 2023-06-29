@@ -15,9 +15,11 @@ MaxEvent = args.MaxEvent
 
 # MCPPMT = ROOT.TBmcppmt('TBwaveform')(RunNumber, 0, 0)
 # MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
+# MCPPMT.SetMapping("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 
 MCPPMT = ROOT.TBmcppmt('TBfastmode')(RunNumber, 3, 0)
-MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
+# MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
+MCPPMT.SetMapping("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 
 if MaxEvent != -1:
 	MCPPMT.SetMaxEvent(MaxEvent)
