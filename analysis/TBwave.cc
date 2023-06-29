@@ -18,6 +18,12 @@
 
 #include "drawFunction.h"
 
+enum plotting_mode{
+    kAuto,
+    kEnter,
+    kPress1toPass
+};
+
 int main(int argc, char* argv[]) {
     TApplication app("app", &argc, argv);
 
@@ -25,6 +31,7 @@ int main(int argc, char* argv[]) {
     std::string plotName = argv[2];
     int start_evt        = std::stoi(argv[3]);
     int max_evt          = std::stoi(argv[4]);
+    plotting_mode plotMode = kEnter;
 
     char meta[64];
     short adc[32736];
@@ -85,8 +92,37 @@ int main(int argc, char* argv[]) {
             c->cd();
             plot->Draw("Hist");
             c->Update();
-            gSystem->Sleep(750);
-            // sleep(1);
+
+            switch(plotMode) {
+                case kAuto :
+                    gSystem->Sleep(600);
+                    break;
+
+                case kEnter :
+                    std::cout << "Press Enter to continue" << std::endl;
+                    std::cin.get();
+                    break;
+
+                case kPress1toPass :
+                    std::cout << "Press 1 to continue, 0 to quit" << std::endl;
+                    int input = -1;
+                    while (input == -1) {
+                        std::cin >> input;
+                        if (! ( (input == 1) || (input == 0) ) ) {
+                            std::cout << "Please enter 1 or 0" << std::endl;
+                            input = -1;
+                        }
+                        if (input == 1) {
+                            std::cout << "Keep plotting..." << std::endl;
+                            break;
+                        }
+                        if (input == 0) {
+                            std::cout << "Exiting..." << std::endl;
+                            gApplication->Terminate();
+                        }
+                    }
+                    break;
+            }
         }
 
         fclose(dat_file);

@@ -4,12 +4,14 @@
 
 #include "TCanvas.h"
 #include "TStyle.h"
+#include "TSystem.h"
 #include "TH1.h"
 #include "TPad.h"
 #include "TString.h"
 #include "TFile.h"
 #include "TApplication.h"
 #include "TRootCanvas.h"
+#include "TPaveStats.h"
 
 std::vector<std::string> getPlotInfo(std::string module_name) {
     
@@ -38,11 +40,103 @@ int getEntry(std::string fileName) {
 }
 
 std::string getFileName(std::string runNum, int MID, int fileIdx) {
-    std::string baseDir = "/Users/swkim/DRC/2022_TB_at_CERN/data_sample";
+    //std::string baseDir = "/Users/swkim/DRC/2022_TB_at_CERN/data_sample";
+    std::string baseDir = "/Users/yhep/scratch/YUdaq";
     std::string fileDir = baseDir + "/Run_" + runNum + "/Run_" + runNum + "_Wave/" + "Run_" + runNum + "_Wave_MID_" + std::to_string(MID) + "/";
     std::string fileName = fileDir + "Run_" + runNum +"_Wave_MID_" + std::to_string(MID) +"_FILE_" + std::to_string(fileIdx) + ".dat";
 
     return fileName;
+}
+
+TFile *ExistenceCheck(TString fileName, TString objectName)
+{
+  if (gSystem->AccessPathName(fileName))
+  {
+    std::cout << "*** [GetHist::" << fileName << "] fileName = [" << fileName << "]: not found ***" << std::endl;
+    gApplication->Terminate();
+  }
+
+  TFile *f_input = TFile::Open(fileName);
+  if (!f_input->GetListOfKeys()->Contains(objectName))
+  {
+    std::cout << "*** [GetHist::" << fileName << "] objectName = [" << objectName << "]: not found in [" << fileName << "] ***" << std::endl;
+    gApplication->Terminate();
+  }
+
+  return f_input;
+}
+
+TH1F* GetHist(TString filename, TString histname, bool isCeren, TString newname = "")
+{
+  TFile *f_input = ExistenceCheck(filename, histname);
+  TH1::AddDirectory(kFALSE);
+
+  TH1F *h_temp = (TH1F *)f_input->Get(histname)->Clone();
+  if (newname != "")
+    h_temp->SetName(newname);
+
+  f_input->Close();
+
+  h_temp->SetLineWidth(2);
+
+  if (isCeren)
+  {
+    h_temp->SetLineColor(kBlue);
+  }
+  else
+  {
+    h_temp->SetLineColor(kRed);
+  }
+
+  return h_temp;
+}
+
+void PadSet(TPad *aPad)
+{
+  aPad->Draw();
+  aPad->cd();
+
+  aPad->SetTopMargin(0.13);
+  aPad->SetLeftMargin(0.13);
+  aPad->SetRightMargin(0.13);
+  aPad->SetBottomMargin(0.13);
+}
+
+std::map<std::string, int> getPositionMap()
+{
+  std::map<std::string, int> return_map;
+
+  return_map.insert(std::make_pair("LEGO-L1-Ceren", 3));
+  return_map.insert(std::make_pair("LEGO-L2-Ceren", 1));
+  return_map.insert(std::make_pair("LEGO-L3-Ceren", 9));
+  return_map.insert(std::make_pair("LEGO-L4-Ceren", 7));
+
+  return_map.insert(std::make_pair("SFHS-HW-Ceren", 2));
+  return_map.insert(std::make_pair("SFHS-H1-Ceren", 6));
+  return_map.insert(std::make_pair("SFHS-H2-Ceren", 4));
+  return_map.insert(std::make_pair("SFHS-H3-Ceren", 8));
+
+  return_map.insert(std::make_pair("MCPPMT_gen-mid-Ceren", 5));
+  return_map.insert(std::make_pair("MCPPMT_gen-W1-Ceren", 2));
+  return_map.insert(std::make_pair("MCPPMT_gen-W2-Ceren", 6));
+  return_map.insert(std::make_pair("MCPPMT_gen-W3-Ceren", 4));
+
+  return_map.insert(std::make_pair("LEGO-L1-Scint", 3));
+  return_map.insert(std::make_pair("LEGO-L2-Scint", 1));
+  return_map.insert(std::make_pair("LEGO-L3-Scint", 9));
+  return_map.insert(std::make_pair("LEGO-L4-Scint", 7));
+
+  return_map.insert(std::make_pair("SFHS-HW-Scint", 2));
+  return_map.insert(std::make_pair("SFHS-H1-Scint", 6));
+  return_map.insert(std::make_pair("SFHS-H2-Scint", 4));
+  return_map.insert(std::make_pair("SFHS-H3-Scint", 8));
+
+  return_map.insert(std::make_pair("MCPPMT_gen-mid-Scint", 5));
+  return_map.insert(std::make_pair("MCPPMT_gen-W1-Scint", 2));
+  return_map.insert(std::make_pair("MCPPMT_gen-W2-Scint", 6));
+  return_map.insert(std::make_pair("MCPPMT_gen-W3-Scint", 4));
+
+  return return_map;
 }
 
 std::map<std::string, std::vector<int>> getModuleConfigMap() {
