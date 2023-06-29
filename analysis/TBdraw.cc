@@ -7,8 +7,12 @@ int main(int argc, char *argv[])
   std::string runNum = argv[1];
   std::string filename = "DQM_Run" + runNum + ".root";
 
-  std::string aCase = argv[2]; // allowed ["AvgTimeStruc", "IntADC", "PeakADC"]
+  std::string aCase = argv[2]; // allowed ["AvgTimeStruc", "IntADC", "PeakADC", "fast_IntADC", "fast_timing"]
   aCase = aCase + "_";
+
+  if ( (aCase == "fast_IntADC_") || (aCase == "fast_timing_") ) {
+    filename = "DQM_fast_Run" + runNum + ".root";
+  }
 
   bool hasStat = true;
   if (aCase == "AvgTimeStruc_")
@@ -189,7 +193,6 @@ int main(int argc, char *argv[])
     c_mcppmt->Modified();
     c_mcppmt->Update();
   }
-
 
   TRootCanvas *rc_generic = (TRootCanvas *)c_generic->GetCanvasImp();
   rc_generic->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
