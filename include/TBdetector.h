@@ -30,6 +30,8 @@ public:
   {
     nulldet = -1,
     aux = 0,
+    ext = 4,
+    ceren = 6,
     SFHS = 10,
     LEGO,
     MCPPMT_gen,

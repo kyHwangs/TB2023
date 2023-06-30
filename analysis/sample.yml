@@ -1,5 +1,13 @@
 Plots:
   Cases:
+    EXT-T1:
+      average time structure:
+        xScale: 0.2
+
+    EXT-T2:
+      average time structure:
+        xScale: 0.2
+
     LEGO-L1-Ceren:
       average time structure:
         xScale: 0.2

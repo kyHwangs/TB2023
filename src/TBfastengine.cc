@@ -9,7 +9,7 @@ TBfastengine::TBfastengine(const YAML::Node fNodePlot_, int fRunNum_, TButility 
 void TBfastengine::init()
 {
 
-	//fUtility.loading("/Users/khwang/scratch/TB2023July/sample/Info/mapping_Aug2022TB.root");
+	// fUtility.loading("/Users/khwang/scratch/TB2023July/sample/Info/mapping_Aug2022TB.root");
 	fUtility.loading("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 	std::cout << "starting INIT" << std::endl;
 
@@ -55,6 +55,19 @@ void TBfastengine::init()
 
 TBcid TBfastengine::getCid(std::string input)
 {
+	if (input.find("EXT") != std::string::npos)
+	{
+		int nChannel = 0;
+
+		if (input.find("T1") != std::string::npos)
+			nChannel = 1;
+
+		if (input.find("T2") != std::string::npos)
+			nChannel = 2;
+
+		return fUtility.getcid(TBdetector::detid::ext, 4, nChannel, 0);
+	}
+
 	if (input.find("MID") != std::string::npos && input.find("CH") != std::string::npos)
 	{
 		int mid = std::stoi(input.substr(input.find("MID") + 3, input.find("CH") - input.find("MID") - 4));
@@ -184,7 +197,7 @@ fastPlotter *TBfastengine::getPlot(TBcid cid, TBfastengine::PlotInfo plot_enum, 
 		int timeWindow = node["timeWindow"].as<int>();
 
 		fastPlotter *aPlotter = new fTiming();
-                aPlotter->Set(timeWindow);
+		aPlotter->Set(timeWindow);
 		aPlotter->SetHisto(new TH1F(name, (TString)(";ps; N_{events}"), nBin, xMin, xMax));
 
 		return aPlotter;

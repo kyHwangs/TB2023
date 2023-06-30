@@ -22,6 +22,10 @@ TBdetector::detid TButility::detid(int tid) const
 
   if (static_cast<int>(TBdetector::detid::aux) == tid)
     return TBdetector::detid::aux;
+  if (static_cast<int>(TBdetector::detid::ext) == tid)
+    return TBdetector::detid::ext;
+  if (static_cast<int>(TBdetector::detid::ceren) == tid)
+    return TBdetector::detid::ceren;
   if (static_cast<int>(TBdetector::detid::SFHS) == tid)
     return TBdetector::detid::SFHS;
   if (static_cast<int>(TBdetector::detid::LEGO) == tid)
@@ -110,6 +114,12 @@ void TButility::loading(const std::string &path)
       det = TBdetector(TBdetector::detid::LEGO);
     if (cases == 12)
       det = TBdetector(TBdetector::detid::MCPPMT_gen);
+
+    if (cases == 4)
+      det = TBdetector(TBdetector::detid::ext);
+    if (cases == 6)
+    
+      det = TBdetector(TBdetector::detid::ceren);
 
     det.encodeModule(cases, nChannel, static_cast<bool>(isCeren));
 

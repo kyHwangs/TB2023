@@ -9,7 +9,7 @@ TBplotengine::TBplotengine(const YAML::Node fNodePlot_, int fRunNum_, TButility 
 
 void TBplotengine::init()
 {
-	//fUtility.loading("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
+	// fUtility.loading("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
 	fUtility.loading("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 	if (fUseExPed)
 		fUtility.loadped("/Users/khwang/scratch/TB2023July/sample/Info/Run" + std::to_string(fRunNum) + "_pedestalHist_mean.root");
@@ -59,6 +59,19 @@ void TBplotengine::init()
 
 TBcid TBplotengine::getCid(std::string input)
 {
+	if (input.find("EXT") != std::string::npos)
+	{
+		int nChannel = 0;
+
+		if (input.find("T1") != std::string::npos)
+			nChannel = 1;
+
+		if (input.find("T2") != std::string::npos)
+			nChannel = 2;
+
+		return fUtility.getcid(TBdetector::detid::ext, 4, nChannel, 0);
+	}
+
 	if (input.find("MID") != std::string::npos && input.find("CH") != std::string::npos)
 	{
 		int mid = std::stoi(input.substr(input.find("MID") + 3, input.find("CH") - input.find("MID") - 4));
