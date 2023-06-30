@@ -17,15 +17,17 @@ MaxEvent = args.MaxEvent
 # MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
 # MCPPMT.SetMapping("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 
-MCPPMT = ROOT.TBmcppmt('TBfastmode')(RunNumber, 3, 0)
-# MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
-MCPPMT.SetMapping("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
+MCPPMT = ROOT.TBmcppmt('TBfastmode')(RunNumber, 2, 0)
+MCPPMT.SetMapping("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
+# MCPPMT.SetMapping("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 
 if MaxEvent != -1:
 	MCPPMT.SetMaxEvent(MaxEvent)
 
 MCPPMT.SetPlotRangeX(1000, -3000, 300000)
+MCPPMT.SetCalcRangeX(100, 900)
 MCPPMT.PreparePlots()
+MCPPMT.SetEventHeatmap()
 # MCPPMT.SetHeatmap()
 MCPPMT.Loop()
 

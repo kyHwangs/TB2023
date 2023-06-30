@@ -20,111 +20,143 @@
 #include "TBmid.h"
 #include "TBevt.h"
 
+#include "TROOT.h"
+#include "TSystem.h"
+#include "TStyle.h"
+#include "TApplication.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TFile.h"
+#include "TRootCanvas.h"
+#include "TCanvas.h"
 
 template <class T>
 class TBmcppmt
 {
 public:
-    enum calculator
-    {
-        AvgTimeStruc = 0,
-        PeakADC,
-        IntADC
-    };
+  enum calculator
+  {
+    AvgTimeStruc = 0,
+    PeakADC,
+    IntADC
+  };
 
-    TBmcppmt(int fRunNum_, calculator fCalc_, bool fUseExPed_);
-    ~TBmcppmt()
+  TBmcppmt(int fRunNum_, calculator fCalc_, bool fUseExPed_);
+  ~TBmcppmt()
+  {
+    delete fReaderWave;
+    delete fReaderFast;
+  }
+
+  void SetReader(TBwaveform mode)
+  {
+    // fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
+    fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+    fReaderFast = nullptr;
+  }
+  void SetReader(TBfastmode mode)
+  {
+    // fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
+    fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+    fReaderWave = nullptr;
+  }
+
+  void Loop();
+  void PreparePlots();
+
+  void SetMapping(std::string path) { fUtility.loading(path); }
+  void SetPedestal(std::string path);
+  void SetMaxEvent(int max) { fMaxEvent = max; }
+  void SetHeatmap() { fDoHeatMap = true; }
+  void SetEventHeatmap()
+  {
+    fDoEvent = true;
+    if (fCalc == calculator::AvgTimeStruc)
+      fDoEvent = false;
+
+    if (fDoEvent)
     {
-        delete fReaderWave;
-        delete fReaderFast;
+      gApplication = nullptr;
+      fApp = new TApplication("app", nullptr, nullptr);
+      fCanvas = new TCanvas("c", "c", 1600, 800);
+      fHist2DCeren = new TH2F((TString)("Heatmap_Event_" + std::to_string(static_cast<int>(fCalc)) + "_Ceren"), "", 5, 0, 5, 10, 0, 10);
+      fHist2DScint = new TH2F((TString)("Heatmap_Event_" + std::to_string(static_cast<int>(fCalc)) + "_Scint"), "", 5, 0, 5, 10, 0, 10);
+      fHist2DCeren->SetStats(0);
+      fHist2DScint->SetStats(0);
     }
+  }
 
-    void SetReader(TBwaveform mode)
-    {
-        fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
-        //fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
-        fReaderFast = nullptr;
-    }
-    void SetReader(TBfastmode mode)
-    {
-        fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
-        //fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
-        fReaderWave = nullptr;
-    }
+  void GetAnEvent(TBwaveform mode) { fAnWaveEvent = fReaderWave->GetAnEvent(); }
+  void GetAnEvent(TBfastmode mode) { fAnFastEvent = fReaderFast->GetAnEvent(); }
 
-    void Loop();
-    void PreparePlots();
+  void GetData(TBwaveform mode);
+  void GetData(TBfastmode mode);
 
-    void SetMapping(std::string path) { fUtility.loading(path); }
-    void SetPedestal(std::string path);
-    void SetMaxEvent(int max) { fMaxEvent = max; }
-    void SetHeatmap() { fDoHeatMap = true; }
+  void Fill(TBfastmode mode);
 
-    void GetAnEvent(TBwaveform mode) { fAnWaveEvent = fReaderWave->GetAnEvent(); }
-    void GetAnEvent(TBfastmode mode) { fAnFastEvent = fReaderFast->GetAnEvent(); }
+  void Fill(TBwaveform mode);
+  void FillAverageTimeStruc();
+  void FillPeakADC();
+  void FillIntADC();
 
-    void GetData(TBwaveform mode);
-    void GetData(TBfastmode mode);
+  void EndOfLoop();
 
-    void Fill(TBfastmode mode);
+  TString GetOutputName(TBwaveform mode) { return (TString)("DQM_MCPPMT_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+  TString GetOutputName(TBfastmode mode) { return (TString)("DQM_MCPPMT_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
 
-    void Fill(TBwaveform mode);
-    void FillAverageTimeStruc();
-    void FillPeakADC();
-    void FillIntADC();
+  void SetPlotRangeX(int nbin, float min, float max);
+  void SetCalcRangeX(float min, float max);
 
-    void EndOfLoop();
+  int GetRow(int input) { return (int)(input / 5) + 1; }
+  int GetCol(int input) { return (int)(input % 5) + 1; }
 
-    TString GetOutputName(TBwaveform mode) { return (TString)("DQM_MCPPMT_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
-    TString GetOutputName(TBfastmode mode) { return (TString)("DQM_MCPPMT_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+  TH2F *GetScintHeatmap();
+  TH2F *GetCerenHeatmap();
 
-    void SetPlotRangeX(int nbin, float min, float max);
-    void SetCalcRangeX(float min, float max);
-
-    int GetRow(int input) { return (int)(input / 5) + 1; }
-    int GetCol(int input) { return (int)(input % 5) + 1; }
-
-    TH2F *GetScintHeatmap();
-    TH2F *GetCerenHeatmap();
+  void DrawEventHeatMap(int iEvt);
 
 private:
-    T fMode;
+  T fMode;
 
-    int fRunNum;
-    calculator fCalc;
-    bool fUseExPed;
-    int fMaxEvent;
-    bool fDoHeatMap;
+  int fRunNum;
+  calculator fCalc;
+  bool fUseExPed;
+  int fMaxEvent;
+  bool fDoHeatMap;
+  bool fDoEvent;
 
-    TButility fUtility;
+  TApplication *fApp;
+  TCanvas *fCanvas;
 
-    TBread<TBwaveform> *fReaderWave;
-    TBread<TBfastmode> *fReaderFast;
+  TButility fUtility;
 
-    std::vector<TH1F *> fPlotCeren;
-    std::vector<TH1F *> fPlotScint;
+  TBread<TBwaveform> *fReaderWave;
+  TBread<TBfastmode> *fReaderFast;
 
-    std::vector<TBcid> fCIDCeren;
-    std::vector<TBcid> fCIDScint;
+  std::vector<TH1F *> fPlotCeren;
+  std::vector<TH1F *> fPlotScint;
 
-    std::vector<TBwaveform> fChCerenWave;
-    std::vector<TBwaveform> fChScintWave;
+  std::vector<TBcid> fCIDCeren;
+  std::vector<TBcid> fCIDScint;
 
-    std::vector<TBfastmode> fChCerenFast;
-    std::vector<TBfastmode> fChScintFast;
+  std::vector<TBwaveform> fChCerenWave;
+  std::vector<TBwaveform> fChScintWave;
 
-    TBevt<TBwaveform> fAnWaveEvent;
-    TBevt<TBfastmode> fAnFastEvent;
+  std::vector<TBfastmode> fChCerenFast;
+  std::vector<TBfastmode> fChScintFast;
 
-    int fNBin;
-    float fPlotXmin;
-    float fPlotXmax;
+  TBevt<TBwaveform> fAnWaveEvent;
+  TBevt<TBfastmode> fAnFastEvent;
 
-    float fCalcRangeMin;
-    float fCalcRangeMax;
+  int fNBin;
+  float fPlotXmin;
+  float fPlotXmax;
+
+  float fCalcRangeMin;
+  float fCalcRangeMax;
+
+  TH2F *fHist2DCeren;
+  TH2F *fHist2DScint;
 };
 
 #endif
