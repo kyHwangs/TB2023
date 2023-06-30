@@ -13,6 +13,22 @@
 #include "TRootCanvas.h"
 #include "TPaveStats.h"
 
+std::vector<int> myColorPalette {
+  1, // "kBlack",
+  2, // "kRed",
+  4, // "kBlue",
+  3, // "kGreen",
+  6, // "kMagenta",
+  7, // "kAzure"
+
+  1, // "kBlack",
+  2, // "kRed",
+  4, // "kBlue",
+  3, // "kGreen",
+  6, // "kMagenta",
+  7 // "kAzure"
+};
+
 std::vector<std::string> getPlotInfo(std::string module_name) {
     
     std::string plot_type = module_name.substr(0, module_name.find("_"));
@@ -40,8 +56,8 @@ int getEntry(std::string fileName) {
 }
 
 std::string getFileName(std::string runNum, int MID, int fileIdx) {
-    //std::string baseDir = "/Users/swkim/DRC/2022_TB_at_CERN/data_sample";
-    std::string baseDir = "/Users/yhep/scratch/YUdaq";
+    std::string baseDir = "/Users/swkim/DRC/2022_TB_at_CERN/data_sample";
+    //std::string baseDir = "/Users/yhep/scratch/YUdaq";
     std::string fileDir = baseDir + "/Run_" + runNum + "/Run_" + runNum + "_Wave/" + "Run_" + runNum + "_Wave_MID_" + std::to_string(MID) + "/";
     std::string fileName = fileDir + "Run_" + runNum +"_Wave_MID_" + std::to_string(MID) +"_FILE_" + std::to_string(fileIdx) + ".dat";
 
@@ -273,6 +289,12 @@ std::map<std::string, std::vector<int>> getModuleConfigMap() {
     map_btw_MIDCH_and_Name.insert(std::make_pair("MCPPMT-48-Scint", std::vector<int>  {1, 18}));
     map_btw_MIDCH_and_Name.insert(std::make_pair("MCPPMT-49-Scint", std::vector<int>  {2, 18} ));
     map_btw_MIDCH_and_Name.insert(std::make_pair("MCPPMT-50-Scint", std::vector<int>  {2, 2}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("EXT-T1", std::vector<int> {12, 2}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
+    map_btw_MIDCH_and_Name.insert(std::make_pair("EXT-T2", std::vector<int> {12, 10})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("AUX-C1", std::vector<int> {12, 23})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
+    map_btw_MIDCH_and_Name.insert(std::make_pair("AUX-C2", std::vector<int> {12, 31})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
 
     return map_btw_MIDCH_and_Name;
 }
