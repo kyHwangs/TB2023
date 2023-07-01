@@ -1,7 +1,6 @@
 #! /bin/bash
 
-# source envset.sh
-source envset_test.sh
+source envset.sh
 mkdir build install
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=../install 
