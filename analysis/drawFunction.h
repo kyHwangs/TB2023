@@ -56,8 +56,8 @@ int getEntry(std::string fileName) {
 }
 
 std::string getFileName(std::string runNum, int MID, int fileIdx) {
-    std::string baseDir = "/Users/swkim/DRC/2022_TB_at_CERN/data_sample";
-    //std::string baseDir = "/Users/yhep/scratch/YUdaq";
+    //std::string baseDir = "/Users/swkim/DRC/2022_TB_at_CERN/data_sample";
+    std::string baseDir = "/Users/yhep/scratch/YUdaq";
     std::string fileDir = baseDir + "/Run_" + runNum + "/Run_" + runNum + "_Wave/" + "Run_" + runNum + "_Wave_MID_" + std::to_string(MID) + "/";
     std::string fileName = fileDir + "Run_" + runNum +"_Wave_MID_" + std::to_string(MID) +"_FILE_" + std::to_string(fileIdx) + ".dat";
 
