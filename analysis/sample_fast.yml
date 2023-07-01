@@ -1,5 +1,17 @@
 Plots:
   Cases:
+    EXT-T1:
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+
+    EXT-T2:
+      integrated ADC:
+        nBin: 400
+        xMin: -5000
+        xMax: 200000
+
     LEGO-L1-Ceren:
       integrated ADC:
         nBin: 400

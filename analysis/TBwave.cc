@@ -1,21 +1,3 @@
-#include <string>
-#include <iostream>
-#include <vector>
-#include <unistd.h>
-#include <stdio.h>
-
-
-#include "TROOT.h"
-#include "TSystem.h"
-#include "TCanvas.h"
-#include "TStyle.h"
-#include "TH1.h"
-#include "TPad.h"
-#include "TString.h"
-#include "TFile.h"
-#include "TApplication.h"
-#include "TRootCanvas.h"
-
 #include "drawFunction.h"
 
 enum plotting_mode{
