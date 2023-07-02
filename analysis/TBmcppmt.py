@@ -63,12 +63,14 @@ if args.event and not args.save :
 elif args.event and args.save :
 	mode = MCPPMT.getMode()
 	MCPPMT.PrepareEvtLoop()
+	ROOT.gSystem.mkdir("./HitMap/Run_" + str(RunNumber), True)
 	for iEvt in range(MaxEvent) :
 		print("Evt : ", iEvt)
 		MCPPMT.GetAnEvent(mode);
 		MCPPMT.GetData(mode);
 		MCPPMT.Fill(mode);
 		MCPPMT.SaveEventHeatMap(iEvt)
+	MCPPMT.EndEvtLoop()
 
 else :
 	MCPPMT.Loop()

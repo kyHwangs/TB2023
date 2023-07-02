@@ -244,30 +244,6 @@ void TBmcppmt<T>::FillIntADC()
   }
 }
 
-// template <typename T>
-// void TBmcppmt<T>::DrawEventHeatMap(int iEvt)
-// {
-//   fHist2DCeren->SetTitle((TString)("#font[62]{#color[600]{Ceren - Evt " + std::to_string(iEvt) + "}}"));
-//   fHist2DScint->SetTitle((TString)("#font[62]{#color[632]{Scint - Evt " + std::to_string(iEvt) + "}}"));
-
-//   fCanvas->Divide(2, 1);
-//   fCanvas->Update();
-//   fCanvas->Draw();
-
-//   fCanvas->cd(1);
-//   fHist2DCeren->Draw("colz1 TEXT");
-//   fCanvas->Modified();
-//   fCanvas->Update();
-
-//   fCanvas->cd(2);
-//   fHist2DScint->Draw("colz1 TEXT");
-//   fCanvas->Modified();
-//   fCanvas->Update();
-
-//   fHist2DCeren->Reset();
-//   fHist2DScint->Reset();
-// }
-
 template <typename T>
 void TBmcppmt<T>::PrepareEvtLoop()
 {
@@ -291,6 +267,8 @@ void TBmcppmt<T>::PrepareEvtLoop()
   if (fReaderFast == nullptr)
     if (fMaxEvent == -1 || fMaxEvent > fReaderWave->GetMaxEvent())
       fMaxEvent = fReaderWave->GetMaxEvent();
+
+  fOutfile = new TFile(GetEvtOutputName(fMode), "RECREATE");
 }
 
 template <typename T>
@@ -356,8 +334,11 @@ TCanvas* TBmcppmt<T>::GetEventHeatMap(int iEvt)
 template <typename T>
 void TBmcppmt<T>::SaveEventHeatMap(int iEvt)
 {
+  fOutfile->cd();
   fHist2DCeren->SetTitle((TString)("#font[62]{#color[600]{Ceren - Evt " + std::to_string(iEvt) + "}}"));
+  fHist2DCeren->SetName((TString)("Ceren - Evt " + std::to_string(iEvt)));
   fHist2DScint->SetTitle((TString)("#font[62]{#color[632]{Scint - Evt " + std::to_string(iEvt) + "}}"));
+  fHist2DScint->SetName((TString)("Scint - Evt " + std::to_string(iEvt)));
 
   for(int x = 1; x <= 5; x++) {
     fHist2DCeren->GetXaxis()->SetBinLabel(x, std::to_string(x).data());
@@ -405,12 +386,20 @@ void TBmcppmt<T>::SaveEventHeatMap(int iEvt)
   fHist2DScint->Draw("colz1 TEXT");
   fCanvas->Modified();
   fCanvas->Update();
-
-  fCanvas->SaveAs((TString)("./HitMap/Run_" + std::to_string(fRunNum) + "_Evt_" + std::to_string(iEvt) + ".png"));
+  
+  fHist2DCeren->Write();
+  fHist2DScint->Write();
+  fCanvas->SaveAs((TString)("./HitMap/Run_" + std::to_string(fRunNum) + "/Run_" + std::to_string(fRunNum) + "_Evt_" + std::to_string(iEvt) + ".png"));
 
   fHist2DCeren->Reset();
   fHist2DScint->Reset();
 }
+
+template <typename T>
+void TBmcppmt<T>::EndEvtLoop() {
+  fOutfile->Close();
+}
+
 
 template <typename T>
 void TBmcppmt<T>::Loop()
