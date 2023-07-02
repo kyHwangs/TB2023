@@ -161,6 +161,21 @@ TBcid TBplotengine::getCid(std::string input)
 		return fUtility.getcid(TBdetector::detid::MCPPMT_gen, 12, nChannel, isCeren);
 	}
 
+	if (input.find("3D") != std::string::npos)
+	{
+		int isCeren = -1;
+		if (input.find("Ceren") != std::string::npos)
+			isCeren = 1;
+		if (input.find("Scint") != std::string::npos)
+			isCeren = 0;
+
+		int Ch = std::stoi( input.substr(input.find_first_of("-") + 1, input.find_last_of("-") - input.find_first_of("-") - 1) );
+		int nCol = ( 5 - (int)( (Ch-1) % 5 ));
+		int nRow = ( (int)( (Ch - 1)/5 )+ 1);
+
+		return fUtility.getcid(TBdetector::detid::MCPPMT, 13, nCol, nRow, isCeren);
+	}
+
 	return TBcid(1, 1);
 }
 

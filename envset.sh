@@ -4,7 +4,7 @@
 #source /cvmfs/sft.cern.ch/lcg/views/LCG_102/arm64-mac12-clang131-opt/setup.sh
 
 # When using local ROOT (X11 activated)
-source /Users/swkim/root-6.26.08/install/bin/thisroot.sh
+source /Users/yhep/scratch/DQM/root-6.26.04/install/bin/thisroot.sh
 
 export INSTALL_DIR_PATH=$PWD/install
 

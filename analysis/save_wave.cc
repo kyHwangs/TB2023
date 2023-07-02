@@ -4,14 +4,7 @@
 
 #include "TBread.h"
 
-enum plotting_mode{
-    kAuto,
-    kEnter,
-    kPress1toPass
-};
-
 int main(int argc, char* argv[]) {
-    TApplication app("app", &argc, argv);
 
     std::string runNum   = argv[1];
     int start_evt        = std::stoi(argv[2]);
@@ -20,7 +13,6 @@ int main(int argc, char* argv[]) {
     for(int plot_args = 4; plot_args < argc; plot_args++ ) {
         channel_names.push_back(argv[plot_args]);
     }
-    plotting_mode plotMode = kEnter;
     gStyle->SetOptStat(0);
     gStyle->SetPalette(1);
 
@@ -36,7 +28,9 @@ int main(int argc, char* argv[]) {
     std::vector<int> unique_MIDs;
     std::vector<int> Chs;
     std::vector<TH1F*> plots;
+    std::string outDir_name = "./waveform/Run_" + runNum + "_";
     for(int idx = 0; idx < channel_names.size(); idx++) {
+        outDir_name += ( channel_names.at(idx) + "_" );
         std::vector<int> MIDandCh = map.at(channel_names.at(idx));
         MIDs.push_back(MIDandCh.at(0));
         unique_MIDs.push_back(MIDandCh.at(0));
@@ -46,6 +40,9 @@ int main(int argc, char* argv[]) {
     unique_MIDs.erase( std::unique( unique_MIDs.begin(), unique_MIDs.end() ), unique_MIDs.end() );
     TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), start_evt + max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
     std::cout << "Total # of entry : " << readerWave.GetMaxEvent() << std::endl;
+
+    outDir_name.pop_back();
+    gSystem->mkdir( outDir_name.c_str(), true);
 
     TCanvas* c = new TCanvas("c", "c", 800, 600);
     c->cd();
@@ -76,41 +73,8 @@ int main(int argc, char* argv[]) {
         }
         c->BuildLegend();
         c->Update();
-        switch(plotMode) {
-            case kAuto :
-                gSystem->Sleep(500);
-                break;
 
-            case kEnter :
-                std::cout << "Press Enter to continue" << std::endl;
-                std::cin.get();
-                break;
-
-            case kPress1toPass :
-                std::cout << "Press 1 to continue, 0 to quit" << std::endl;
-                int input = -1;
-                while (input == -1) {
-                    std::cin >> input;
-                    if (! ( (input == 1) || (input == 0) ) ) {
-                        std::cout << "Please enter 1 or 0" << std::endl;
-                        input = -1;
-                    }
-                    if (input == 1) {
-                        std::cout << "Keep plotting..." << std::endl;
-                        break;
-                    }
-                    if (input == 0) {
-                        std::cout << "Exiting..." << std::endl;
-                        gApplication->Terminate();
-                    }
-                }
-                break;
-        }   
+        c->SaveAs( (TString)(outDir_name + "/Evt_" + std::to_string(iEvt) + ".png") );
     }
-
-    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
-    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
-    app.Run();
-
     return 0;
 }

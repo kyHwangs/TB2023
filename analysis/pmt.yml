@@ -16,13 +16,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     LEGO-L1-Scint:
       average time structure:
@@ -32,13 +32,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     LEGO-L2-Ceren:
       average time structure:
@@ -48,13 +48,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     LEGO-L2-Scint:
       average time structure:
@@ -64,13 +64,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     LEGO-L3-Ceren:
       average time structure:
@@ -80,13 +80,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     LEGO-L3-Scint:
       average time structure:
@@ -96,13 +96,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     LEGO-L4-Ceren:
       average time structure:
@@ -112,13 +112,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     LEGO-L4-Scint:
       average time structure:
@@ -128,13 +128,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-HW-Ceren:
       average time structure:
@@ -144,13 +144,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-HW-Scint:
       average time structure:
@@ -160,13 +160,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-H1-Ceren:
       average time structure:
@@ -176,13 +176,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-H1-Scint:
       average time structure:
@@ -192,13 +192,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-H2-Ceren:
       average time structure:
@@ -208,13 +208,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-H2-Scint:
       average time structure:
@@ -224,13 +224,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-H3-Ceren:
       average time structure:
@@ -240,13 +240,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     SFHS-H3-Scint:
       average time structure:
@@ -256,13 +256,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-mid-Ceren:
       average time structure:
@@ -272,13 +272,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-mid-Scint:
       average time structure:
@@ -288,13 +288,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-W1-Ceren:
       average time structure:
@@ -304,13 +304,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-W1-Scint:
       average time structure:
@@ -320,13 +320,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-W2-Ceren:
       average time structure:
@@ -336,13 +336,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-W2-Scint:
       average time structure:
@@ -352,13 +352,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-W3-Ceren:
       average time structure:
@@ -368,13 +368,13 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
     MCPPMT-W3-Scint:
       average time structure:
@@ -384,11 +384,11 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [220, 390]
+        interval: [200, 350]
 
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [220, 390]
+        interval: [200, 350]
 
