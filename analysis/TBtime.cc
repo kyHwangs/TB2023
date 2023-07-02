@@ -41,9 +41,19 @@ int main(int argc, char* argv[]) {
     diff_time->GetXaxis()->SetTitle("ns");
     diff_time->GetYaxis()->SetTitle("Evt");
 
+    int module_start_bin = 100;
+    int module_end_bin   = 300;
+    if ( (plotName == "T1") || (plotName == "T2") ) {
+        module_start_bin = 400;
+        module_end_bin   = 600;
+    }
+    int trig_start_bin   = 400;
+    int trig_end_bin     = 600;
+
+    int rising_time_bin  = 60;
+
     std::vector<short> single_waveform;
     std::vector<short> trig_waveform;
-
     for(int iEvt = 0; iEvt < readerWave.GetMaxEvent(); iEvt++) {
         single_waveform.clear();
         trig_waveform.clear();
@@ -55,13 +65,10 @@ int main(int argc, char* argv[]) {
         float module_ped = getPed(single_waveform);
         float module_min = getMin(single_waveform);
         int   module_idx = getMinIdx(single_waveform);
-        if (module_idx < 100) continue;
-        if (module_idx > 300) continue;
-        // if (module_idx < 400) continue;
-        // if (module_idx > 600) continue;
+        if (module_idx < module_start_bin) continue;
+        if (module_idx > module_end_bin) continue;
         float module_peakADC = module_ped - module_min;
-        // for(int bin = 100; bin < 400; bin++) {
-        for(int bin = module_idx - 60; bin < module_idx; bin++) {
+        for(int bin = module_idx - rising_time_bin; bin < module_idx; bin++) {
             if ( (module_ped - single_waveform.at(bin)) >= ( module_peakADC * fraction ) ) {
                 module_thrs_bin = bin;
                 break;
@@ -72,10 +79,10 @@ int main(int argc, char* argv[]) {
         float trig_ped = getPed(trig_waveform);
         float trig_min = getMin(trig_waveform);
         int   trig_idx = getMinIdx(trig_waveform);
-        if (trig_idx < 400) continue;
-        if (trig_idx > 600) continue;
+        if (trig_idx < trig_start_bin) continue;
+        if (trig_idx > trig_end_bin) continue;
         float trig_peakADC = trig_ped - trig_min;
-        for(int bin = trig_idx - 60; bin < trig_idx; bin++) {
+        for(int bin = trig_idx - rising_time_bin; bin < trig_idx; bin++) {
             if ( (trig_ped - trig_waveform.at(bin)) >= ( trig_peakADC * fraction ) ) {
                 trig_thrs_bin = bin;
                 break;
