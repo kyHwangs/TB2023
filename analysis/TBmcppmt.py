@@ -15,12 +15,14 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--RunNumber', '-rn', action='store', type=int, required=True, help='Run number')
 parser.add_argument('--MaxEvent', '-me', action='store', type=int, default=-1, help='set maximum event to plot')
+parser.add_argument('--StartEvent', '-se', action='store', type=int, default=0, help='set event to start from')
 parser.add_argument('--event', '-e', action='store_true', default=False, help='if true, view evt-by-evt hitmap')
 parser.add_argument('--save', '-s', action="store_true", default=False, help='if true with event option, saves hitmap & no display (only for evt-by-evt)')
 
 args = parser.parse_args()
 RunNumber = args.RunNumber
 MaxEvent = args.MaxEvent
+StartEvent = args.StartEvent
 
 if (args.save) : ROOT.gROOT.SetBatch(True)
 
@@ -33,7 +35,7 @@ else :
 MCPPMT.SetMapping("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 
 if MaxEvent != -1:
-	MCPPMT.SetMaxEvent(MaxEvent)
+	MCPPMT.SetMaxEvent(MaxEvent + StartEvent)
 
 if args.event :	
 	MCPPMT.SetPlotRangeX(1000, -3000, 300000)
@@ -49,7 +51,8 @@ else :
 if args.event and not args.save :
 	mode = MCPPMT.getMode()
 	MCPPMT.PrepareEvtLoop()
-	for iEvt in range(MaxEvent) :
+	for iEvt in range(MaxEvent + StartEvent) :
+		if (iEvt < StartEvent) : continue
 		print("Evt : ", iEvt)
 		MCPPMT.GetAnEvent(mode);
 		MCPPMT.GetData(mode);
@@ -64,7 +67,8 @@ elif args.event and args.save :
 	mode = MCPPMT.getMode()
 	MCPPMT.PrepareEvtLoop()
 	ROOT.gSystem.mkdir("./HitMap/Run_" + str(RunNumber), True)
-	for iEvt in range(MaxEvent) :
+	for iEvt in range(MaxEvent + StartEvent) :
+		if (iEvt < StartEvent) : continue
 		print("Evt : ", iEvt)
 		MCPPMT.GetAnEvent(mode);
 		MCPPMT.GetData(mode);
