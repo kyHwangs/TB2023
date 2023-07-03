@@ -1,7 +1,7 @@
 #include "TBplotengine.h"
 
 TBplotengine::TBplotengine(const YAML::Node fNodePlot_, int fRunNum_, TButility fUtility_, bool fUseExPed_)
-		: fNodePlot(fNodePlot_), fRunNum(fRunNum_), fUtility(fUtility_), fUseExPed(fUseExPed_)
+		: fNodePlot(fNodePlot_), fRunNum(fRunNum_), fUtility(fUtility_), fUseExPed(fUseExPed_), fCaseName("")
 {
 
 	init();
@@ -9,19 +9,43 @@ TBplotengine::TBplotengine(const YAML::Node fNodePlot_, int fRunNum_, TButility 
 
 void TBplotengine::init()
 {
-	// fUtility.loading("/Users/khwang/scratch/TB2023July/preparation/dev_230628/TB2023/mapping/mapping_TB2021July_v1.root");
+	// fUtility.loading("/Users/khwang/scratch/TB2023July/preparation/dev_230703/TB2023/mapping/mapping_TB2021July_v1.root");
 	fUtility.loading("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 	if (fUseExPed)
 		fUtility.loadped("/Users/khwang/scratch/TB2023July/sample/Info/Run" + std::to_string(fRunNum) + "_pedestalHist_mean.root");
 
 	std::cout << "starting INIT" << std::endl;
 
+	if (fNodePlot["Name"])
+		fCaseName = fNodePlot["Name"].as<std::string>();
+
 	for (const auto &aCase : fNodePlot["Cases"])
 	{
 
 		std::cout << " - Loading : " << aCase.first.as<std::string>() << std::endl;
 
-		TBcid aCid = getCid(aCase.first.as<std::string>());
+		std::string plotName = aCase.first.as<std::string>();
+		std::string pretty = "";
+
+    if (plotName.find("EXT") != std::string::npos)
+			pretty = plotName.substr(4, plotName.length() - 4);
+
+		if (plotName.find("CEREN") != std::string::npos)
+			pretty = plotName.substr(6, plotName.length() - 6);
+
+		if (plotName.find("SFHS") != std::string::npos)
+			pretty = plotName.substr(5, plotName.length() - 5);
+
+		if (plotName.find("LEGO") != std::string::npos)
+			pretty = plotName.substr(5, plotName.length() - 5);
+
+		if (plotName.find("MCPPMT") != std::string::npos)
+      pretty = plotName.substr(7, plotName.length() - 7);
+
+		if (plotName.find("LEGO") != std::string::npos)
+			pretty = plotName.substr(plotName.find("LEGO") + 5, 8);
+
+		TBcid aCid = getCid(plotName);
 		std::vector<std::pair<PlotInfo, Plotter *>> aVec;
 
 		for (const auto &aPlot : aCase.second)
@@ -29,7 +53,7 @@ void TBplotengine::init()
 			std::cout << " --- Generating : " << aPlot.first.as<std::string>() << "...   ";
 
 			PlotInfo which = getPlotInfo(aPlot.first.as<std::string>());
-			Plotter *plot = getPlot(aCid, which, aPlot.second);
+			Plotter *plot = getPlot(pretty, aCid, which, aPlot.second);
 
 			aVec.push_back(std::make_pair(which, plot));
 
@@ -69,7 +93,23 @@ TBcid TBplotengine::getCid(std::string input)
 		if (input.find("T2") != std::string::npos)
 			nChannel = 2;
 
+		if (input.find("Coin") != std::string::npos)
+			nChannel = 3;
+
 		return fUtility.getcid(TBdetector::detid::ext, 4, nChannel, 0);
+	}
+
+	if (input.find("CEREN") != std::string::npos)
+	{
+		int nChannel = 0;
+
+		if (input.find("C1") != std::string::npos)
+			nChannel = 1;
+
+		if (input.find("C2") != std::string::npos)
+			nChannel = 2;
+
+		return fUtility.getcid(TBdetector::detid::ceren, 6, nChannel, 0);
 	}
 
 	if (input.find("MID") != std::string::npos && input.find("CH") != std::string::npos)
@@ -191,11 +231,11 @@ TBplotengine::PlotInfo TBplotengine::getPlotInfo(std::string input)
 		return PlotInfo::kPeakADC;
 }
 
-Plotter *TBplotengine::getPlot(TBcid cid, TBplotengine::PlotInfo which, const YAML::Node node)
+Plotter *TBplotengine::getPlot(std::string plotName, TBcid cid, TBplotengine::PlotInfo which, const YAML::Node node)
 {
 	if (which == TBplotengine::PlotInfo::kAvgTimeStruc)
 	{
-		TString name = "AvgTimeStruc_Mid" + std::to_string(cid.mid()) + "Ch" + std::to_string(cid.channel());
+		TString name = "AvgTimeStruc_" + plotName;
 		float xScale = node["xScale"].as<float>();
 
 		std::vector<float> input;
@@ -203,14 +243,14 @@ Plotter *TBplotengine::getPlot(TBcid cid, TBplotengine::PlotInfo which, const YA
 
 		Plotter *aPlotter = new cAvgTimeStruc();
 		aPlotter->Set(input);
-		aPlotter->SetHisto(new TH1F(name, (TString)(";bins [" + std::to_string(xScale) + "ns / bin]; ADC"), 1000, 0., 1000.));
+		aPlotter->SetHisto(new TH1F(name, (TString)(";bins [0." + std::to_string((int)(xScale * 10.)) + "ns / bin]; ADC"), 1000, 0., 1000.));
 
 		return aPlotter;
 	}
 
 	if (which == TBplotengine::PlotInfo::kIntADC)
 	{
-		TString name = "IntADC_Mid" + std::to_string(cid.mid()) + "Ch" + std::to_string(cid.channel());
+		TString name = "IntADC_" + plotName;
 		float ped = -1;
 		if (fUseExPed)
 			fUtility.retrievePed(cid);
@@ -234,7 +274,7 @@ Plotter *TBplotengine::getPlot(TBcid cid, TBplotengine::PlotInfo which, const YA
 
 	if (which == TBplotengine::PlotInfo::kPeakADC)
 	{
-		TString name = "PeakADC_Mid" + std::to_string(cid.mid()) + "Ch" + std::to_string(cid.channel());
+		TString name = "PeakADC_" + plotName;
 		float ped = -1;
 		if (fUseExPed)
 			fUtility.retrievePed(cid);
@@ -289,8 +329,10 @@ void TBplotengine::Fill(TBevt<TBwaveform> anEvent)
 
 void TBplotengine::SaveAs(TString output)
 {
+	if (fCaseName != "")
+		output = output + "_" + fCaseName;
 
-	TFile *outoutFile = new TFile(output, "RECREATE");
+	TFile *outoutFile = new TFile(output + ".root", "RECREATE");
 
 	outoutFile->cd();
 	for (int i = 0; i < fCIDtoPlot.size(); i++)

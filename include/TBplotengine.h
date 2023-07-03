@@ -180,7 +180,7 @@ public:
 
 	TBcid getCid(std::string input);
 	PlotInfo getPlotInfo(std::string input);
-	Plotter *getPlot(TBcid cid, PlotInfo which, const YAML::Node node);
+	Plotter *getPlot(std::string plotName, TBcid cid, PlotInfo which, const YAML::Node node);
 	std::vector<int> getMIDtoLoad() { return fMIDtoLoad; }
 	void PrintInfo();
 
@@ -200,6 +200,8 @@ private:
 	int fRunNum;
 	TButility fUtility;
 	bool fUseExPed;
+
+	std::string fCaseName;
 
 	std::vector<int> fMIDtoLoad;
 	std::vector<TBcid> fCIDtoPlot;

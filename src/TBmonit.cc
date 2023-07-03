@@ -29,7 +29,7 @@ void TBmonit<T>::Loop()
 {
   TBplotengine enginePlot = TBplotengine(fConfig.GetConfig()["Plots"], fRunNum, TButility(), false);
   TBread<TBwaveform> readerWave = TBread<TBwaveform>(fRunNum, fMaxEvent, fMaxFile, "/Users/yhep/scratch/YUdaq", enginePlot.getMIDtoLoad());
-  //TBread<TBwaveform> readerWave = TBread<TBwaveform>(fRunNum, fMaxEvent, fMaxFile, "/Users/khwang/scratch/TB2023July/sample", enginePlot.getMIDtoLoad());
+  // TBread<TBwaveform> readerWave = TBread<TBwaveform>(fRunNum, fMaxEvent, fMaxFile, "/Users/khwang/scratch/TB2023July/sample", enginePlot.getMIDtoLoad());
   // TBread<TBwaveform> readerWave = TBread<TBwaveform>(fRunNum, fMaxEvent, fMaxFile, "/Users/swkim/DRC/2022_TB_at_CERN/data_sample", enginePlot.getMIDtoLoad());
 
   std::chrono::time_point time_begin = std::chrono::system_clock::now();
@@ -58,7 +58,7 @@ void TBmonit<T>::Loop()
     enginePlot.Fill(aEvent);
   }
 
-  enginePlot.SaveAs("DQM_Run" + std::to_string(fRunNum) + ".root");
+  enginePlot.SaveAs("DQM_Run" + std::to_string(fRunNum));
 
   std::chrono::duration time_taken = std::chrono::system_clock::now() - time_begin; // delete
   std::chrono::minutes minutes_taken = std::chrono::duration_cast<std::chrono::minutes>(time_taken);

@@ -5,16 +5,17 @@ int main(int argc, char *argv[])
   TApplication app("app", &argc, argv);
 
   std::string runNum = argv[1];
-  std::string filename = "DQM_Run" + runNum + ".root";
+  std::string aCase = argv[2];
+
+  std::string filename = "DQM_Run" + runNum + "_" + aCase + ".root";
 
   // allowed ["AvgTimeStruc", "IntADC", "PeakADC", "fast_IntADC", "fast_timing"]
-  std::string aCase = argv[2];
   if ( (aCase == "fast_IntADC") || (aCase == "fast_timing") ) filename = "DQM_fast_Run" + runNum + ".root";
   if (aCase == "AvgTimeStruc") gStyle->SetOptStat("n");
   aCase = aCase + "_";
 
-  auto mModuleConfig = getModuleConfigMap();
-  auto mPosition = getPositionMap();
+  // auto mModuleConfig = getModuleConfigMap();
+  // auto mPosition = getPositionMap();
 
   std::vector<TString> vPlotName;
   vPlotName.push_back("L2");
@@ -36,42 +37,42 @@ int main(int argc, char *argv[])
   vPlotNameMCP.push_back("W2");
 
   std::vector<TH1F*> pCerenGeneric;
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(0) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(0) + "-Ceren").Data()).at(1)), true, vPlotName.at(0) + "-Ceren"));
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(1) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(1) + "-Ceren").Data()).at(1)), true, vPlotName.at(1) + "-Ceren"));
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(2) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(2) + "-Ceren").Data()).at(1)), true, vPlotName.at(2) + "-Ceren"));
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(3) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(3) + "-Ceren").Data()).at(1)), true, vPlotName.at(3) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(0) + "-Ceren"), true, vPlotName.at(0) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(1) + "-Ceren"), true, vPlotName.at(1) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(2) + "-Ceren"), true, vPlotName.at(2) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(3) + "-Ceren"), true, vPlotName.at(3) + "-Ceren"));
   pCerenGeneric.push_back(new TH1F("", "", 1, 0., 1.));
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(5) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(5) + "-Ceren").Data()).at(1)), true, vPlotName.at(5) + "-Ceren"));
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(6) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(6) + "-Ceren").Data()).at(1)), true, vPlotName.at(6) + "-Ceren"));
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(7) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(7) + "-Ceren").Data()).at(1)), true, vPlotName.at(7) + "-Ceren"));
-  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(8) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(8) + "-Ceren").Data()).at(1)), true, vPlotName.at(8) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(5) + "-Ceren"), true, vPlotName.at(5) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(6) + "-Ceren"), true, vPlotName.at(6) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(7) + "-Ceren"), true, vPlotName.at(7) + "-Ceren"));
+  pCerenGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(8) + "-Ceren"), true, vPlotName.at(8) + "-Ceren"));
 
   std::vector<TH1F*> pScintGeneric;
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(0) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(0) + "-Scint").Data()).at(1)), false, vPlotName.at(0) + "-Scint"));
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(1) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(1) + "-Scint").Data()).at(1)), false, vPlotName.at(1) + "-Scint"));
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(2) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(2) + "-Scint").Data()).at(1)), false, vPlotName.at(2) + "-Scint"));
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(3) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(3) + "-Scint").Data()).at(1)), false, vPlotName.at(3) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(0) + "-Scint"), false, vPlotName.at(0) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(1) + "-Scint"), false, vPlotName.at(1) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(2) + "-Scint"), false, vPlotName.at(2) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(3) + "-Scint"), false, vPlotName.at(3) + "-Scint"));
   pScintGeneric.push_back(new TH1F("", "", 1, 0., 1.));
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(5) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(5) + "-Scint").Data()).at(1)), false, vPlotName.at(5) + "-Scint"));
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(6) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(6) + "-Scint").Data()).at(1)), false, vPlotName.at(6) + "-Scint"));
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(7) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(7) + "-Scint").Data()).at(1)), false, vPlotName.at(7) + "-Scint"));
-  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotName.at(8) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotName.at(8) + "-Scint").Data()).at(1)), false, vPlotName.at(8) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(5) + "-Scint"), false, vPlotName.at(5) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(6) + "-Scint"), false, vPlotName.at(6) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(7) + "-Scint"), false, vPlotName.at(7) + "-Scint"));
+  pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(8) + "-Scint"), false, vPlotName.at(8) + "-Scint"));
 
   std::vector<TH1F*> pCerenMCPPMT;
   pCerenMCPPMT.push_back(new TH1F("", "", 1, 0., 1.));
-  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(1) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(1) + "-Ceren").Data()).at(1)), true, vPlotNameMCP.at(1) + "-Ceren"));
+  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(1) + "-Ceren"), true, vPlotNameMCP.at(1) + "-Ceren"));
   pCerenMCPPMT.push_back(new TH1F("", "", 1, 0., 1.));
-  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(3) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(3) + "-Ceren").Data()).at(1)), true, vPlotNameMCP.at(3) + "-Ceren"));
-  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(4) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(4) + "-Ceren").Data()).at(1)), true, vPlotNameMCP.at(4) + "-Ceren"));
-  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(5) + "-Ceren").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(5) + "-Ceren").Data()).at(1)), true, vPlotNameMCP.at(5) + "-Ceren"));
+  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(3) + "-Ceren"), true, vPlotNameMCP.at(3) + "-Ceren"));
+  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(4) + "-Ceren"), true, vPlotNameMCP.at(4) + "-Ceren"));
+  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(5) + "-Ceren"), true, vPlotNameMCP.at(5) + "-Ceren"));
 
   std::vector<TH1F*> pScintMCPPMT;
   pScintMCPPMT.push_back(new TH1F("", "", 1, 0., 1.));
-  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(1) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(1) + "-Scint").Data()).at(1)), false, vPlotNameMCP.at(1) + "-Scint"));
+  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(1) + "-Scint"), false, vPlotNameMCP.at(1) + "-Scint"));
   pScintMCPPMT.push_back(new TH1F("", "", 1, 0., 1.));
-  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(3) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(3) + "-Scint").Data()).at(1)), false, vPlotNameMCP.at(3) + "-Scint"));
-  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(4) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(4) + "-Scint").Data()).at(1)), false, vPlotNameMCP.at(4) + "-Scint"));
-  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + "Mid" +  mModuleConfig.at((vPlotNameMCP.at(5) + "-Scint").Data()).at(0) + "Ch" + mModuleConfig.at((vPlotNameMCP.at(5) + "-Scint").Data()).at(1)), false, vPlotNameMCP.at(5) + "-Scint"));
+  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(3) + "-Scint"), false, vPlotNameMCP.at(3) + "-Scint"));
+  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(4) + "-Scint"), false, vPlotNameMCP.at(4) + "-Scint"));
+  pScintMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(5) + "-Scint"), false, vPlotNameMCP.at(5) + "-Scint"));
 
   TCanvas *c_generic = new TCanvas("c_generic", "c_generic", 1000, 1000);
 

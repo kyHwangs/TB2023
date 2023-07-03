@@ -1,0 +1,121 @@
+Plots:
+
+  Name: AvgTimeStruc
+
+  Cases:
+    EXT-T1:
+      average time structure:
+        xScale: 0.2
+
+    EXT-T2:
+      average time structure:
+        xScale: 0.2
+
+    EXT-Coin:
+      average time structure:
+        xScale: 0.2
+
+    CEREN-C1:
+      average time structure:
+        xScale: 0.2
+
+    CEREN-C2:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L1-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L1-Scint:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L2-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L2-Scint:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L3-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L3-Scint:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L4-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    LEGO-L4-Scint:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-HW-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-HW-Scint:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-H1-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-H1-Scint:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-H2-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-H2-Scint:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-H3-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    SFHS-H3-Scint:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-mid-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-mid-Scint:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-W1-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-W1-Scint:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-W2-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-W2-Scint:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-W3-Ceren:
+      average time structure:
+        xScale: 0.2
+
+    MCPPMT-W3-Scint:
+      average time structure:
+        xScale: 0.2
+

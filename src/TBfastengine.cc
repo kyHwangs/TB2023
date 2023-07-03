@@ -1,7 +1,7 @@
 #include "TBfastengine.h"
 
 TBfastengine::TBfastengine(const YAML::Node fNodePlot_, int fRunNum_, TButility fUtility_)
-		: fNodePlot(fNodePlot_), fRunNum(fRunNum_), fUtility(fUtility_)
+		: fNodePlot(fNodePlot_), fRunNum(fRunNum_), fUtility(fUtility_), fCaseName("")
 {
 	init();
 }
@@ -9,7 +9,7 @@ TBfastengine::TBfastengine(const YAML::Node fNodePlot_, int fRunNum_, TButility 
 void TBfastengine::init()
 {
 
-	// fUtility.loading("/Users/khwang/scratch/TB2023July/sample/Info/mapping_Aug2022TB.root");
+	// fUtility.loading("/Users/khwang/scratch/TB2023July/preparation/dev_230703/TB2023/mapping/mapping_TB2021July_v1.root");
 	fUtility.loading("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
 	std::cout << "starting INIT" << std::endl;
 
@@ -17,7 +17,28 @@ void TBfastengine::init()
 	{
 		std::cout << " - Loading : " << aCase.first.as<std::string>() << std::endl;
 
-		TBcid aCid = getCid(aCase.first.as<std::string>());		// For plot CID
+		std::string plotName = aCase.first.as<std::string>();
+		std::string pretty = "";
+
+    if (plotName.find("EXT") != std::string::npos)
+			pretty = plotName.substr(4, plotName.length() - 4);
+
+		if (plotName.find("CEREN") != std::string::npos)
+			pretty = plotName.substr(6, plotName.length() - 6);
+
+		if (plotName.find("SFHS") != std::string::npos)
+			pretty = plotName.substr(5, plotName.length() - 5);
+
+		if (plotName.find("LEGO") != std::string::npos)
+			pretty = plotName.substr(5, plotName.length() - 5);
+
+		if (plotName.find("MCPPMT") != std::string::npos)
+      pretty = plotName.substr(7, plotName.length() - 7);
+
+		if (plotName.find("LEGO") != std::string::npos)
+			pretty = plotName.substr(plotName.find("LEGO") + 5, 8);
+
+		TBcid aCid = getCid(plotName);		// For plot CID
 		std::vector<std::pair<PlotInfo, fastPlotter *>> aVec; // For plot storing per channel
 
 		for (const auto &aPlot : aCase.second)
@@ -25,7 +46,7 @@ void TBfastengine::init()
 			std::cout << " --- Generating : " << aPlot.first.as<std::string>() << "...   ";
 
 			PlotInfo plot_enum = getPlotInfo(aPlot.first.as<std::string>());
-			fastPlotter *plot = getPlot(aCid, plot_enum, aPlot.second);
+			fastPlotter *plot = getPlot(pretty, aCid, plot_enum, aPlot.second);
 
 			aVec.push_back(std::make_pair(plot_enum, plot));
 
@@ -65,7 +86,23 @@ TBcid TBfastengine::getCid(std::string input)
 		if (input.find("T2") != std::string::npos)
 			nChannel = 2;
 
+		if (input.find("Coin") != std::string::npos)
+			nChannel = 3;
+
 		return fUtility.getcid(TBdetector::detid::ext, 4, nChannel, 0);
+	}
+
+	if (input.find("CEREN") != std::string::npos)
+	{
+		int nChannel = 0;
+
+		if (input.find("C1") != std::string::npos)
+			nChannel = 1;
+
+		if (input.find("C2") != std::string::npos)
+			nChannel = 2;
+
+		return fUtility.getcid(TBdetector::detid::ceren, 6, nChannel, 0);
 	}
 
 	if (input.find("MID") != std::string::npos && input.find("CH") != std::string::npos)
@@ -184,12 +221,12 @@ TBfastengine::PlotInfo TBfastengine::getPlotInfo(std::string input)
 		return PlotInfo::kTiming;
 }
 
-fastPlotter *TBfastengine::getPlot(TBcid cid, TBfastengine::PlotInfo plot_enum, const YAML::Node node)
+fastPlotter *TBfastengine::getPlot(std::string plotName, TBcid cid, TBfastengine::PlotInfo plot_enum, const YAML::Node node)
 {
 	// For drawing integrated ADC
 	if (plot_enum == TBfastengine::PlotInfo::kIntADC)
 	{
-		TString name = "fast_IntADC_Mid" + std::to_string(cid.mid()) + "Ch" + std::to_string(cid.channel());
+		TString name = "fast_IntADC_" + plotName;
 
 		int nBin = node["nBin"].as<int>();
 		float xMin = node["xMin"].as<float>();
