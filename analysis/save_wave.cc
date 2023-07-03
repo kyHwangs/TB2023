@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         MIDs.push_back(MIDandCh.at(0));
         unique_MIDs.push_back(MIDandCh.at(0));
         Chs.push_back(MIDandCh.at(1));
-        plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 1024, 0., 1024.) );
+        plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 1000, 0., 1000.) );
     }
     unique_MIDs.erase( std::unique( unique_MIDs.begin(), unique_MIDs.end() ), unique_MIDs.end() );
     TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), start_evt + max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
@@ -63,8 +63,8 @@ int main(int argc, char* argv[]) {
             plots.at(idx)->GetYaxis()->SetTitle("ADC");
             plots.at(idx)->SetLineWidth(2);
 
-            for(int bin = 0; bin < single_waveform.size(); bin++) {
-                plots.at(idx)->Fill(bin, single_waveform.at(bin));
+            for(int bin = 0; bin < single_waveform.size()-23; bin++) {
+                plots.at(idx)->Fill(bin, single_waveform.at(bin+1));
             }
             c->cd();
             if (idx == 0) plots.at(idx)->Draw("Hist & PLC");
