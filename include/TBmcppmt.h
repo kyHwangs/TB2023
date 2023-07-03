@@ -50,14 +50,12 @@ public:
 
   void SetReader(TBwaveform mode)
   {
-    // fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
-    fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+    fReaderWave = new TBread<TBwaveform>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
     fReaderFast = nullptr;
   }
   void SetReader(TBfastmode mode)
   {
-    // fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
-    fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/khwang/scratch/TB2023July/sample", std::vector<int>{1, 2, 3, 4});
+    fReaderFast = new TBread<TBfastmode>(fRunNum, fMaxEvent, -1, "/Users/yhep/scratch/YUdaq", std::vector<int>{1, 2, 3, 4});
     fReaderWave = nullptr;
   }
 
@@ -76,9 +74,8 @@ public:
 
     if (fDoEvent)
     {
-      gApplication = nullptr;
-      fApp = new TApplication("app", nullptr, nullptr);
       fCanvas = new TCanvas("c", "c", 1600, 800);
+      fCanvas->Divide(2, 1);
       fHist2DCeren = new TH2F((TString)("Heatmap_Event_" + std::to_string(static_cast<int>(fCalc)) + "_Ceren"), "", 5, 0, 5, 10, 0, 10);
       fHist2DScint = new TH2F((TString)("Heatmap_Event_" + std::to_string(static_cast<int>(fCalc)) + "_Scint"), "", 5, 0, 5, 10, 0, 10);
       fHist2DCeren->SetStats(0);
@@ -104,6 +101,9 @@ public:
   TString GetOutputName(TBwaveform mode) { return (TString)("DQM_MCPPMT_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
   TString GetOutputName(TBfastmode mode) { return (TString)("DQM_MCPPMT_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
 
+  TString GetEvtOutputName(TBwaveform mode) { return (TString)("DQM_MCPPMT_Evt_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+  TString GetEvtOutputName(TBfastmode mode) { return (TString)("DQM_MCPPMT_Evt_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+
   void SetPlotRangeX(int nbin, float min, float max);
   void SetCalcRangeX(float min, float max);
 
@@ -115,6 +115,12 @@ public:
 
   void DrawEventHeatMap(int iEvt);
 
+  void PrepareEvtLoop();
+  void EndEvtLoop();
+  T getMode() { return fMode; }
+  TCanvas* GetEventHeatMap(int iEvt);
+  void SaveEventHeatMap(int iEvt);
+
 private:
   T fMode;
 
@@ -125,7 +131,7 @@ private:
   bool fDoHeatMap;
   bool fDoEvent;
 
-  TApplication *fApp;
+  TFile* fOutfile;
   TCanvas *fCanvas;
 
   TButility fUtility;

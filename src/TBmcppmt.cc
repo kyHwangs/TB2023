@@ -26,6 +26,9 @@ TBmcppmt<T>::TBmcppmt(int fRunNum_, calculator fCalc_, bool fUseExPed_)
     fPlotXmax = 300000.;
   }
 
+  // gApplication = nullptr;
+  // fApp = new TApplication("app", nullptr, nullptr);
+
   SetReader(fMode);
 }
 
@@ -61,7 +64,8 @@ void TBmcppmt<T>::PreparePlots()
 template <typename T>
 void TBmcppmt<T>::GetData(TBwaveform mode)
 {
-
+  fChCerenWave.clear();
+  fChScintWave.clear();
   for (int i = 0; i < fCIDCeren.size(); i++)
     fChCerenWave.push_back(fAnWaveEvent.GetData(fCIDCeren.at(i)));
 
@@ -72,7 +76,8 @@ void TBmcppmt<T>::GetData(TBwaveform mode)
 template <typename T>
 void TBmcppmt<T>::GetData(TBfastmode mode)
 {
-
+  fChCerenFast.clear();
+  fChScintFast.clear();
   for (int i = 0; i < fCIDCeren.size(); i++)
     fChCerenFast.push_back(fAnFastEvent.GetData(fCIDCeren.at(i)));
 
@@ -189,7 +194,7 @@ void TBmcppmt<T>::FillPeakADC()
 template <typename T>
 void TBmcppmt<T>::FillIntADC()
 {
-
+  // std::cout << fChCerenWave.size() << std::endl;
   for (int i = 0; i < fChCerenWave.size(); i++)
   {
 
@@ -240,12 +245,72 @@ void TBmcppmt<T>::FillIntADC()
 }
 
 template <typename T>
-void TBmcppmt<T>::DrawEventHeatMap(int iEvt)
+void TBmcppmt<T>::PrepareEvtLoop()
+{
+  for (int nRow = 1; nRow <= 10; nRow++)
+  {
+    for (int nCol = 1; nCol <= 5; nCol++)
+    {
+      fCIDCeren.push_back(fUtility.getcid(TBdetector::detid::MCPPMT, 13, nCol, nRow, 1));
+      fCIDScint.push_back(fUtility.getcid(TBdetector::detid::MCPPMT, 13, nCol, nRow, 0));
+    }
+  }
+
+  std::cout << fCIDCeren.size() << " " << fCIDScint.size() << std::endl;
+
+  std::chrono::time_point time_begin = std::chrono::system_clock::now();
+
+  if (fReaderWave == nullptr)
+    if (fMaxEvent == -1 || fMaxEvent > fReaderFast->GetMaxEvent())
+      fMaxEvent = fReaderFast->GetMaxEvent();
+
+  if (fReaderFast == nullptr)
+    if (fMaxEvent == -1 || fMaxEvent > fReaderWave->GetMaxEvent())
+      fMaxEvent = fReaderWave->GetMaxEvent();
+
+  fOutfile = new TFile(GetEvtOutputName(fMode), "RECREATE");
+}
+
+template <typename T>
+TCanvas* TBmcppmt<T>::GetEventHeatMap(int iEvt)
 {
   fHist2DCeren->SetTitle((TString)("#font[62]{#color[600]{Ceren - Evt " + std::to_string(iEvt) + "}}"));
   fHist2DScint->SetTitle((TString)("#font[62]{#color[632]{Scint - Evt " + std::to_string(iEvt) + "}}"));
 
-  fCanvas->Divide(2, 1);
+  for(int x = 1; x <= 5; x++) {
+    fHist2DCeren->GetXaxis()->SetBinLabel(x, std::to_string(x).data());
+    fHist2DScint->GetXaxis()->SetBinLabel(x, std::to_string(x).data());
+  }
+  for(int y = 1; y <= 10; y++) {
+    fHist2DCeren->GetYaxis()->SetBinLabel(y, std::to_string(y).data());
+    fHist2DScint->GetYaxis()->SetBinLabel(y, std::to_string(y).data());
+  }
+  Double_t ceren_diff = fHist2DCeren->GetMaximum() - fHist2DCeren->GetMinimum();
+  Double_t ceren_level[] = {  fHist2DCeren->GetMinimum(),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.1),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.2),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.3),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.4),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.5),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.6),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.7),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.8),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.9),
+                              fHist2DCeren->GetMaximum()};
+  fHist2DCeren->SetContour( ( sizeof(ceren_level) / sizeof(Double_t) ), ceren_level);
+  Double_t scint_diff = fHist2DScint->GetMaximum() - fHist2DScint->GetMinimum();
+  Double_t scint_level[] = {  fHist2DScint->GetMinimum(),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.1),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.2),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.3),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.4),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.5),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.6),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.7),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.8),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.9),
+                              fHist2DScint->GetMaximum()};
+  fHist2DScint->SetContour( ( sizeof(scint_level) / sizeof(Double_t) ), scint_level);
   fCanvas->Update();
   fCanvas->Draw();
 
@@ -259,22 +324,82 @@ void TBmcppmt<T>::DrawEventHeatMap(int iEvt)
   fCanvas->Modified();
   fCanvas->Update();
 
-  int input = -1;
-  std::cout << " enter 1 to continue, 0 to quit" << std::endl;
-  std::cin >> input;
+  fHist2DCeren->Reset();
+  fHist2DScint->Reset();
 
-  TRootCanvas *rc = (TRootCanvas *)fCanvas->GetCanvasImp();
-  rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+  return fCanvas;
+}
 
-  fApp->Run();
-  // fApp->Terminate();
 
-  if (input == 0)
-    fDoEvent = false;
+template <typename T>
+void TBmcppmt<T>::SaveEventHeatMap(int iEvt)
+{
+  fOutfile->cd();
+  fHist2DCeren->SetTitle((TString)("#font[62]{#color[600]{Ceren - Evt " + std::to_string(iEvt) + "}}"));
+  fHist2DCeren->SetName((TString)("Ceren - Evt " + std::to_string(iEvt)));
+  fHist2DScint->SetTitle((TString)("#font[62]{#color[632]{Scint - Evt " + std::to_string(iEvt) + "}}"));
+  fHist2DScint->SetName((TString)("Scint - Evt " + std::to_string(iEvt)));
+
+  for(int x = 1; x <= 5; x++) {
+    fHist2DCeren->GetXaxis()->SetBinLabel(x, std::to_string(x).data());
+    fHist2DScint->GetXaxis()->SetBinLabel(x, std::to_string(x).data());
+  }
+  for(int y = 1; y <= 10; y++) {
+    fHist2DCeren->GetYaxis()->SetBinLabel(y, std::to_string(y).data());
+    fHist2DScint->GetYaxis()->SetBinLabel(y, std::to_string(y).data());
+  }
+  Double_t ceren_diff = fHist2DCeren->GetMaximum() - fHist2DCeren->GetMinimum();
+  Double_t ceren_level[] = {  fHist2DCeren->GetMinimum(),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.1),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.2),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.3),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.4),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.5),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.6),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.7),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.8),
+                              fHist2DCeren->GetMinimum() + (ceren_diff * 0.9),
+                              fHist2DCeren->GetMaximum()};
+  fHist2DCeren->SetContour( ( sizeof(ceren_level) / sizeof(Double_t) ), ceren_level);
+  Double_t scint_diff = fHist2DScint->GetMaximum() - fHist2DScint->GetMinimum();
+  Double_t scint_level[] = {  fHist2DScint->GetMinimum(),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.1),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.2),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.3),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.4),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.5),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.6),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.7),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.8),
+                              fHist2DScint->GetMinimum() + (scint_diff * 0.9),
+                              fHist2DScint->GetMaximum()};
+  fHist2DScint->SetContour( ( sizeof(scint_level) / sizeof(Double_t) ), scint_level);
+  fCanvas->Update();
+  fCanvas->Draw();
+
+  fCanvas->cd(1);
+  fHist2DCeren->Draw("colz1 TEXT");
+  fCanvas->Modified();
+  fCanvas->Update();
+
+  fCanvas->cd(2);
+  fHist2DScint->Draw("colz1 TEXT");
+  fCanvas->Modified();
+  fCanvas->Update();
+  
+  fHist2DCeren->Write();
+  fHist2DScint->Write();
+  fCanvas->SaveAs((TString)("./HitMap/Run_" + std::to_string(fRunNum) + "/Run_" + std::to_string(fRunNum) + "_Evt_" + std::to_string(iEvt) + ".png"));
 
   fHist2DCeren->Reset();
   fHist2DScint->Reset();
 }
+
+template <typename T>
+void TBmcppmt<T>::EndEvtLoop() {
+  fOutfile->Close();
+}
+
 
 template <typename T>
 void TBmcppmt<T>::Loop()
@@ -324,9 +449,10 @@ void TBmcppmt<T>::Loop()
     GetData(fMode);
     Fill(fMode);
 
-    if (fDoEvent)
-      DrawEventHeatMap(i);
-  }
+    // if (fDoEvent) {
+    //   DrawEventHeatMap(i);
+    // }
+  }  
 
   EndOfLoop();
 
