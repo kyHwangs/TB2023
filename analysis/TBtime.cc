@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
     std::vector<short> single_waveform;
     std::vector<short> trig_waveform;
     for(int iEvt = 0; iEvt < readerWave.GetMaxEvent(); iEvt++) {
+        printProgress(iEvt+1, maxEntry);
         single_waveform.clear();
         trig_waveform.clear();
         auto anEvent = readerWave.GetAnEvent();

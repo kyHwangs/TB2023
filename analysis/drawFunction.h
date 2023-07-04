@@ -317,10 +317,31 @@ std::map<std::string, std::vector<int>> getModuleConfigMap() {
     map_btw_MIDCH_and_Name.insert(std::make_pair("T1", std::vector<int> {12, 2}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("T2", std::vector<int> {12, 10})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
 
-    map_btw_MIDCH_and_Name.insert(std::make_pair("C1", std::vector<int> {12, 23})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
-    map_btw_MIDCH_and_Name.insert(std::make_pair("C2", std::vector<int> {12, 31})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T1N", std::vector<int> {12, 18})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T2N", std::vector<int> {12, 24})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("Coin", std::vector<int> {12, 26})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
 
 
 
     return map_btw_MIDCH_and_Name;
+}
+
+void printProgress(const int currentStep, const int totalStep)
+{
+    // print progress
+    float progress = (float)currentStep / totalStep;
+    int barWidth = 70;
+    std::cout << "[";
+    int pos = barWidth * progress;
+    for (int i = 0; i < barWidth; i++)
+    {
+        if (i < pos)
+            std::cout << "=";
+        else if (i == pos)
+            std::cout << ">";
+        else
+            std::cout << " ";
+    }
+    std::cout << "]  " << currentStep << "/" << totalStep << "  " << int(progress * 100.0) << "%\r";
+    std::cout.flush();
 }

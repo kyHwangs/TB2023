@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 
     std::map<std::string, std::vector<int>> mapModuleConfig = getModuleConfigMap();
 
-    std::vector<std::string> module_name_vec = {"HW-Ceren", "23-Scint"};
+    std::vector<std::string> module_name_vec = {"H1-Ceren", "W1-Ceren"};
     std::vector<TH1F*> module_hists;
     for (std::string module_name : module_name_vec) {
         std::vector<int> MIDandCh = mapModuleConfig.at(module_name);
