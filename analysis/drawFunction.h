@@ -317,6 +317,9 @@ std::map<std::string, std::vector<int>> getModuleConfigMap() {
     map_btw_MIDCH_and_Name.insert(std::make_pair("T1", std::vector<int> {12, 2}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("T2", std::vector<int> {12, 10})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
 
+    map_btw_MIDCH_and_Name.insert(std::make_pair("C1", std::vector<int> {12, 8}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
+    map_btw_MIDCH_and_Name.insert(std::make_pair("C2", std::vector<int> {12, 16}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
+
     map_btw_MIDCH_and_Name.insert(std::make_pair("T1N", std::vector<int> {12, 18})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("T2N", std::vector<int> {12, 24})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
     map_btw_MIDCH_and_Name.insert(std::make_pair("Coin", std::vector<int> {12, 26})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
@@ -344,4 +347,34 @@ void printProgress(const int currentStep, const int totalStep)
     }
     std::cout << "]  " << currentStep << "/" << totalStep << "  " << int(progress * 100.0) << "%\r";
     std::cout.flush();
+}
+
+float GetInt(std::vector<short> waveform, int startBin, int endBin)
+{
+  float ped = std::accumulate(waveform.begin() + 1, waveform.begin() + 101, 0.) / 100.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
+
+  return (std::accumulate(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin, 0.));
+}
+
+std::vector<float> GetAvg(std::vector<short> waveform, int maxEntry)
+{
+  std::vector<float> scaled_waveform;
+  for(int i = 0; i < waveform.size(); i++)
+    scaled_waveform.push_back( ( (float) waveform.at(i) / (float) maxEntry) );
+  return scaled_waveform;
+}
+
+float GetPeak(std::vector<short> waveform, int startBin, int endBin)
+{
+  float ped = std::accumulate(waveform.begin() + 1, waveform.begin() + 101, 0.) / 100.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
+
+  return (*std::max_element(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin));
 }

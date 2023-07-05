@@ -7,14 +7,16 @@
 int main(int argc, char* argv[]) {
     TApplication app("app", &argc, argv);
 
-    std::string runNum   = argv[1];
-    int start_evt        = std::stoi(argv[2]);
-    int max_evt          = std::stoi(argv[3]);
+    std::string runNum = argv[1];
+    int start_evt      = std::stoi(argv[2]);
+    int max_evt        = std::stoi(argv[3]);
+    int start_bin      = std::stoi(argv[4]);
+    int end_bin        = std::stoi(argv[5]);
     std::vector<std::string> channel_names;
-    for(int plot_args = 4; plot_args < argc; plot_args++ ) {
+    for(int plot_args = 6; plot_args < argc; plot_args++ ) {
         channel_names.push_back(argv[plot_args]);
     }
-    gStyle->SetOptStat(0);
+    gStyle->SetOptStat(1);
     gStyle->SetPalette(1);
 
     auto map = getModuleConfigMap();
@@ -34,7 +36,7 @@ int main(int argc, char* argv[]) {
         MIDs.push_back(MIDandCh.at(0));
         unique_MIDs.push_back(MIDandCh.at(0));
         Chs.push_back(MIDandCh.at(1));
-        plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 1000, 0., 1000.) );
+        plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 400, -5000., 200000.) );
     }
     unique_MIDs.erase( std::unique( unique_MIDs.begin(), unique_MIDs.end() ), unique_MIDs.end() );
     TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), start_evt + max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
@@ -44,11 +46,10 @@ int main(int argc, char* argv[]) {
     c->cd();
 
     for(int idx = 0 ; idx < plots.size(); idx++) {
-        plots.at(idx)->SetTitle( (TString)(channel_names.at(idx) ) );
-        plots.at(idx)->SetMaximum(4096.);
-        plots.at(idx)->SetMinimum(0.);
-        plots.at(idx)->GetXaxis()->SetTitle("bin");
-        plots.at(idx)->GetYaxis()->SetTitle("ADC");
+        // plots.at(idx)->SetTitle( (TString)(channel_names.at(idx) ) );
+        plots.at(idx)->SetTitle( "" );
+        plots.at(idx)->GetXaxis()->SetTitle("IntADC");
+        plots.at(idx)->GetYaxis()->SetTitle("Evt");
         plots.at(idx)->SetLineWidth(2);
 
         TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
@@ -60,11 +61,8 @@ int main(int argc, char* argv[]) {
             auto anEvent = readerWave.GetAnEvent();
             auto single_waveform = anEvent.GetData(cid).waveform();
 
-            std::vector<float> avg_waveform = GetAvg(single_waveform, max_evt - start_evt);
-
-            for(int bin = 0; bin < avg_waveform.size()-23; bin++) {
-                plots.at(idx)->Fill(bin, avg_waveform.at(bin+1));
-            }
+            float intADC = GetInt(single_waveform, start_bin, end_bin);
+            plots.at(idx)->Fill(intADC);
         }
 
         c->cd();
@@ -72,7 +70,7 @@ int main(int argc, char* argv[]) {
         else plots.at(idx)->Draw("Hist & PLC & sames");
         c->Update();
     }
-    c->BuildLegend();
+    c->BuildLegend(0.7, 0.2, 0.9, 0.4);
     c->Update();
 
     TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
