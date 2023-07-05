@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
     gStyle->SetOptStat(0);
 
     std::string runNum = argv[1];
-    std::string mode   = argv[2]; // 0 : Avg time stuct, 1 : PeakADC, 2 : IntADC
+    std::string mode   = "0"; // 0 : Avg time stuct, 1 : PeakADC, 2 : IntADC
     std::string mode_text = "";
     if (mode == "0") mode_text = "Avg. Time Struc";
     if (mode == "1") mode_text = "Peak ADC";
