@@ -14,7 +14,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-2-Ceren:
       average time structure:
@@ -30,7 +30,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
       
     3D-3-Ceren:
       average time structure:
@@ -46,7 +46,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-4-Ceren:
       average time structure:
@@ -62,7 +62,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-5-Ceren:
       average time structure:
@@ -78,7 +78,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-6-Ceren:
       average time structure:
@@ -94,7 +94,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-7-Ceren:
       average time structure:
@@ -110,7 +110,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-8-Ceren:
       average time structure:
@@ -126,7 +126,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-9-Ceren:
       average time structure:
@@ -142,7 +142,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-10-Ceren:
       average time structure:
@@ -158,7 +158,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-11-Ceren:
       average time structure:
@@ -174,7 +174,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-12-Ceren:
       average time structure:
@@ -190,7 +190,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-13-Ceren:
       average time structure:
@@ -206,7 +206,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-14-Ceren:
       average time structure:
@@ -222,7 +222,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-15-Ceren:
       average time structure:
@@ -238,7 +238,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-16-Ceren:
       average time structure:
@@ -254,7 +254,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-17-Ceren:
       average time structure:
@@ -270,7 +270,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-18-Ceren:
       average time structure:
@@ -286,7 +286,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-19-Ceren:
       average time structure:
@@ -302,7 +302,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-20-Ceren:
       average time structure:
@@ -318,7 +318,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-21-Ceren:
       average time structure:
@@ -334,7 +334,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-22-Ceren:
       average time structure:
@@ -350,7 +350,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-23-Ceren:
       average time structure:
@@ -366,7 +366,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-24-Ceren:
       average time structure:
@@ -382,7 +382,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-25-Ceren:
       average time structure:
@@ -398,7 +398,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-26-Ceren:
       average time structure:
@@ -414,7 +414,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-27-Ceren:
       average time structure:
@@ -430,7 +430,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-28-Ceren:
       average time structure:
@@ -446,7 +446,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-29-Ceren:
       average time structure:
@@ -462,7 +462,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-30-Ceren:
       average time structure:
@@ -478,7 +478,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-31-Ceren:
       average time structure:
@@ -494,7 +494,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-32-Ceren:
       average time structure:
@@ -510,7 +510,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-33-Ceren:
       average time structure:
@@ -526,7 +526,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-34-Ceren:
       average time structure:
@@ -542,7 +542,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-35-Ceren:
       average time structure:
@@ -558,7 +558,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-36-Ceren:
       average time structure:
@@ -574,7 +574,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-37-Ceren:
       average time structure:
@@ -590,7 +590,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-38-Ceren:
       average time structure:
@@ -606,7 +606,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-39-Ceren:
       average time structure:
@@ -622,7 +622,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-40-Ceren:
       average time structure:
@@ -638,7 +638,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-41-Ceren:
       average time structure:
@@ -654,7 +654,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-42-Ceren:
       average time structure:
@@ -670,7 +670,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-43-Ceren:
       average time structure:
@@ -686,7 +686,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-44-Ceren:
       average time structure:
@@ -702,7 +702,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-45-Ceren:
       average time structure:
@@ -718,7 +718,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-46-Ceren:
       average time structure:
@@ -734,7 +734,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-47-Ceren:
       average time structure:
@@ -750,7 +750,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-48-Ceren:
       average time structure:
@@ -766,7 +766,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-49-Ceren:
       average time structure:
@@ -782,7 +782,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-50-Ceren:
       average time structure:
@@ -798,7 +798,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-1-Scint:
       average time structure:
@@ -814,7 +814,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-2-Scint:
       average time structure:
@@ -830,7 +830,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-3-Scint:
       average time structure:
@@ -846,7 +846,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-4-Scint:
       average time structure:
@@ -862,7 +862,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-5-Scint:
       average time structure:
@@ -878,7 +878,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-6-Scint:
       average time structure:
@@ -894,7 +894,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-7-Scint:
       average time structure:
@@ -910,7 +910,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-8-Scint:
       average time structure:
@@ -926,7 +926,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-9-Scint:
       average time structure:
@@ -942,7 +942,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-10-Scint:
       average time structure:
@@ -958,7 +958,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-11-Scint:
       average time structure:
@@ -974,7 +974,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-12-Scint:
       average time structure:
@@ -990,7 +990,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-13-Scint:
       average time structure:
@@ -1006,7 +1006,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-14-Scint:
       average time structure:
@@ -1022,7 +1022,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-15-Scint:
       average time structure:
@@ -1038,7 +1038,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-16-Scint:
       average time structure:
@@ -1054,7 +1054,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-17-Scint:
       average time structure:
@@ -1070,7 +1070,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-18-Scint:
       average time structure:
@@ -1086,7 +1086,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-19-Scint:
       average time structure:
@@ -1102,7 +1102,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-20-Scint:
       average time structure:
@@ -1118,7 +1118,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-21-Scint:
       average time structure:
@@ -1134,7 +1134,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-22-Scint:
       average time structure:
@@ -1150,7 +1150,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-23-Scint:
       average time structure:
@@ -1166,7 +1166,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-24-Scint:
       average time structure:
@@ -1182,7 +1182,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-25-Scint:
       average time structure:
@@ -1198,7 +1198,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-26-Scint:
       average time structure:
@@ -1214,7 +1214,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-27-Scint:
       average time structure:
@@ -1230,7 +1230,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-28-Scint:
       average time structure:
@@ -1246,7 +1246,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-29-Scint:
       average time structure:
@@ -1262,7 +1262,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-30-Scint:
       average time structure:
@@ -1278,7 +1278,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-31-Scint:
       average time structure:
@@ -1294,7 +1294,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-32-Scint:
       average time structure:
@@ -1310,7 +1310,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-33-Scint:
       average time structure:
@@ -1326,7 +1326,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-34-Scint:
       average time structure:
@@ -1342,7 +1342,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-35-Scint:
       average time structure:
@@ -1358,7 +1358,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-36-Scint:
       average time structure:
@@ -1374,7 +1374,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-37-Scint:
       average time structure:
@@ -1390,7 +1390,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-38-Scint:
       average time structure:
@@ -1406,7 +1406,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-39-Scint:
       average time structure:
@@ -1422,7 +1422,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-40-Scint:
       average time structure:
@@ -1438,7 +1438,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-41-Scint:
       average time structure:
@@ -1454,7 +1454,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-42-Scint:
       average time structure:
@@ -1470,7 +1470,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-43-Scint:
       average time structure:
@@ -1486,7 +1486,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-44-Scint:
       average time structure:
@@ -1502,7 +1502,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-45-Scint:
       average time structure:
@@ -1518,7 +1518,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-46-Scint:
       average time structure:
@@ -1534,7 +1534,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-47-Scint:
       average time structure:
@@ -1550,7 +1550,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-48-Scint:
       average time structure:
@@ -1566,7 +1566,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-49-Scint:
       average time structure:
@@ -1582,7 +1582,7 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
 
     3D-50-Scint:
       average time structure:
@@ -1598,4 +1598,4 @@ Plots:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [200, 350]
+        interval: [100, 900]
