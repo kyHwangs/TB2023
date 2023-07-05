@@ -85,38 +85,73 @@ int main(int argc, char *argv[])
     if (i == 4)
       continue;
     
-    c_generic->cd(i + 1);
+    if (pScintGeneric.at(i)->GetMaximum() > pCerenGeneric.at(i)->GetMaximum()) {
+      c_generic->cd(i + 1);
 
-    pScintGeneric.at(i)->Draw("Hist");
-    c_generic->Modified();
-    c_generic->Update();
+      pScintGeneric.at(i)->Draw("Hist");
+      c_generic->Modified();
+      c_generic->Update();
 
-    if (aCase != "AvgTimeStruc_") {
-      TPaveStats* S_stat = (TPaveStats*)pScintGeneric.at(i)->FindObject("stats");
-      S_stat->SetTextColor(kRed);
-      S_stat->SetX1NDC(0.65);
-      S_stat->SetX2NDC(0.95);
-      S_stat->SetY1NDC(0.8);
-      S_stat->SetY2NDC(1.0);
-      S_stat->SaveStyle();
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* S_stat = (TPaveStats*)pScintGeneric.at(i)->FindObject("stats");
+        S_stat->SetTextColor(kRed);
+        S_stat->SetX1NDC(0.65);
+        S_stat->SetX2NDC(0.95);
+        S_stat->SetY1NDC(0.8);
+        S_stat->SetY2NDC(1.0);
+        S_stat->SaveStyle();
+      }
+
+      pCerenGeneric.at(i)->Draw("Hist & sames");
+      c_generic->Modified();
+      c_generic->Update();
+
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* C_stat = (TPaveStats*)pCerenGeneric.at(i)->FindObject("stats");
+        C_stat->SetTextColor(kBlue);
+        C_stat->SetX1NDC(0.65);
+        C_stat->SetX2NDC(0.95);
+        C_stat->SetY1NDC(0.6);
+        C_stat->SetY2NDC(0.8);
+        C_stat->SaveStyle();
+      }
+
+      c_generic->Modified();
+      c_generic->Update();
+    } else {
+      c_generic->cd(i + 1);
+
+      pCerenGeneric.at(i)->Draw("Hist");
+      c_generic->Modified();
+      c_generic->Update();
+
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* C_stat = (TPaveStats*)pCerenGeneric.at(i)->FindObject("stats");
+        C_stat->SetTextColor(kBlue);
+        C_stat->SetX1NDC(0.65);
+        C_stat->SetX2NDC(0.95);
+        C_stat->SetY1NDC(0.6);
+        C_stat->SetY2NDC(0.8);
+        C_stat->SaveStyle();
+      }
+
+      pScintGeneric.at(i)->Draw("Hist & sames");
+      c_generic->Modified();
+      c_generic->Update();
+
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* S_stat = (TPaveStats*)pScintGeneric.at(i)->FindObject("stats");
+        S_stat->SetTextColor(kRed);
+        S_stat->SetX1NDC(0.65);
+        S_stat->SetX2NDC(0.95);
+        S_stat->SetY1NDC(0.8);
+        S_stat->SetY2NDC(1.0);
+        S_stat->SaveStyle();
+      }
+
+      c_generic->Modified();
+      c_generic->Update();
     }
-
-    pCerenGeneric.at(i)->Draw("Hist & sames");
-    c_generic->Modified();
-    c_generic->Update();
-
-    if (aCase != "AvgTimeStruc_") {
-      TPaveStats* C_stat = (TPaveStats*)pCerenGeneric.at(i)->FindObject("stats");
-      C_stat->SetTextColor(kBlue);
-      C_stat->SetX1NDC(0.65);
-      C_stat->SetX2NDC(0.95);
-      C_stat->SetY1NDC(0.6);
-      C_stat->SetY2NDC(0.8);
-      C_stat->SaveStyle();
-    }
-
-    c_generic->Modified();
-    c_generic->Update();
   }
 
   TCanvas *c_mcppmt = new TCanvas("c_mcppmt", "c_mcppmt", 1000, 660);
@@ -144,39 +179,74 @@ int main(int argc, char *argv[])
       }
       continue;
     }
-    
-    c_mcppmt->cd(i + 1);
 
-    pCerenMCPPMT.at(i)->Draw("Hist");
-    c_mcppmt->Modified();
-    c_mcppmt->Update();
+    if (pScintMCPPMT.at(i)->GetMaximum() > pCerenMCPPMT.at(i)->GetMaximum()) {
+      c_mcppmt->cd(i + 1);
 
-    if (aCase != "AvgTimeStruc_") {
-      TPaveStats* C_stat = (TPaveStats*)pCerenMCPPMT.at(i)->FindObject("stats");
-      C_stat->SetTextColor(kBlue);
-      C_stat->SetX1NDC(0.65);
-      C_stat->SetX2NDC(0.95);
-      C_stat->SetY1NDC(0.6);
-      C_stat->SetY2NDC(0.8);
-      C_stat->SaveStyle();
+      pScintMCPPMT.at(i)->Draw("Hist");
+      c_mcppmt->Modified();
+      c_mcppmt->Update();
+
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* S_stat = (TPaveStats*)pScintMCPPMT.at(i)->FindObject("stats");
+        S_stat->SetTextColor(kRed);
+        S_stat->SetX1NDC(0.65);
+        S_stat->SetX2NDC(0.95);
+        S_stat->SetY1NDC(0.8);
+        S_stat->SetY2NDC(1.0);
+        S_stat->SaveStyle();
+      }
+
+      pCerenMCPPMT.at(i)->Draw("Hist & sames");
+      c_mcppmt->Modified();
+      c_mcppmt->Update();
+
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* C_stat = (TPaveStats*)pCerenMCPPMT.at(i)->FindObject("stats");
+        C_stat->SetTextColor(kBlue);
+        C_stat->SetX1NDC(0.65);
+        C_stat->SetX2NDC(0.95);
+        C_stat->SetY1NDC(0.6);
+        C_stat->SetY2NDC(0.8);
+        C_stat->SaveStyle();
+      }
+
+      c_mcppmt->Modified();
+      c_mcppmt->Update();
+    } else {
+      c_mcppmt->cd(i + 1);
+
+      pCerenMCPPMT.at(i)->Draw("Hist");
+      c_mcppmt->Modified();
+      c_mcppmt->Update();
+
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* C_stat = (TPaveStats*)pCerenMCPPMT.at(i)->FindObject("stats");
+        C_stat->SetTextColor(kBlue);
+        C_stat->SetX1NDC(0.65);
+        C_stat->SetX2NDC(0.95);
+        C_stat->SetY1NDC(0.6);
+        C_stat->SetY2NDC(0.8);
+        C_stat->SaveStyle();
+      }
+
+      pScintMCPPMT.at(i)->Draw("Hist & sames");
+      c_mcppmt->Modified();
+      c_mcppmt->Update();
+
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* S_stat = (TPaveStats*)pScintMCPPMT.at(i)->FindObject("stats");
+        S_stat->SetTextColor(kRed);
+        S_stat->SetX1NDC(0.65);
+        S_stat->SetX2NDC(0.95);
+        S_stat->SetY1NDC(0.8);
+        S_stat->SetY2NDC(1.0);
+        S_stat->SaveStyle();
+      }
+
+      c_mcppmt->Modified();
+      c_mcppmt->Update();
     }
-
-    pScintMCPPMT.at(i)->Draw("Hist & sames");
-    c_mcppmt->Modified();
-    c_mcppmt->Update();
-
-    if (aCase != "AvgTimeStruc_") {
-      TPaveStats* S_stat = (TPaveStats*)pScintMCPPMT.at(i)->FindObject("stats");
-      S_stat->SetTextColor(kRed);
-      S_stat->SetX1NDC(0.65);
-      S_stat->SetX2NDC(0.95);
-      S_stat->SetY1NDC(0.8);
-      S_stat->SetY2NDC(1.0);
-      S_stat->SaveStyle();
-    }
-
-    c_mcppmt->Modified();
-    c_mcppmt->Update();
   }
 
   TRootCanvas *rc_generic = (TRootCanvas *)c_generic->GetCanvasImp();
