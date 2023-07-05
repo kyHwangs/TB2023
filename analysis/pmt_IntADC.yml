@@ -8,201 +8,201 @@ Plots:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     EXT-T2:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     EXT-Coin:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     CEREN-C1:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     CEREN-C2:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L1-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L1-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L2-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L2-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L3-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L3-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L4-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     LEGO-L4-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-HW-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-HW-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-H1-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-H1-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-H2-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-H2-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-H3-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     SFHS-H3-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-mid-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-mid-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-W1-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-W1-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-W2-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-W2-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-W3-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 
     MCPPMT-W3-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
         xMax: 200000
-        interval: [200, 350]
+        interval: [100, 340]
 

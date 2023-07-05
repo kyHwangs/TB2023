@@ -59,17 +59,18 @@ int main(int argc, char* argv[]) {
     c->cd();
 
     for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
+        auto anEvent = readerWave.GetAnEvent();
+
         if (iEvt < start_evt) continue;
         if (iEvt > start_evt + max_evt) gApplication->Terminate();
 
-        auto anEvent = readerWave.GetAnEvent();
         for(int idx = 0; idx < plots.size(); idx++) {
             TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
             auto single_waveform = anEvent.GetData(cid).waveform();
             plots.at(idx)->Reset();
             plots.at(idx)->SetTitle( (TString)(channel_names.at(idx) + "_Evt_" + std::to_string(iEvt+1)) );
             plots.at(idx)->SetMaximum(4096.);
-            plots.at(idx)->SetMinimum(0.);
+            plots.at(idx)->SetMinimum(3000.);
             plots.at(idx)->GetXaxis()->SetTitle("bin");
             plots.at(idx)->GetYaxis()->SetTitle("ADC");
             plots.at(idx)->SetLineWidth(2);
@@ -82,7 +83,7 @@ int main(int argc, char* argv[]) {
             else plots.at(idx)->Draw("Hist & PLC & sames");
             c->Update();
         }
-        c->BuildLegend();
+        c->BuildLegend(0.7, 0.2, 0.9, 0.4);
         c->Update();
         switch(plotMode) {
             case kAuto :

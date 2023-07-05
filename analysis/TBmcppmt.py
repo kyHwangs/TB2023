@@ -38,7 +38,7 @@ if MaxEvent != -1:
 	MCPPMT.SetMaxEvent(MaxEvent + StartEvent)
 
 # MCPPMT.SetPlotRangeX(1000, -3000, 300000)
-# MCPPMT.SetCalcRangeX(150, 300)
+MCPPMT.SetCalcRangeX(100, 350)
 
 MCPPMT.PreparePlots()
 

@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     if (mode == "1") mode_text = "Peak ADC";
     if (mode == "2") mode_text = "Int. ADC";
 
-    TFile* root_file = TFile::Open((TString) ("DQM_MCPPMT_Wave_" + runNum + "_" + mode + ".root") );
+    TFile* root_file = TFile::Open((TString) ("./MCPPMT/DQM_MCPPMT_Wave_" + runNum + "_" + mode + ".root") );
 
     TH2F* ceren = (TH2F*) root_file->Get( (TString)("Heatmap_" + mode + "_Ceren") );
     TH2F* scint = (TH2F*) root_file->Get( (TString)("Heatmap_" + mode + "_Scint") );
