@@ -469,7 +469,12 @@ void TBmcppmt<T>::EndOfLoop()
     for (int i = 0; i < fPlotCeren.size(); i++)
     {
       fPlotCeren.at(i)->Scale(1. / fMaxEvent);
+      for (int j = 1; j <= fPlotCeren.at(i)->GetNbinsX(); j++)
+        fPlotCeren.at(i)->SetBinError(j, 1e-8);
+
       fPlotScint.at(i)->Scale(1. / fMaxEvent);
+      for (int j = 1; j <= fPlotScint.at(i)->GetNbinsX(); j++)
+        fPlotScint.at(i)->SetBinError(j, 1e-8);
     }
   }
 
