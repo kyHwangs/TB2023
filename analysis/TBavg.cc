@@ -43,21 +43,14 @@ int main(int argc, char* argv[]) {
     TCanvas* c = new TCanvas("c", "c", 800, 600);
     c->cd();
 
-    for(int idx = 0 ; idx < plots.size(); idx++) {
-        plots.at(idx)->SetTitle( (TString)(channel_names.at(idx) ) );
-        plots.at(idx)->SetMaximum(4096.);
-        plots.at(idx)->SetMinimum(0.);
-        plots.at(idx)->GetXaxis()->SetTitle("bin");
-        plots.at(idx)->GetYaxis()->SetTitle("ADC");
-        plots.at(idx)->SetLineWidth(2);
+    for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
+        printProgress(iEvt, start_evt + max_evt);
+        if (iEvt < start_evt) continue;
 
-        TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
+        auto anEvent = readerWave.GetAnEvent();
 
-        for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
-            printProgress(iEvt, start_evt + max_evt);
-            if (iEvt < start_evt) continue;
-
-            auto anEvent = readerWave.GetAnEvent();
+        for(int idx = 0; idx < plots.size(); idx++) {
+            TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
             auto single_waveform = anEvent.GetData(cid).waveform();
 
             std::vector<float> avg_waveform = GetAvg(single_waveform, max_evt - start_evt);
@@ -66,12 +59,22 @@ int main(int argc, char* argv[]) {
                 plots.at(idx)->Fill(bin, avg_waveform.at(bin+1));
             }
         }
+    }
+
+    for(int idx = 0 ; idx < plots.size(); idx++) {
+        plots.at(idx)->SetTitle("");
+        plots.at(idx)->SetMaximum(4096.);
+        plots.at(idx)->SetMinimum(0.);
+        plots.at(idx)->GetXaxis()->SetTitle("bin");
+        plots.at(idx)->GetYaxis()->SetTitle("ADC");
+        plots.at(idx)->SetLineWidth(2);
 
         c->cd();
         if(idx == 0) plots.at(idx)->Draw("Hist & PLC");
         else plots.at(idx)->Draw("Hist & PLC & sames");
         c->Update();
     }
+
     c->BuildLegend();
     c->Update();
 
