@@ -25,10 +25,7 @@ TBmcppmt<T>::TBmcppmt(int fRunNum_, calculator fCalc_, bool fUseExPed_)
     fPlotXmin = -3000.;
     fPlotXmax = 300000.;
   }
-
-  // gApplication = nullptr;
-  // fApp = new TApplication("app", nullptr, nullptr);
-
+  
   SetReader(fMode);
 }
 

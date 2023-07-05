@@ -299,6 +299,7 @@ void TBfastengine::Fill(TBevt<TBfastmode> anEvent)
 
 void TBfastengine::SaveAs(TString output)
 {
+	output = (TString)("./ROOT/"+ output);
 	TFile *outoutFile = new TFile(output, "RECREATE");
 
 	outoutFile->cd();

@@ -37,9 +37,8 @@ MCPPMT.SetMapping("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.
 if MaxEvent != -1:
 	MCPPMT.SetMaxEvent(MaxEvent + StartEvent)
 
-if args.event :	
-	MCPPMT.SetPlotRangeX(1000, -3000, 300000)
-	MCPPMT.SetCalcRangeX(150, 300)
+# MCPPMT.SetPlotRangeX(1000, -3000, 300000)
+# MCPPMT.SetCalcRangeX(150, 300)
 
 MCPPMT.PreparePlots()
 
