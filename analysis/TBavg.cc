@@ -59,10 +59,9 @@ int main(int argc, char* argv[]) {
     c->cd();
 
     for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
+        auto anEvent = readerWave.GetAnEvent();
         printProgress(iEvt, start_evt + max_evt);
         if (iEvt < start_evt) continue;
-
-        auto anEvent = readerWave.GetAnEvent();
 
         for(int idx = 0; idx < plots.size(); idx++) {
             TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));

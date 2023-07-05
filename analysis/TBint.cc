@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         channel_names.push_back(argv[plot_args]);
         myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-6) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 6.)) ));
     }
-    gStyle->SetOptStat(0);
+    gStyle->SetOptStat(1);
 
     auto map = getModuleConfigMap();
     for(int idx = 0; idx < channel_names.size(); idx++) {
@@ -66,8 +66,8 @@ int main(int argc, char* argv[]) {
     TLegend* leg = new TLegend(0.75, 0.2, 0.9, 0.4);
 
     for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
-        printProgress(iEvt, start_evt + max_evt);
         if (iEvt < start_evt) continue;
+        printProgress(iEvt, start_evt + max_evt);
 
         auto anEvent = readerWave.GetAnEvent();
 
@@ -79,8 +79,38 @@ int main(int argc, char* argv[]) {
             plots.at(idx)->Fill(IntADC);
         }
     }
+    
+    int maxEntry_idx = -1;
+    int tmpMaxEntry = 0;
+    for(int idx = 0; idx < plots.size(); idx++) {
+        int currentEntry = plots.at(idx)->GetMaximum();
+        if (tmpMaxEntry <= currentEntry) {
+            tmpMaxEntry = currentEntry;
+            maxEntry_idx = idx;
+        }
+    }
+
+    plots.at(maxEntry_idx)->SetTitle( "" );
+    plots.at(maxEntry_idx)->GetXaxis()->SetTitle("IntADC");
+    plots.at(maxEntry_idx)->GetYaxis()->SetTitle("Evt");
+    plots.at(maxEntry_idx)->SetLineWidth(2);
+    plots.at(maxEntry_idx)->SetLineColor(myColorPalette.at(maxEntry_idx));
+
+    c->cd();
+    plots.at(maxEntry_idx)->Draw("Hist");
+    leg->AddEntry(plots.at(maxEntry_idx), channel_names.at(maxEntry_idx).c_str(), "l");
+    int meanOp = (int)(plots.at(maxEntry_idx)->GetMean());
+    int meanBp = (int)(plots.at(maxEntry_idx)->GetMean() * 100) - meanOp * 100;
+    int stdOp  = (int)(plots.at(maxEntry_idx)->GetStdDev());
+    int stdBp  = (int)(plots.at(maxEntry_idx)->GetStdDev() * 100) - stdOp * 100;
+    int entries = plots.at(maxEntry_idx)->GetEntries();
+    text->DrawLatexNDC( 0.5 , height ,(TString)("#color[" + std::to_string( myColorPalette.at(maxEntry_idx) ) + "]{" + channel_names.at(maxEntry_idx) + " Ent : " + entries +  " / M : " + std::to_string(meanOp) + "." + std::to_string(meanBp) + " / Std : " + std::to_string(stdOp) + "." + std::to_string(stdBp) + "}" ));
+    c->Update();
+
+    height -= 0.03;
 
     for(int idx = 0 ; idx < plots.size(); idx++) {
+        if (idx == maxEntry_idx) continue;
         plots.at(idx)->SetTitle( "" );
         plots.at(idx)->GetXaxis()->SetTitle("IntADC");
         plots.at(idx)->GetYaxis()->SetTitle("Evt");
@@ -88,8 +118,7 @@ int main(int argc, char* argv[]) {
         plots.at(idx)->SetLineColor(myColorPalette.at(idx));
 
         c->cd();
-        if(idx == 0) plots.at(idx)->Draw("Hist ");
-        else plots.at(idx)->Draw("Hist & sames");
+        plots.at(idx)->Draw("Hist & sames");
 
         leg->AddEntry(plots.at(idx), channel_names.at(idx).c_str(), "l");
 

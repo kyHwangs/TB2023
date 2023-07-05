@@ -314,15 +314,15 @@ std::map<std::string, std::vector<int>> getModuleConfigMap() {
     map_btw_MIDCH_and_Name.insert(std::make_pair("49-Scint", std::vector<int>  {2, 18} ));
     map_btw_MIDCH_and_Name.insert(std::make_pair("50-Scint", std::vector<int>  {2, 2}));
 
-    map_btw_MIDCH_and_Name.insert(std::make_pair("T1", std::vector<int> {12, 2}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
-    map_btw_MIDCH_and_Name.insert(std::make_pair("T2", std::vector<int> {12, 10})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T1", std::vector<int> {8, 24}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T2", std::vector<int> {9, 24})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
 
     map_btw_MIDCH_and_Name.insert(std::make_pair("C1", std::vector<int> {12, 8}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("C2", std::vector<int> {12, 16}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
 
-    map_btw_MIDCH_and_Name.insert(std::make_pair("T1N", std::vector<int> {12, 18})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
-    map_btw_MIDCH_and_Name.insert(std::make_pair("T2N", std::vector<int> {12, 24})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
-    map_btw_MIDCH_and_Name.insert(std::make_pair("Coin", std::vector<int> {12, 26})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T1N", std::vector<int> {8, 7})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T2N", std::vector<int> {9, 7})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("Coin", std::vector<int> {8, 15})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
 
 
 
