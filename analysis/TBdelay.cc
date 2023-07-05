@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     int delay_time = std::stoi(delay_clock) * 11;
     int delay_bin  = delay_time * 5;
 
-    std::string fileName = "DQM_Run" + runNum + ".root";
+    std::string fileName = "./ROOT/DQM_Run" + runNum + ".root";
     TFile* hist_file = TFile::Open(fileName.c_str());
 
     std::map<std::string, std::vector<int>> mapModuleConfig = getModuleConfigMap();

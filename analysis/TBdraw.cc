@@ -7,10 +7,10 @@ int main(int argc, char *argv[])
   std::string runNum = argv[1];
   std::string aCase = argv[2];
 
-  std::string filename = "DQM_Run" + runNum + "_" + aCase + ".root";
+  std::string filename = "./ROOT/DQM_Run" + runNum + "_" + aCase + ".root";
 
   // allowed ["AvgTimeStruc", "IntADC", "PeakADC", "fast_IntADC", "fast_timing"]
-  if ( (aCase == "fast_IntADC") || (aCase == "fast_timing") ) filename = "DQM_fast_Run" + runNum + ".root";
+  if ( (aCase == "fast_IntADC") || (aCase == "fast_timing") ) filename = "./ROOT/DQM_fast_Run" + runNum + ".root";
   if (aCase == "AvgTimeStruc") gStyle->SetOptStat("n");
   aCase = aCase + "_";
 
@@ -29,9 +29,9 @@ int main(int argc, char *argv[])
   vPlotName.push_back("L3");
 
   std::vector<TString> vPlotNameMCP;
-  vPlotNameMCP.push_back("");
+  vPlotNameMCP.push_back("C1");
   vPlotNameMCP.push_back("W1");
-  vPlotNameMCP.push_back("");
+  vPlotNameMCP.push_back("C2");
   vPlotNameMCP.push_back("W3");
   vPlotNameMCP.push_back("mid");
   vPlotNameMCP.push_back("W2");
@@ -59,9 +59,9 @@ int main(int argc, char *argv[])
   pScintGeneric.push_back(GetHist(filename, (TString)(aCase + vPlotName.at(8) + "-Scint"), false, vPlotName.at(8) + "-Scint"));
 
   std::vector<TH1F*> pCerenMCPPMT;
-  pCerenMCPPMT.push_back(new TH1F("", "", 1, 0., 1.));
+  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(0)), true, vPlotNameMCP.at(0)));
   pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(1) + "-Ceren"), true, vPlotNameMCP.at(1) + "-Ceren"));
-  pCerenMCPPMT.push_back(new TH1F("", "", 1, 0., 1.));
+  pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(2)), true, vPlotNameMCP.at(2)));
   pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(3) + "-Ceren"), true, vPlotNameMCP.at(3) + "-Ceren"));
   pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(4) + "-Ceren"), true, vPlotNameMCP.at(4) + "-Ceren"));
   pCerenMCPPMT.push_back(GetHist(filename, (TString)(aCase + vPlotNameMCP.at(5) + "-Ceren"), true, vPlotNameMCP.at(5) + "-Ceren"));
@@ -126,8 +126,24 @@ int main(int argc, char *argv[])
   c_mcppmt->Draw();
 
   for (int i = 0; i < 6; i++) {
-    if (i == 0 || i == 2)
+    if (i == 0 || i == 2) {
+      c_mcppmt->cd(i + 1);
+
+      pCerenMCPPMT.at(i)->Draw("Hist");
+      c_mcppmt->Modified();
+      c_mcppmt->Update();
+      
+      if (aCase != "AvgTimeStruc_") {
+        TPaveStats* C_stat = (TPaveStats*)pCerenMCPPMT.at(i)->FindObject("stats");
+        C_stat->SetTextColor(kBlue);
+        C_stat->SetX1NDC(0.65);
+        C_stat->SetX2NDC(0.95);
+        C_stat->SetY1NDC(0.6);
+        C_stat->SetY2NDC(0.8);
+        C_stat->SaveStyle();
+      }
       continue;
+    }
     
     c_mcppmt->cd(i + 1);
 

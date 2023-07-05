@@ -98,11 +98,11 @@ public:
 
   void EndOfLoop();
 
-  TString GetOutputName(TBwaveform mode) { return (TString)("DQM_MCPPMT_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
-  TString GetOutputName(TBfastmode mode) { return (TString)("DQM_MCPPMT_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+  TString GetOutputName(TBwaveform mode) { return (TString)("./MCPPMT/DQM_MCPPMT_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+  TString GetOutputName(TBfastmode mode) { return (TString)("./MCPPMT/DQM_MCPPMT_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
 
-  TString GetEvtOutputName(TBwaveform mode) { return (TString)("DQM_MCPPMT_Evt_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
-  TString GetEvtOutputName(TBfastmode mode) { return (TString)("DQM_MCPPMT_Evt_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+  TString GetEvtOutputName(TBwaveform mode) { return (TString)("./MCPPMT/DQM_MCPPMT_Evt_Wave_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
+  TString GetEvtOutputName(TBfastmode mode) { return (TString)("./MCPPMT/DQM_MCPPMT_Evt_Fast_" + std::to_string(fRunNum) + "_" + std::to_string(static_cast<int>(fCalc)) + ".root"); }
 
   void SetPlotRangeX(int nbin, float min, float max);
   void SetCalcRangeX(float min, float max);

@@ -3,7 +3,6 @@
 TBplotengine::TBplotengine(const YAML::Node fNodePlot_, int fRunNum_, TButility fUtility_, bool fUseExPed_)
 		: fNodePlot(fNodePlot_), fRunNum(fRunNum_), fUtility(fUtility_), fUseExPed(fUseExPed_), fCaseName("")
 {
-
 	init();
 }
 
@@ -27,7 +26,7 @@ void TBplotengine::init()
 		std::string plotName = aCase.first.as<std::string>();
 		std::string pretty = "";
 
-    if (plotName.find("EXT") != std::string::npos)
+		if (plotName.find("EXT") != std::string::npos)
 			pretty = plotName.substr(4, plotName.length() - 4);
 
 		if (plotName.find("CEREN") != std::string::npos)
@@ -40,7 +39,7 @@ void TBplotengine::init()
 			pretty = plotName.substr(5, plotName.length() - 5);
 
 		if (plotName.find("MCPPMT") != std::string::npos)
-      pretty = plotName.substr(7, plotName.length() - 7);
+		pretty = plotName.substr(7, plotName.length() - 7);
 
 		if (plotName.find("LEGO") != std::string::npos)
 			pretty = plotName.substr(plotName.find("LEGO") + 5, 8);
@@ -329,8 +328,9 @@ void TBplotengine::Fill(TBevt<TBwaveform> anEvent)
 
 void TBplotengine::SaveAs(TString output)
 {
+	output = (TString)("./ROOT/"+ output);
 	if (fCaseName != "")
-		output = output + "_" + fCaseName;
+		output = (TString)(output + "_" + fCaseName);
 
 	TFile *outoutFile = new TFile(output + ".root", "RECREATE");
 
