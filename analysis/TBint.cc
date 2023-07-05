@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
         MIDs.push_back(MIDandCh.at(0));
         unique_MIDs.push_back(MIDandCh.at(0));
         Chs.push_back(MIDandCh.at(1));
-        plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 400, -5000., 200000.) );
+        plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 500, -5000., 200000.) );
     }
     unique_MIDs.erase( std::unique( unique_MIDs.begin(), unique_MIDs.end() ), unique_MIDs.end() );
     TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), start_evt + max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
@@ -57,6 +57,21 @@ int main(int argc, char* argv[]) {
 
     TLegend* leg = new TLegend(0.75, 0.2, 0.9, 0.4);
 
+    for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
+        printProgress(iEvt, start_evt + max_evt);
+        if (iEvt < start_evt) continue;
+
+        auto anEvent = readerWave.GetAnEvent();
+
+        for (int idx = 0; idx < plots.size(); idx++) {
+            TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
+            auto single_waveform = anEvent.GetData(cid).waveform();
+
+            float IntADC = GetInt(single_waveform, start_bin, end_bin);
+            plots.at(idx)->Fill(IntADC);
+        }
+    }
+
     for(int idx = 0 ; idx < plots.size(); idx++) {
         plots.at(idx)->SetTitle( "" );
         plots.at(idx)->GetXaxis()->SetTitle("IntADC");
@@ -64,21 +79,7 @@ int main(int argc, char* argv[]) {
         plots.at(idx)->SetLineWidth(2);
         plots.at(idx)->SetLineColor(myColorPalette.at(idx));
 
-        TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
-
-        for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
-            printProgress(iEvt, start_evt + max_evt);
-            if (iEvt < start_evt) continue;
-
-            auto anEvent = readerWave.GetAnEvent();
-            auto single_waveform = anEvent.GetData(cid).waveform();
-
-            float IntADC = GetInt(single_waveform, start_bin, end_bin);
-            plots.at(idx)->Fill(IntADC);
-        }
-
         c->cd();
-
         if(idx == 0) plots.at(idx)->Draw("Hist ");
         else plots.at(idx)->Draw("Hist & sames");
 
@@ -96,6 +97,7 @@ int main(int argc, char* argv[]) {
 
         height -= 0.03;
     }
+
     leg->Draw("sames");
     c->Update();
 

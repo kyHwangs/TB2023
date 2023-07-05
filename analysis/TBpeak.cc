@@ -57,6 +57,21 @@ int main(int argc, char* argv[]) {
 
     TLegend* leg = new TLegend(0.75, 0.2, 0.9, 0.4);
 
+    for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
+        printProgress(iEvt, start_evt + max_evt);
+        if (iEvt < start_evt) continue;
+
+        auto anEvent = readerWave.GetAnEvent();
+
+        for (int idx = 0; idx < plots.size(); idx++) {
+            TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
+            auto single_waveform = anEvent.GetData(cid).waveform();
+
+            float PeakADC = GetPeak(single_waveform, start_bin, end_bin);
+            plots.at(idx)->Fill(PeakADC);
+        }
+    }
+
     for(int idx = 0 ; idx < plots.size(); idx++) {
         plots.at(idx)->SetTitle( "" );
         plots.at(idx)->GetXaxis()->SetTitle("PeakADC");
@@ -64,21 +79,7 @@ int main(int argc, char* argv[]) {
         plots.at(idx)->SetLineWidth(2);
         plots.at(idx)->SetLineColor(myColorPalette.at(idx));
 
-        TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
-
-        for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
-            printProgress(iEvt, start_evt + max_evt);
-            if (iEvt < start_evt) continue;
-
-            auto anEvent = readerWave.GetAnEvent();
-            auto single_waveform = anEvent.GetData(cid).waveform();
-
-            float PeakADC = GetPeak(single_waveform, start_bin, end_bin);
-            plots.at(idx)->Fill(PeakADC);
-        }
-
         c->cd();
-
         if(idx == 0) plots.at(idx)->Draw("Hist ");
         else plots.at(idx)->Draw("Hist & sames");
 
@@ -96,6 +97,7 @@ int main(int argc, char* argv[]) {
 
         height -= 0.03;
     }
+
     leg->Draw("sames");
     c->Update();
 
