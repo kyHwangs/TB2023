@@ -19,16 +19,16 @@ std::vector<int> myColorPalette {
   1, // "kBlack",
   2, // "kRed",
   4, // "kBlue",
-  3, // "kGreen",
+  417, // "kGreen",
   6, // "kMagenta",
-  7, // "kAzure"
+  433, // "kAzure"
 
   1, // "kBlack",
   2, // "kRed",
   4, // "kBlue",
-  3, // "kGreen",
+  417, // "kGreen",
   6, // "kMagenta",
-  7 // "kAzure"
+  433 // "kAzure"
 };
 
 std::vector<std::string> getPlotInfo(std::string module_name) {

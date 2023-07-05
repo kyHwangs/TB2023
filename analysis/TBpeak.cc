@@ -1,4 +1,6 @@
 #include "TLegend.h"
+#include "TLatex.h"
+#include "TColor.h"
 
 #include "drawFunction.h"
 
@@ -7,17 +9,21 @@
 int main(int argc, char* argv[]) {
     TApplication app("app", &argc, argv);
 
+    gStyle->SetPalette(kVisibleSpectrum);
+
     std::string runNum = argv[1];
     int start_evt      = std::stoi(argv[2]);
     int max_evt        = std::stoi(argv[3]);
     int start_bin      = std::stoi(argv[4]);
     int end_bin        = std::stoi(argv[5]);
+
     std::vector<std::string> channel_names;
+    myColorPalette.clear();
     for(int plot_args = 6; plot_args < argc; plot_args++ ) {
         channel_names.push_back(argv[plot_args]);
+        myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-6) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 6.)) ));
     }
-    gStyle->SetOptStat(1);
-    gStyle->SetPalette(1);
+    gStyle->SetOptStat(0);
 
     auto map = getModuleConfigMap();
     for(int idx = 0; idx < channel_names.size(); idx++) {
@@ -45,12 +51,18 @@ int main(int argc, char* argv[]) {
     TCanvas* c = new TCanvas("c", "c", 800, 600);
     c->cd();
 
+    TLatex* text = new TLatex();
+    text->SetTextSize(0.025);
+    float height = 0.87;
+
+    TLegend* leg = new TLegend(0.75, 0.2, 0.9, 0.4);
+
     for(int idx = 0 ; idx < plots.size(); idx++) {
-        // plots.at(idx)->SetTitle( (TString)(channel_names.at(idx) ) );
         plots.at(idx)->SetTitle( "" );
         plots.at(idx)->GetXaxis()->SetTitle("PeakADC");
         plots.at(idx)->GetYaxis()->SetTitle("Evt");
         plots.at(idx)->SetLineWidth(2);
+        plots.at(idx)->SetLineColor(myColorPalette.at(idx));
 
         TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
 
@@ -66,11 +78,25 @@ int main(int argc, char* argv[]) {
         }
 
         c->cd();
-        if(idx == 0) plots.at(idx)->Draw("Hist & PLC");
-        else plots.at(idx)->Draw("Hist & PLC & sames");
+
+        if(idx == 0) plots.at(idx)->Draw("Hist ");
+        else plots.at(idx)->Draw("Hist & sames");
+
+        leg->AddEntry(plots.at(idx), channel_names.at(idx).c_str(), "l");
+
+        int meanOp = (int)(plots.at(idx)->GetMean());
+        int meanBp = (int)(plots.at(idx)->GetMean() * 100) - meanOp * 100;
+
+        int stdOp  = (int)(plots.at(idx)->GetStdDev());
+        int stdBp  = (int)(plots.at(idx)->GetStdDev() * 100) - stdOp * 100;
+
+        int entries = plots.at(idx)->GetEntries();
+        text->DrawLatexNDC( 0.5 , height ,(TString)("#color[" + std::to_string( myColorPalette.at(idx) ) + "]{" + channel_names.at(idx) + " Ent : " + entries +  " / M : " + std::to_string(meanOp) + "." + std::to_string(meanBp) + " / Std : " + std::to_string(stdOp) + "." + std::to_string(stdBp) + "}" ));
         c->Update();
+
+        height -= 0.03;
     }
-    c->BuildLegend(0.7, 0.2, 0.9, 0.4);
+    leg->Draw("sames");
     c->Update();
 
     TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
