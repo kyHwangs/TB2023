@@ -118,7 +118,6 @@ void TButility::loading(const std::string &path)
     if (cases == 4)
       det = TBdetector(TBdetector::detid::ext);
     if (cases == 6)
-    
       det = TBdetector(TBdetector::detid::ceren);
 
     det.encodeModule(cases, nChannel, static_cast<bool>(isCeren));
