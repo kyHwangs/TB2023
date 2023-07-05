@@ -18,12 +18,12 @@ int main(int argc, char* argv[]) {
     int delay_time = std::stoi(delay_clock) * 11;
     int delay_bin  = delay_time * 5;
 
-    std::string fileName = "./ROOT/DQM_Run" + runNum + ".root";
+    std::string fileName = "./ROOT/DQM_Run" + runNum + "_AvgTimeStruc.root";
     TFile* hist_file = TFile::Open(fileName.c_str());
 
     std::map<std::string, std::vector<int>> mapModuleConfig = getModuleConfigMap();
 
-    std::vector<std::string> module_name_vec = {"H1-Ceren", "W1-Ceren"};
+    std::vector<std::string> module_name_vec = {"H1-Ceren"};
     std::vector<TH1F*> module_hists;
     for (std::string module_name : module_name_vec) {
         std::vector<int> MIDandCh = mapModuleConfig.at(module_name);
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
         module_hists.emplace_back( GetHist(fileName, (TString)("AvgTimeStruc_Mid" + MID + "Ch" + Ch),  true, module_name) );
     }
 
-    std::vector<std::string> aux_name_vec = {"T1", "T2"};
+    std::vector<std::string> aux_name_vec = {"C1", "C2", "T1N", "T2N"};
     std::vector<TH1F*> aux_hists;
     for (std::string aux_name : aux_name_vec) {
         std::vector<int> MIDandCh = mapModuleConfig.at(aux_name);
