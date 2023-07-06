@@ -21,8 +21,8 @@ int main(int argc, char* argv[]) {
     int MID = MIDandCh.at(0);
     int Ch  = MIDandCh.at(1);
 
-    std::vector<int> MIDs = {MID, 12};
-    MIDs.erase( std::unique( MIDs.begin(), MIDs.end() ), MIDs.end() );
+    std::vector<int> MIDs = {MID};
+    if (MID != 12) MIDs.push_back(12);
 
     TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), maxEntry, 1, "/Users/yhep/scratch/YUdaq", MIDs);
     std::cout << "Total # of entry : " << readerWave.GetMaxEvent() << std::endl;
@@ -42,15 +42,15 @@ int main(int argc, char* argv[]) {
     diff_time->GetYaxis()->SetTitle("Evt");
 
     int module_start_bin = 100;
-    int module_end_bin   = 300;
-    if ( (plotName == "T1") || (plotName == "T2") ) {
+    int module_end_bin   = 350;
+    if ( (plotName == "T1") || (plotName == "T2") || (plotName == "C1")  || (plotName == "C2")  || (plotName == "T1N") || (plotName == "T2N") || (plotName == "Coin") ) {
         module_start_bin = 400;
-        module_end_bin   = 600;
+        module_end_bin   = 700;
     }
     int trig_start_bin   = 400;
-    int trig_end_bin     = 600;
+    int trig_end_bin     = 700;
 
-    int rising_time_bin  = 60;
+    int rising_time_bin  = 70;
 
     std::vector<short> single_waveform;
     std::vector<short> trig_waveform;
@@ -60,7 +60,14 @@ int main(int argc, char* argv[]) {
         trig_waveform.clear();
         auto anEvent = readerWave.GetAnEvent();
         single_waveform = anEvent.GetData(TBcid(MID, Ch)).waveform();
-        trig_waveform   = anEvent.GetData(TBcid(12, 10)).waveform();
+        // 12-2  : T1
+        // 12-8  : C1
+        // 12-10 : T2
+        // 12-16 : C2 
+        // 12-18 : T1N
+        // 12-24 : T2N
+        // 12-26 : Coin
+        trig_waveform   = anEvent.GetData(TBcid(12, 18)).waveform();
 
         int module_thrs_bin = 0;
         float module_ped = getPed(single_waveform);
@@ -91,7 +98,8 @@ int main(int argc, char* argv[]) {
         }
 
         single_time->Fill(module_thrs_bin * 0.2);
-        diff_time->Fill( (trig_thrs_bin - module_thrs_bin) * 0.2);
+        if (plotName != "Coin") diff_time->Fill( (trig_thrs_bin - module_thrs_bin) * 0.2);
+        else diff_time->Fill( (module_thrs_bin - trig_thrs_bin ) * 0.2);
     }
 
     c->cd(1);
