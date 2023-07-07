@@ -114,8 +114,8 @@ int main(int argc, char* argv[]) {
     c_generic->Modified();
     c_generic->Update();
 
-    TRootCanvas *rc_generic = (TRootCanvas *)c_generic->GetCanvasImp();
-    rc_generic->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    // TRootCanvas *rc_generic = (TRootCanvas *)c_generic->GetCanvasImp();
+    // rc_generic->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
     
     app.Run();
 

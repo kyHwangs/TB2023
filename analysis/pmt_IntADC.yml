@@ -77,56 +77,56 @@ Plots:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     SFHS-HW-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     SFHS-H1-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     SFHS-H1-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     SFHS-H2-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     SFHS-H2-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     SFHS-H3-Ceren:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     SFHS-H3-Scint:
       integrated ADC:
         nBin: 400
         xMin: -5000
-        xMax: 200000
+        xMax: 250000
         interval: [120, 340]
 
     MCPPMT-mid-Ceren:

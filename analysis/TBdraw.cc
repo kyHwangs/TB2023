@@ -249,11 +249,11 @@ int main(int argc, char *argv[])
     }
   }
 
-  TRootCanvas *rc_generic = (TRootCanvas *)c_generic->GetCanvasImp();
-  rc_generic->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+  // TRootCanvas *rc_generic = (TRootCanvas *)c_generic->GetCanvasImp();
+  // rc_generic->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
 
-  TRootCanvas *rc_mcppmt = (TRootCanvas *)c_mcppmt->GetCanvasImp();
-  rc_mcppmt->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+  // TRootCanvas *rc_mcppmt = (TRootCanvas *)c_mcppmt->GetCanvasImp();
+  // rc_mcppmt->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
 
   app.Run();
 
