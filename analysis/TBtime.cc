@@ -114,8 +114,8 @@ int main(int argc, char* argv[]) {
 
     // c->SaveAs((TString)("./Timing/Run_" + runNum + "_" + plotName + ".png"));
     
-    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
-    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    // TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
+    // rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
     app.Run();
 
     return 0;

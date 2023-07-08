@@ -1,5 +1,6 @@
 #include "TH2.h"
 #include "TH1.h"
+#include "TLatex.h"
 
 #include "drawFunction.h"
 
@@ -19,7 +20,11 @@ int main(int argc, char* argv[]) {
     TH2F* ceren = (TH2F*) root_file->Get( (TString)("Heatmap_" + mode + "_Ceren") );
     TH2F* scint = (TH2F*) root_file->Get( (TString)("Heatmap_" + mode + "_Scint") );
 
-    TCanvas* c = new TCanvas("c", "c", 800, 800);
+    TLatex fRunNumLatex; 
+
+
+    //TCanvas* c = new TCanvas("c", "c", 800, 800);
+    TCanvas* c = new TCanvas("c", "c", 1600, 800);
     c->Divide(2,1);
     c->Modified();
     c->Update();
@@ -41,6 +46,7 @@ int main(int argc, char* argv[]) {
                                ceren->GetMaximum()}; // Hitmap Ceren and Scint both color map displayed in same ratio
     ceren->SetContour( ( sizeof(ceren_level) / sizeof(Double_t) ), ceren_level);
     ceren->Draw("colz & text");
+    fRunNumLatex.DrawLatexNDC(0.1, 0.90, (TString)("#font[62]{Run" + runNum + "}"));
     c->Modified();
     c->Update();
 
@@ -63,8 +69,8 @@ int main(int argc, char* argv[]) {
     c->Modified();
     c->Update();
 
-    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
-    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    // TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
+    // rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
     app.Run();
 
     return 0;

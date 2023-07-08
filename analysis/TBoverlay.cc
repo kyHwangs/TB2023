@@ -49,6 +49,7 @@ int main(int argc, char* argv[]) {
     }
 
     c->cd();
+    plot->SetTitle((TString)("Run" + runNum));
     plot->SetMaximum(4096.);
     plot->SetMinimum(0.);
     plot->GetXaxis()->SetRangeUser(0., 1000.);
@@ -58,8 +59,8 @@ int main(int argc, char* argv[]) {
     c->Update();
     // c->SaveAs("test.png");
 
-    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
-    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    // TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
+    // rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
     app.Run();
 
     return 0;

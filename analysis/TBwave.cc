@@ -16,8 +16,10 @@ int main(int argc, char* argv[]) {
     std::string runNum   = argv[1];
     int start_evt        = std::stoi(argv[2]);
     int max_evt          = std::stoi(argv[3]);
+    int minYaxis         = std::stoi(argv[4]);
+    int maxYaxis         = std::stoi(argv[5]);
     std::vector<std::string> channel_names;
-    for(int plot_args = 4; plot_args < argc; plot_args++ ) {
+    for(int plot_args = 6; plot_args < argc; plot_args++ ) {
         channel_names.push_back(argv[plot_args]);
     }
     plotting_mode plotMode = kEnter;
@@ -60,6 +62,8 @@ int main(int argc, char* argv[]) {
 
     for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
         auto anEvent = readerWave.GetAnEvent();
+        TLegend* leg = new TLegend(0.7, 0.2, 0.9, 0.4);
+
 
         if (iEvt < start_evt) continue;
         if (iEvt > start_evt + max_evt) gApplication->Terminate();
@@ -68,12 +72,15 @@ int main(int argc, char* argv[]) {
             TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
             auto single_waveform = anEvent.GetData(cid).waveform();
             plots.at(idx)->Reset();
-            plots.at(idx)->SetTitle( (TString)(channel_names.at(idx) + "_Evt_" + std::to_string(iEvt+1)) );
+            plots.at(idx)->SetTitle( (TString)("Run" + runNum + "_Evt_" + std::to_string(iEvt+1)) );
             plots.at(idx)->SetMaximum(4096.);
-            plots.at(idx)->SetMinimum(3000.);
+            plots.at(idx)->SetMinimum(0.);
             plots.at(idx)->GetXaxis()->SetTitle("bin");
+            plots.at(idx)->GetYaxis()->SetRangeUser(minYaxis, maxYaxis);
             plots.at(idx)->GetYaxis()->SetTitle("ADC");
             plots.at(idx)->SetLineWidth(2);
+
+            leg->AddEntry(plots.at(idx), channel_names.at(idx).c_str(), "l");
 
             for(int bin = 0; bin < single_waveform.size()-23; bin++) {
                 plots.at(idx)->Fill(bin, single_waveform.at(bin+1));
@@ -83,7 +90,8 @@ int main(int argc, char* argv[]) {
             else plots.at(idx)->Draw("Hist & PLC & sames");
             c->Update();
         }
-        c->BuildLegend(0.7, 0.2, 0.9, 0.4);
+        // c->BuildLegend(0.7, 0.2, 0.9, 0.4);
+        leg->Draw();
         c->Update();
         switch(plotMode) {
             case kAuto :
@@ -117,8 +125,8 @@ int main(int argc, char* argv[]) {
         }   
     }
 
-    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
-    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    // TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
+    // rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
     app.Run();
 
     return 0;

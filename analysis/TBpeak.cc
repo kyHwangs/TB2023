@@ -23,8 +23,8 @@ int main(int argc, char* argv[]) {
         channel_names.push_back(argv[plot_args]);
         myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-6) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 6.)) ));
     }
-    // gStyle->SetOptStat(11111111);
-    gStyle->SetOptStat(0);
+     gStyle->SetOptStat(11111111);
+    ////gStyle->SetOptStat(0);
 
     auto map = getModuleConfigMap();
     for(int idx = 0; idx < channel_names.size(); idx++) {
@@ -91,8 +91,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    plots.at(maxEntry_idx)->SetTitle( "" );
-    plots.at(maxEntry_idx)->GetXaxis()->SetTitle("IntADC");
+    plots.at(maxEntry_idx)->SetTitle((TString)("Run" + runNum));
+    plots.at(maxEntry_idx)->GetXaxis()->SetTitle("PeakADC");
     plots.at(maxEntry_idx)->GetYaxis()->SetTitle("Evt");
     plots.at(maxEntry_idx)->SetLineWidth(2);
     plots.at(maxEntry_idx)->SetLineColor(myColorPalette.at(maxEntry_idx));
@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 
     for(int idx = 0 ; idx < plots.size(); idx++) {
         if (idx == maxEntry_idx) continue;
-        plots.at(idx)->SetTitle( "" );
+        plots.at(idx)->SetTitle((TString)("Run" + runNum));
         plots.at(idx)->GetXaxis()->SetTitle("PeakADC");
         plots.at(idx)->GetYaxis()->SetTitle("Evt");
         plots.at(idx)->SetLineWidth(2);
@@ -139,8 +139,8 @@ int main(int argc, char* argv[]) {
     leg->Draw("sames");
     c->Update();
 
-    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
-    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    //TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
+    //rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
     app.Run();
 
     return 0;

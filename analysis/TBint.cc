@@ -24,6 +24,7 @@ int main(int argc, char* argv[]) {
         myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-6) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 6.)) ));
     }
     gStyle->SetOptStat(1);
+    gStyle->SetStatFormat("6.6g");
 
     auto map = getModuleConfigMap();
     for(int idx = 0; idx < channel_names.size(); idx++) {
@@ -52,6 +53,8 @@ int main(int argc, char* argv[]) {
 
         plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 500, -5000., 200000.) );
     }
+
+
     // unique_MIDs.erase( std::unique( unique_MIDs.begin(), unique_MIDs.end() ), unique_MIDs.end() );
     TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), start_evt + max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
     std::cout << "Total # of entry : " << readerWave.GetMaxEvent() << std::endl;
@@ -90,7 +93,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    plots.at(maxEntry_idx)->SetTitle( "" );
+    plots.at(maxEntry_idx)->SetTitle((TString)("Run" + runNum));
     plots.at(maxEntry_idx)->GetXaxis()->SetTitle("IntADC");
     plots.at(maxEntry_idx)->GetYaxis()->SetTitle("Evt");
     plots.at(maxEntry_idx)->SetLineWidth(2);
@@ -136,10 +139,12 @@ int main(int argc, char* argv[]) {
     }
 
     leg->Draw("sames");
-    c->Update();
 
-    TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
-    rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
+    c->Update();
+    c->Draw();
+
+    //TRootCanvas *rc = (TRootCanvas *)c->GetCanvasImp();
+    //rc->Connect("CloseWindow()", "TApplication", gApplication, "Terminate()");
     app.Run();
 
     return 0;

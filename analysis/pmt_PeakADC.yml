@@ -3,205 +3,185 @@ Plots:
   Name: PeakADC
 
   Cases:
-    EXT-T1:
-      peak ADC:
-        nBin: 400
-        xMin: 0
-        xMax: 4096
-        interval: [100, 500]
-
-    EXT-T2:
-      peak ADC:
-        nBin: 400
-        xMin: 0
-        xMax: 4096
-        interval: [100, 500]
-
-    EXT-Coin:
-      peak ADC:
-        nBin: 400
-        xMin: 0
-        xMax: 4096
-        interval: [100, 500]
     CEREN-C1:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [380, 700]
 
     CEREN-C2:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [190, 480]
 
     LEGO-L1-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [140, 400]
 
     LEGO-L1-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [145, 500]
 
     LEGO-L2-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [200, 400]
 
     LEGO-L2-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [200, 550]
 
     LEGO-L3-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [130, 380]
 
     LEGO-L3-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [130, 420]
 
     LEGO-L4-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [130, 400]
 
     LEGO-L4-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [130, 480]
 
     SFHS-HW-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [110, 360]
 
     SFHS-HW-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [120, 420]
 
     SFHS-H1-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [120, 360]
 
     SFHS-H1-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [130, 490]
 
     SFHS-H2-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [130, 380]
 
     SFHS-H2-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [130, 480]
 
     SFHS-H3-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [130, 400]
 
     SFHS-H3-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 4096
-        interval: [100, 500]
+        xMax: 250000
+        interval: [130, 480]
 
     MCPPMT-mid-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [120, 340]
 
     MCPPMT-mid-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [120, 420]
 
     MCPPMT-W1-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [110, 340]
 
     MCPPMT-W1-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [140, 380]
 
     MCPPMT-W2-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [120, 310]
 
     MCPPMT-W2-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [130, 400]
 
     MCPPMT-W3-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [140, 420]
 
     MCPPMT-W3-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
         xMax: 4096
-        interval: [100, 500]
+        interval: [140, 360]
 
