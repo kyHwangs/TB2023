@@ -20,15 +20,11 @@ std::vector<int> myColorPalette {
   2, // "kRed",
   4, // "kBlue",
   417, // "kGreen",
-  6, // "kMagenta",
+  616, // "kMagenta",
   433, // "kAzure"
-
-  1, // "kBlack",
-  2, // "kRed",
-  4, // "kBlue",
-  417, // "kGreen",
-  6, // "kMagenta",
-  433 // "kAzure"
+  807, // "kOrange"
+  399, // "kYellow"
+  429 // kCyan
 };
 
 std::vector<std::string> getPlotInfo(std::string module_name) {
@@ -127,8 +123,18 @@ float getMin(std::vector<short> waveform) {
   return *(std::min_element(waveform.begin() + 1, waveform.end() - 23));
 }
 
+float getMinFrom(std::vector<short> waveform, int from, int end) {
+  int minus = waveform.size() - end;
+  return *(std::min_element(waveform.begin() + from, waveform.end() - minus));
+}
+
 int getMinIdx(std::vector<short> waveform) {
   return std::distance( waveform.begin(), std::min_element(waveform.begin() + 1, waveform.end() - 23) );
+}
+
+int getMinIdxFrom(std::vector<short> waveform, int from, int end) {
+  int minus = waveform.size() - end;
+  return std::distance( waveform.begin(), std::min_element(waveform.begin() + from, waveform.end() - minus) );
 }
 
 float interpolate(std::vector<short> waveform, int thrs_bin) {
@@ -316,15 +322,81 @@ std::map<std::string, std::vector<int>> getModuleConfigMap() {
 
     map_btw_MIDCH_and_Name.insert(std::make_pair("T1", std::vector<int> {8, 24}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("T2", std::vector<int> {9, 24})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T3", std::vector<int> {8, 19})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
 
     map_btw_MIDCH_and_Name.insert(std::make_pair("C1", std::vector<int> {12, 8}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("C2", std::vector<int> {12, 16}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
 
     map_btw_MIDCH_and_Name.insert(std::make_pair("T1N", std::vector<int> {8, 7})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("T2N", std::vector<int> {9, 7})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T3N", std::vector<int> {9, 15})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
     map_btw_MIDCH_and_Name.insert(std::make_pair("Coin", std::vector<int> {8, 15})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
 
+    map_btw_MIDCH_and_Name.insert(std::make_pair("1C",  std::vector<int> {5, 1}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("2C",  std::vector<int> {5, 2}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("3C",  std::vector<int> {5, 3}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("4C",  std::vector<int> {5, 4}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("5C",  std::vector<int> {5, 5}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("6C",  std::vector<int> {5, 6}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("7C",  std::vector<int> {5, 7}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("8C",  std::vector<int> {5, 8}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("9C",  std::vector<int> {5, 9}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("10C", std::vector<int> {5, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("11C", std::vector<int> {5, 11}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("12C", std::vector<int> {5, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("13C", std::vector<int> {5, 13}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("14C", std::vector<int> {5, 14}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("15C", std::vector<int> {5, 15}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("16C", std::vector<int> {5, 16}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("17C", std::vector<int> {5, 17}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("18C", std::vector<int> {5, 18}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("19C", std::vector<int> {5, 19}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("20C", std::vector<int> {5, 20}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("21C", std::vector<int> {5, 21}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("22C", std::vector<int> {5, 22}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("23C", std::vector<int> {5, 23}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("24C", std::vector<int> {5, 24}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("25C", std::vector<int> {5, 25}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("26C", std::vector<int> {5, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("27C", std::vector<int> {5, 27}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("28C", std::vector<int> {5, 28}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("29C", std::vector<int> {5, 29}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("30C", std::vector<int> {5, 30}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("31C", std::vector<int> {5, 31}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("32C", std::vector<int> {5, 32}));
 
+    map_btw_MIDCH_and_Name.insert(std::make_pair("1S",  std::vector<int> {6, 1}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("2S",  std::vector<int> {6, 2}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("3S",  std::vector<int> {6, 3}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("4S",  std::vector<int> {6, 4}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("5S",  std::vector<int> {6, 5}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("6S",  std::vector<int> {6, 6}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("7S",  std::vector<int> {6, 7}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("8S",  std::vector<int> {6, 8}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("9S",  std::vector<int> {6, 9}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("10S", std::vector<int> {6, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("11S", std::vector<int> {6, 11}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("12S", std::vector<int> {6, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("13S", std::vector<int> {6, 13}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("14S", std::vector<int> {6, 14}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("15S", std::vector<int> {6, 15}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("16S", std::vector<int> {6, 16}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("17S", std::vector<int> {6, 17}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("18S", std::vector<int> {6, 18}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("19S", std::vector<int> {6, 19}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("20S", std::vector<int> {6, 20}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("21S", std::vector<int> {6, 21}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("22S", std::vector<int> {6, 22}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("23S", std::vector<int> {6, 23}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("24S", std::vector<int> {6, 24}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("25S", std::vector<int> {6, 25}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("26S", std::vector<int> {6, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("27S", std::vector<int> {6, 27}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("28S", std::vector<int> {6, 28}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("29S", std::vector<int> {6, 29}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("30S", std::vector<int> {6, 30}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("31S", std::vector<int> {6, 31}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("32S", std::vector<int> {6, 32}));
 
     return map_btw_MIDCH_and_Name;
 }
@@ -377,4 +449,180 @@ float GetPeak(std::vector<short> waveform, int startBin, int endBin)
     pedCorrectedWave.push_back(ped - waveform.at(i));
 
   return (*std::max_element(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin));
+}
+
+std::vector<std::string> mcppmt_c_names = { "1-Ceren", 
+                                            "2-Ceren", 
+                                            "3-Ceren", 
+                                            "4-Ceren", 
+                                            "5-Ceren", 
+                                            "6-Ceren", 
+                                            "7-Ceren", 
+                                            "8-Ceren", 
+                                            "9-Ceren", 
+                                            "10-Ceren",
+                                            "11-Ceren",
+                                            "12-Ceren",
+                                            "13-Ceren",
+                                            "14-Ceren",
+                                            "15-Ceren",
+                                            "16-Ceren",
+                                            "17-Ceren",
+                                            "18-Ceren",
+                                            "19-Ceren",
+                                            "20-Ceren",
+                                            "21-Ceren",
+                                            "22-Ceren",
+                                            "23-Ceren",
+                                            "24-Ceren",
+                                            "25-Ceren",
+                                            "26-Ceren",
+                                            "27-Ceren",
+                                            "28-Ceren",
+                                            "29-Ceren",
+                                            "30-Ceren",
+                                            "31-Ceren",
+                                            "32-Ceren",
+                                            "33-Ceren",
+                                            "34-Ceren",
+                                            "35-Ceren",
+                                            "36-Ceren",
+                                            "37-Ceren",
+                                            "38-Ceren",
+                                            "39-Ceren",
+                                            "40-Ceren",
+                                            "41-Ceren",
+                                            "42-Ceren",
+                                            "43-Ceren",
+                                            "44-Ceren",
+                                            "45-Ceren",
+                                            "46-Ceren",
+                                            "47-Ceren",
+                                            "48-Ceren",
+                                            "49-Ceren",
+                                            "50-Ceren"};
+
+std::vector<std::string> mcppmt_s_names = { "1-Scint", 
+                                            "2-Scint", 
+                                            "3-Scint", 
+                                            "4-Scint", 
+                                            "5-Scint", 
+                                            "6-Scint", 
+                                            "7-Scint", 
+                                            "8-Scint", 
+                                            "9-Scint", 
+                                            "10-Scint",
+                                            "11-Scint",
+                                            "12-Scint",
+                                            "13-Scint",
+                                            "14-Scint",
+                                            "15-Scint",
+                                            "16-Scint",
+                                            "17-Scint",
+                                            "18-Scint",
+                                            "19-Scint",
+                                            "20-Scint",
+                                            "21-Scint",
+                                            "22-Scint",
+                                            "23-Scint",
+                                            "24-Scint",
+                                            "25-Scint",
+                                            "26-Scint",
+                                            "27-Scint",
+                                            "28-Scint",
+                                            "29-Scint",
+                                            "30-Scint",
+                                            "31-Scint",
+                                            "32-Scint",
+                                            "33-Scint",
+                                            "34-Scint",
+                                            "35-Scint",
+                                            "36-Scint",
+                                            "37-Scint",
+                                            "38-Scint",
+                                            "39-Scint",
+                                            "40-Scint",
+                                            "41-Scint",
+                                            "42-Scint",
+                                            "43-Scint",
+                                            "44-Scint",
+                                            "45-Scint",
+                                            "46-Scint",
+                                            "47-Scint",
+                                            "48-Scint",
+                                            "49-Scint",
+                                            "50-Scint"};
+
+std::vector<std::string> sipm_c_names = { "1C",
+                                          "2C",
+                                          "3C",
+                                          "4C",
+                                          "5C",
+                                          "6C",
+                                          "7C",
+                                          "8C",
+                                          "9C",
+                                          "10C",
+                                          "11C",
+                                          "12C",
+                                          "13C",
+                                          "14C",
+                                          "15C",
+                                          "16C",
+                                          "17C",
+                                          "18C",
+                                          "19C",
+                                          "20C",
+                                          "21C",
+                                          "22C",
+                                          "23C",
+                                          "24C",
+                                          "25C",
+                                          "26C",
+                                          "27C",
+                                          "28C",
+                                          "29C",
+                                          "30C",
+                                          "31C",
+                                          "32C"};
+
+std::vector<std::string> sipm_s_names = { "1S",
+                                          "2S",
+                                          "3S",
+                                          "4S",
+                                          "5S",
+                                          "6S",
+                                          "7S",
+                                          "8S",
+                                          "9S",
+                                          "10S",
+                                          "11S",
+                                          "12S",
+                                          "13S",
+                                          "14S",
+                                          "15S",
+                                          "16S",
+                                          "17S",
+                                          "18S",
+                                          "19S",
+                                          "20S",
+                                          "21S",
+                                          "22S",
+                                          "23S",
+                                          "24S",
+                                          "25S",
+                                          "26S",
+                                          "27S",
+                                          "28S",
+                                          "29S",
+                                          "30S",
+                                          "31S",
+                                          "32S"};
+
+int IdxToRow(int idx) {
+  return (int) ( 5 - (idx % 5));
+}
+
+int IdxToCol(int idx) {
+  return (int) ( (idx / 5) + 1);
 }

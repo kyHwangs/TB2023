@@ -113,15 +113,15 @@ int main(int argc, char* argv[]) {
     c2_plot_cut->Draw("Hist");
     c1->Update();
 
-    TCanvas* c2 = new TCanvas("c2", "c2", 800, 800);
-    c2->cd();
-    c1_c2_plot->Draw("colz");
-    c2->Update();
+    // TCanvas* c2 = new TCanvas("c2", "c2", 800, 800);
+    // c2->cd();
+    // c1_c2_plot->Draw("colz");
+    // c2->Update();
 
-    TCanvas* c3 = new TCanvas("c3", "c3", 800, 800);
-    c3->cd();
-    c1_c2_plot_cut->Draw("colz");
-    c3->Update();
+    // TCanvas* c3 = new TCanvas("c3", "c3", 800, 800);
+    // c3->cd();
+    // c1_c2_plot_cut->Draw("colz");
+    // c3->Update();
 
     app.Run();
     return 0;
