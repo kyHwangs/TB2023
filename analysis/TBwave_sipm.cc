@@ -20,42 +20,42 @@ int main(int argc, char* argv[]) {
     std::string amplified_ch = argv[5];
 
     std::vector<std::string> channel_names;
-    if ( amplified_ch == "1S" ) {
+    if ( amplified_ch == "1xS" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_s_names.at(idx) );
         }
     }
-    if ( amplified_ch == "5S" ) {
+    if ( amplified_ch == "5xS" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_s_names.at(idx + 8) );
         }
     }
-    if ( amplified_ch == "10S" ) {
+    if ( amplified_ch == "10xS" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_s_names.at(idx + 16) );
         }
     }
-    if ( amplified_ch == "50S" ) {
+    if ( amplified_ch == "50xS" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_s_names.at(idx + 24) );
         }
     }
-    if ( amplified_ch == "1C" ) {
+    if ( amplified_ch == "1xC" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_c_names.at(idx) );
         }
     }
-    if ( amplified_ch == "5C" ) {
+    if ( amplified_ch == "5xC" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_c_names.at(idx + 8) );
         }
     }
-    if ( amplified_ch == "10C" ) {
+    if ( amplified_ch == "10xC" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_c_names.at(idx + 16) );
         }
     }
-    if ( amplified_ch == "50C" ) {
+    if ( amplified_ch == "50xC" ) {
         for(int idx = 0; idx < 8; idx++) {
             channel_names.push_back( sipm_c_names.at(idx + 24) );
         }

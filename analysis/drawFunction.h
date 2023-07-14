@@ -119,6 +119,10 @@ float getPed(std::vector<short> waveform) {
   return std::accumulate( waveform.begin() + 1, waveform.begin() + 101, 0.) / 100.;
 }
 
+float getPedfromBack(std::vector<short> waveform) {
+  return std::accumulate( waveform.end() - 24, waveform.end()  - 124, 0.) / 100.;
+}
+
 float getMin(std::vector<short> waveform) {
   return *(std::min_element(waveform.begin() + 1, waveform.end() - 23));
 }
@@ -322,7 +326,8 @@ std::map<std::string, std::vector<int>> getModuleConfigMap() {
 
     map_btw_MIDCH_and_Name.insert(std::make_pair("T1", std::vector<int> {8, 24}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("T2", std::vector<int> {9, 24})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
-    map_btw_MIDCH_and_Name.insert(std::make_pair("T3", std::vector<int> {8, 19})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T3", std::vector<int> {8, 19})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 3
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T4", std::vector<int> {9, 19})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 4
 
     map_btw_MIDCH_and_Name.insert(std::make_pair("C1", std::vector<int> {12, 8}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("C2", std::vector<int> {12, 16}));  // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 1
@@ -330,6 +335,7 @@ std::map<std::string, std::vector<int>> getModuleConfigMap() {
     map_btw_MIDCH_and_Name.insert(std::make_pair("T1N", std::vector<int> {8, 7})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 1
     map_btw_MIDCH_and_Name.insert(std::make_pair("T2N", std::vector<int> {9, 7})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
     map_btw_MIDCH_and_Name.insert(std::make_pair("T3N", std::vector<int> {9, 15})); // FIXME!! : TEMPORARY MAPPING FOR TRIGGER 2
+    // map_btw_MIDCH_and_Name.insert(std::make_pair("T4N", std::vector<int> {9, 15})); // NOT USING THIS
     map_btw_MIDCH_and_Name.insert(std::make_pair("Coin", std::vector<int> {8, 15})); // FIXME!! : TEMPORARY MAPPING FOR C COUNTER 2
 
     map_btw_MIDCH_and_Name.insert(std::make_pair("1C",  std::vector<int> {5, 1}));
@@ -432,6 +438,28 @@ float GetInt(std::vector<short> waveform, int startBin, int endBin)
   return (std::accumulate(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin, 0.));
 }
 
+float GetInt50ped(std::vector<short> waveform, int startBin, int endBin)
+{
+  float ped = std::accumulate(waveform.begin() + 1, waveform.begin() + 51, 0.) / 50.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
+
+  return (std::accumulate(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin, 0.));
+}
+
+float GetIntFromBack(std::vector<short> waveform, int startBin, int endBin)
+{
+  float ped = std::accumulate(waveform.end() - 124, waveform.end() - 24, 0.) / 100.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
+
+  return (std::accumulate(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin, 0.));
+}
+
 std::vector<float> GetAvg(std::vector<short> waveform, int maxEntry)
 {
   std::vector<float> scaled_waveform;
@@ -443,6 +471,28 @@ std::vector<float> GetAvg(std::vector<short> waveform, int maxEntry)
 float GetPeak(std::vector<short> waveform, int startBin, int endBin)
 {
   float ped = std::accumulate(waveform.begin() + 1, waveform.begin() + 101, 0.) / 100.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
+
+  return (*std::max_element(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin));
+}
+
+float GetPeak50ped(std::vector<short> waveform, int startBin, int endBin)
+{
+  float ped = std::accumulate(waveform.begin() + 1, waveform.begin() + 51, 0.) / 50.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
+
+  return (*std::max_element(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin));
+}
+
+float GetPeakFromBack(std::vector<short> waveform, int startBin, int endBin)
+{
+  float ped = std::accumulate(waveform.end() - 24, waveform.begin() - 124, 0.) / 100.;
   
   std::vector<float> pedCorrectedWave;
   for (int i = 0; i < waveform.size(); i++)

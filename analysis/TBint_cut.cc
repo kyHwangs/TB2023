@@ -18,14 +18,15 @@ int main(int argc, char* argv[]) {
     float c1_cut       = std::stof(argv[5]);
     float c2_cut       = std::stof(argv[6]);
     float t3_cut       = std::stof(argv[7]);
+    float t4_cut       = std::stof(argv[7]);
 
-    int logic          = std::stoi(argv[8]);
+    int logic          = std::stoi(argv[9]);
 
     std::vector<std::string> channel_names;
     myColorPalette.clear();
-    for(int plot_args = 9; plot_args < argc; plot_args++ ) {
+    for(int plot_args = 10; plot_args < argc; plot_args++ ) {
         channel_names.push_back(argv[plot_args]);
-        myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-9) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 9.)) ));
+        myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-10) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 10.)) ));
     }
     gStyle->SetOptStat(1);
     gStyle->SetStatFormat("6.6g");
@@ -82,13 +83,12 @@ int main(int argc, char* argv[]) {
         auto c1_waveform = anEvent.GetData(TBcid(12, 8)).waveform();
         auto c2_waveform = anEvent.GetData(TBcid(12, 16)).waveform();
         auto t3_waveform = anEvent.GetData(TBcid(8, 19)).waveform();
+        auto t4_waveform = anEvent.GetData(TBcid(9, 19)).waveform();
 
         float c1_peakADC = GetPeak(c1_waveform, 350, 700);
         float c2_peakADC = GetPeak(c2_waveform, 200, 500);
         float t3_peakADC = GetPeak(t3_waveform, 300, 500);
-
-        // if (!( (c1_peakADC < c1_cut) && (c2_peakADC < c2_cut) ) ) continue; // Logic : 00
-        // if (!( (c1_peakADC < c1_cut) && (c2_peakADC < c2_cut) ) ) continue; // Logic : 10
+        float t4_peakADC = GetPeak(t4_waveform, 300, 500);
 
         if (logic == 11) {
             if (!( (c1_peakADC > c1_cut) && (c2_peakADC > c2_cut) ) ) continue;
@@ -103,6 +103,7 @@ int main(int argc, char* argv[]) {
             if (!( (c1_peakADC < c1_cut) && (c2_peakADC < c2_cut) ) ) continue;
         }
         if ( t3_peakADC < t3_cut ) continue;
+        if ( t4_peakADC < t4_cut ) continue;
 
         for (int idx = 0; idx < plots.size(); idx++) {
             TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));

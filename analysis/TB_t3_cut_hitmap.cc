@@ -19,7 +19,8 @@ int main(int argc, char* argv[]) {
     float c1_cut       = std::stof(argv[5]);
     float c2_cut       = std::stof(argv[6]);
     float t3_cut       = std::stof(argv[7]);
-    int logic          = std::stoi(argv[8]);
+    float t4_cut       = std::stof(argv[8]);
+    int logic          = std::stoi(argv[9]);
 
     auto map = getModuleConfigMap();
     TH2F* hit_C = new TH2F( (TString)("hit_C_Run_" + runNum), (TString)("hit_C_Run_" + runNum), 5, 0., 5., 10, 0., 10.);
@@ -51,7 +52,7 @@ int main(int argc, char* argv[]) {
     //     keyMap.insert(std::make_pair(8, 1));
     //     unique_MIDs.push_back(8);
     // }
-    std::vector<int> MIDs = {1, 2, 3, 4, 8, 12};
+    std::vector<int> MIDs = {1, 2, 3, 4, 8, 9, 12};
     TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), max_evt, -1, "/Users/yhep/scratch/YUdaq", MIDs);
     std::cout << "Total # of entry : " << readerWave.GetMaxEvent() << std::endl;
 
@@ -66,10 +67,12 @@ int main(int argc, char* argv[]) {
         auto c1_waveform = anEvent.GetData(TBcid(12, 8)).waveform();
         auto c2_waveform = anEvent.GetData(TBcid(12, 16)).waveform();
         auto t3_waveform = anEvent.GetData(TBcid(8, 19)).waveform();
+        auto t4_waveform = anEvent.GetData(TBcid(9, 19)).waveform();
 
         float c1_peakADC = GetPeak(c1_waveform, 350, 700);
         float c2_peakADC = GetPeak(c2_waveform, 200, 500);
         float t3_peakADC = GetPeak(t3_waveform, 300, 500); // T3 cut : 20 mV = 81.92ADC ~ 80ADC
+        float t4_peakADC = GetPeak(t4_waveform, 300, 500); // T4 cut : 20 mV = 81.92ADC ~ 80ADC
 
         if (logic == 11) {
             if (!( (c1_peakADC > c1_cut) && (c2_peakADC > c2_cut) ) ) continue;
@@ -84,6 +87,7 @@ int main(int argc, char* argv[]) {
             if (!( (c1_peakADC < c1_cut) && (c2_peakADC < c2_cut) ) ) continue;
         }
         if (t3_peakADC < t3_cut) continue; // T3 cut : 20 mV = 81.92ADC ~ 80ADC
+        if (t4_peakADC < t4_cut) continue; // T4 cut : 20 mV = 81.92ADC ~ 80ADC
         event_passed++;
 
         for (int idx = 0; idx < mcppmt_c_names.size(); idx++) {
