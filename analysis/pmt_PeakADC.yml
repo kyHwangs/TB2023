@@ -77,56 +77,56 @@ Plots:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [110, 360]
 
     SFHS-HW-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [120, 420]
 
     SFHS-H1-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [120, 360]
 
     SFHS-H1-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [130, 490]
 
     SFHS-H2-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [130, 380]
 
     SFHS-H2-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [130, 480]
 
     SFHS-H3-Ceren:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [130, 400]
 
     SFHS-H3-Scint:
       peak ADC:
         nBin: 400
         xMin: 0
-        xMax: 250000
+        xMax: 4096
         interval: [130, 480]
 
     MCPPMT-mid-Ceren:

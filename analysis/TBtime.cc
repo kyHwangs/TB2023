@@ -47,10 +47,11 @@ int main(int argc, char* argv[]) {
         module_start_bin = 400;
         module_end_bin   = 700;
     }
-    int trig_start_bin   = 400;
-    int trig_end_bin     = 700;
+    int trig_start_bin   = 650;
+    int trig_end_bin     = 850;
 
     int rising_time_bin  = 70;
+    int trig_rising_time_bin  = 100;
 
     std::vector<short> single_waveform;
     std::vector<short> trig_waveform;
@@ -67,12 +68,12 @@ int main(int argc, char* argv[]) {
         // 12-18 : T1N
         // 12-24 : T2N
         // 12-26 : Coin
-        trig_waveform   = anEvent.GetData(TBcid(12, 18)).waveform();
+        trig_waveform   = anEvent.GetData(TBcid(12, 26)).waveform();
 
         int module_thrs_bin = 0;
         float module_ped = getPed(single_waveform);
-        float module_min = getMin(single_waveform);
-        int   module_idx = getMinIdx(single_waveform);
+        float module_min = getMinFrom(single_waveform, module_start_bin, module_end_bin);
+        int   module_idx = getMinIdxFrom(single_waveform, module_start_bin, module_end_bin);
         if (module_idx < module_start_bin) continue;
         if (module_idx > module_end_bin) continue;
         float module_peakADC = module_ped - module_min;
@@ -85,8 +86,8 @@ int main(int argc, char* argv[]) {
 
         int trig_thrs_bin = 0;
         float trig_ped = getPed(trig_waveform);
-        float trig_min = getMin(trig_waveform);
-        int   trig_idx = getMinIdx(trig_waveform);
+        float trig_min = getMinFrom(trig_waveform, trig_start_bin, trig_end_bin);
+        int   trig_idx = getMinIdxFrom(trig_waveform, trig_start_bin, trig_end_bin);
         if (trig_idx < trig_start_bin) continue;
         if (trig_idx > trig_end_bin) continue;
         float trig_peakADC = trig_ped - trig_min;

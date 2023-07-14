@@ -77,6 +77,7 @@ int main(int argc, char* argv[]) {
             auto single_waveform = anEvent.GetData(cid).waveform();
 
             float PeakADC = GetPeak(single_waveform, start_bin, end_bin);
+            // float PeakADC = GetPeak50ped(single_waveform, start_bin, end_bin);
             plots.at(idx)->Fill(PeakADC);
         }
     }

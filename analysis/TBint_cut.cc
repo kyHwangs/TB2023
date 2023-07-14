@@ -12,16 +12,21 @@ int main(int argc, char* argv[]) {
     gStyle->SetPalette(kVisibleSpectrum);
 
     std::string runNum = argv[1];
-    int start_evt      = std::stoi(argv[2]);
-    int max_evt        = std::stoi(argv[3]);
-    int start_bin      = std::stoi(argv[4]);
-    int end_bin        = std::stoi(argv[5]);
+    int max_evt        = std::stoi(argv[2]);
+    int start_bin      = std::stoi(argv[3]);
+    int end_bin        = std::stoi(argv[4]);
+    float c1_cut       = std::stof(argv[5]);
+    float c2_cut       = std::stof(argv[6]);
+    float t3_cut       = std::stof(argv[7]);
+    float t4_cut       = std::stof(argv[7]);
+
+    int logic          = std::stoi(argv[9]);
 
     std::vector<std::string> channel_names;
     myColorPalette.clear();
-    for(int plot_args = 6; plot_args < argc; plot_args++ ) {
+    for(int plot_args = 10; plot_args < argc; plot_args++ ) {
         channel_names.push_back(argv[plot_args]);
-        myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-6) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 6.)) ));
+        myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-10) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 10.)) ));
     }
     gStyle->SetOptStat(1);
     gStyle->SetStatFormat("6.6g");
@@ -54,9 +59,11 @@ int main(int argc, char* argv[]) {
         plots.push_back(new TH1F( (TString)channel_names.at(idx), (TString)channel_names.at(idx), 500, -5000., 200000.) );
     }
 
+    unique_MIDs.push_back(12);
+
 
     // unique_MIDs.erase( std::unique( unique_MIDs.begin(), unique_MIDs.end() ), unique_MIDs.end() );
-    TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), start_evt + max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
+    TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
     std::cout << "Total # of entry : " << readerWave.GetMaxEvent() << std::endl;
 
     TCanvas* c = new TCanvas("c", "c", 800, 600);
@@ -68,18 +75,41 @@ int main(int argc, char* argv[]) {
 
     TLegend* leg = new TLegend(0.75, 0.2, 0.9, 0.4);
 
-    for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
-        if (iEvt < start_evt) continue;
-        printProgress(iEvt, start_evt + max_evt);
+    for(int iEvt = 0; iEvt < readerWave.GetMaxEvent(); iEvt++) {
+        printProgress(iEvt, readerWave.GetMaxEvent());
 
         auto anEvent = readerWave.GetAnEvent();
+
+        auto c1_waveform = anEvent.GetData(TBcid(12, 8)).waveform();
+        auto c2_waveform = anEvent.GetData(TBcid(12, 16)).waveform();
+        auto t3_waveform = anEvent.GetData(TBcid(8, 19)).waveform();
+        auto t4_waveform = anEvent.GetData(TBcid(9, 19)).waveform();
+
+        float c1_peakADC = GetPeak(c1_waveform, 350, 700);
+        float c2_peakADC = GetPeak(c2_waveform, 200, 500);
+        float t3_peakADC = GetPeak(t3_waveform, 300, 500);
+        float t4_peakADC = GetPeak(t4_waveform, 300, 500);
+
+        if (logic == 11) {
+            if (!( (c1_peakADC > c1_cut) && (c2_peakADC > c2_cut) ) ) continue;
+        }
+        if (logic == 10) {
+            if (!( (c1_peakADC > c1_cut) && (c2_peakADC < c2_cut) ) ) continue;
+        }
+        if (logic == 1) {
+            if (!( (c1_peakADC < c1_cut) && (c2_peakADC > c2_cut) ) ) continue;
+        }
+        if (logic == 0) {
+            if (!( (c1_peakADC < c1_cut) && (c2_peakADC < c2_cut) ) ) continue;
+        }
+        if ( t3_peakADC < t3_cut ) continue;
+        if ( t4_peakADC < t4_cut ) continue;
 
         for (int idx = 0; idx < plots.size(); idx++) {
             TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
             auto single_waveform = anEvent.GetData(cid).waveform();
 
             float IntADC = GetInt(single_waveform, start_bin, end_bin);
-            // float IntADC = GetInt50ped(single_waveform, start_bin, end_bin);
             plots.at(idx)->Fill(IntADC);
         }
     }
@@ -94,7 +124,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    plots.at(maxEntry_idx)->SetTitle((TString)("Run" + runNum));
+    plots.at(maxEntry_idx)->SetTitle((TString)("Run" + runNum + "_cut"));
     plots.at(maxEntry_idx)->GetXaxis()->SetTitle("IntADC");
     plots.at(maxEntry_idx)->GetYaxis()->SetTitle("Evt");
     plots.at(maxEntry_idx)->SetLineWidth(2);
