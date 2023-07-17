@@ -12,17 +12,53 @@ int main(int argc, char* argv[]) {
     gStyle->SetPalette(kVisibleSpectrum);
 
     std::string runNum = argv[1];
-    int start_evt      = std::stoi(argv[2]);
-    int max_evt        = std::stoi(argv[3]);
-    int start_bin      = std::stoi(argv[4]);
-    int end_bin        = std::stoi(argv[5]);
+    int max_evt        = std::stoi(argv[2]);
+    int start_bin      = std::stoi(argv[3]);
+    int end_bin        = std::stoi(argv[4]);
+    std::string amplified_ch = argv[5];
 
     std::vector<std::string> channel_names;
-    myColorPalette.clear();
-    for(int plot_args = 6; plot_args < argc; plot_args++ ) {
-        channel_names.push_back(argv[plot_args]);
-        myColorPalette.push_back(gStyle->GetColorPalette( (plot_args-6) * ((float)gStyle->GetNumberOfColors() / ((float)argc - 6.)) ));
+    if ( amplified_ch == "1xS" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_s_names.at(idx) );
+        }
     }
+    if ( amplified_ch == "5xS" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_s_names.at(idx + 8) );
+        }
+    }
+    if ( amplified_ch == "10xS" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_s_names.at(idx + 16) );
+        }
+    }
+    if ( amplified_ch == "50xS" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_s_names.at(idx + 24) );
+        }
+    }
+    if ( amplified_ch == "1xC" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_c_names.at(idx) );
+        }
+    }
+    if ( amplified_ch == "5xC" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_c_names.at(idx + 8) );
+        }
+    }
+    if ( amplified_ch == "10xC" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_c_names.at(idx + 16) );
+        }
+    }
+    if ( amplified_ch == "50xC" ) {
+        for(int idx = 0; idx < 8; idx++) {
+            channel_names.push_back( sipm_c_names.at(idx + 24) );
+        }
+    }
+
     gStyle->SetOptStat(1);
     gStyle->SetStatFormat("6.6g");
 
@@ -56,7 +92,7 @@ int main(int argc, char* argv[]) {
 
 
     // unique_MIDs.erase( std::unique( unique_MIDs.begin(), unique_MIDs.end() ), unique_MIDs.end() );
-    TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), start_evt + max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
+    TBread<TBwaveform> readerWave = TBread<TBwaveform>(std::stoi(runNum), max_evt, -1, "/Users/yhep/scratch/YUdaq", unique_MIDs);
     std::cout << "Total # of entry : " << readerWave.GetMaxEvent() << std::endl;
 
     TCanvas* c = new TCanvas("c", "c", 800, 600);
@@ -68,9 +104,8 @@ int main(int argc, char* argv[]) {
 
     TLegend* leg = new TLegend(0.75, 0.2, 0.9, 0.4);
 
-    for(int iEvt = 0; iEvt < start_evt + max_evt; iEvt++) {
-        if (iEvt < start_evt) continue;
-        printProgress(iEvt, start_evt + max_evt);
+    for(int iEvt = 0; iEvt < readerWave.GetMaxEvent(); iEvt++) {
+        printProgress(iEvt, readerWave.GetMaxEvent());
 
         auto anEvent = readerWave.GetAnEvent();
 
@@ -78,8 +113,9 @@ int main(int argc, char* argv[]) {
             TBcid cid = TBcid(MIDs.at(idx), Chs.at(idx));
             auto single_waveform = anEvent.GetData(cid).waveform();
 
-            float IntADC = GetInt(single_waveform, start_bin, end_bin);
-            // float IntADC = GetInt50ped(single_waveform, start_bin, end_bin);
+            // float IntADC = GetInt(single_waveform, start_bin, end_bin);
+            // float IntADC = GetIntFromBack(single_waveform, start_bin, end_bin);
+            float IntADC = GetInt50ped(single_waveform, start_bin, end_bin);
             plots.at(idx)->Fill(IntADC);
         }
     }
