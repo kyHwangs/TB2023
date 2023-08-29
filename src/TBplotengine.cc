@@ -8,8 +8,7 @@ TBplotengine::TBplotengine(const YAML::Node fNodePlot_, int fRunNum_, TButility 
 
 void TBplotengine::init()
 {
-	// fUtility.loading("/Users/khwang/scratch/TB2023July/preparation/dev_230703/TB2023/mapping/mapping_TB2021July_v1.root");
-	fUtility.loading("/Users/yhep/scratch/DQM/TB2023/mapping/mapping_TB2021July_v1.root");
+	fUtility.loading("/u/user/swkim/DRC/2023_TB/TB2023/mapping/mapping_TB2021July_v1.root");
 	if (fUseExPed)
 		fUtility.loadped("/Users/khwang/scratch/TB2023July/sample/Info/Run" + std::to_string(fRunNum) + "_pedestalHist_mean.root");
 
