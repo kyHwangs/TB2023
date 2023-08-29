@@ -1,42 +1,37 @@
 # dual-readout_TB
 
-FWcore for TB data analysis
+Package for Offline TB 2023 Analysis
 
 ## Dependencies
+
+All the dependencies can be sourced from CVMFS automatically by running compile (or environment set) script.
+
 * ROOT
 * python3
-* boost::python
+* YAML
 
-## Compile
+## How to compile the package (required only once)
+- Scripts for both MacOS and CentOS are prepared.
+- Use proper script by replacing `<your OS>` with `macos` or `centos`
 ```sh
-source buildNinstall.sh
-cd test
-source compile.sh <analysis code in cpp>
+source buildNinstall_<your OS>.sh
 
-e.g.) source compile.sh TBanalysis
+e.g.) source buildNinstall_centos.sh
+```
+**Caution) Current CMakeLists.txt is for CentOS. If one wants to compile the package in MacOS, please remove current CMakeLists.txt and copy CMakeLists_macos.txt to CMakeLists.txt before running buildNinstall_macos.sh**
+
+## How to setup environment (required every time after restarting or re-accessing the server)
+```sh
+source envset_<your OS>.sh
+
+e.g) source envset_centos.sh
 ```
 
-## Run
+## How to compile the analysis scripts
+**Caution) Works only after compiling the package or setting up the environment**
 ```sh
-./TBanalysis <run number>
+cd analysis
+./compile_<your OS> <analysis code in cpp>
 
-e.g.) ./TBanalysis 682  #if you want to analyze Run682 (20GeV positron in the center of M2T5 (SiPM tower))
-```
-
-## If don't want to use script
-### Compile
-
-```sh
-source /cvmfs/sft.cern.ch/lcg/views/LCG_102/x86_64-centos7-gcc11-opt/setup.sh # on lxplus for dependencies
-mkdir build
-cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=../install
-make -j4 install
-```
-
-### Environment setup
-
-```sh
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<path_to_install>/lib64 # or lib based on your architecture
-export PYTHONPATH=$PYTHONPATH:<path_to_install>/lib64 # or lib based on your architecture
+e.g.) ./compile_centos.sh TBanalysis_ex
 ```

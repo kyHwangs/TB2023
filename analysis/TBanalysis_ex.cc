@@ -13,6 +13,11 @@
 #include "TFile.h"
 #include "TH1D.h"
 
+// Run the script by
+// ./TBanalysis_ex <run number> <max entry>
+// For example, ./TBanalysis_ex 4234 -1
+// <max entry> == -1 means run all the entries
+
 int main(int argc, char** argv) {
     gStyle->SetOptFit(1);
 
