@@ -1,258 +1,243 @@
-#include <stdexcept>
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
 #include <string>
-#include <chrono>
+#include <iostream>
+#include <vector>
 #include <cmath>
+#include <numeric>
 
-#include "TBevt.h"
-#include "TButility.h"
-
-#include "TROOT.h"
-#include "TStyle.h"
-#include <TChain.h>
-#include <TFile.h>
-#include <TTree.h>
-#include <TF1.h>
-#include <TH1D.h>
-#include <TH2D.h>
-#include <TCanvas.h>
-
-constexpr double const_pi()
-{
-  return std::atan(1) * 4;
+float getPed(std::vector<short> waveform) {
+  return std::accumulate( waveform.begin() + 1, waveform.begin() + 101, 0.) / 100.;
 }
 
-float peakADC(std::vector<short> waveform)
-{
-
-  float ped = 0;
-  for (int i = 1; i < 101; i++)
-    ped += (float)waveform.at(i) / 100.;
-
-  return ped - (float)*std::min_element(waveform.begin() + 1, waveform.end() - 23);
+float getPedfromBack(std::vector<short> waveform) {
+  return std::accumulate( waveform.end() - 24, waveform.end()  - 124, 0.) / 100.;
 }
 
-float getPed(std::vector<short> waveform)
-{
-
-  float ped = 0;
-  for (int i = 1; i < 101; i++)
-    ped += (float)waveform.at(i) / 100.;
-
-  return ped;
+float getMin(std::vector<short> waveform) {
+  return *(std::min_element(waveform.begin() + 1, waveform.end() - 23));
 }
 
-float getTime(float bin)
-{
-
-  return 400. * (bin / 1000.);
+float getMinFrom(std::vector<short> waveform, int from, int end) {
+  int minus = waveform.size() - end;
+  return *(std::min_element(waveform.begin() + from, waveform.end() - minus));
 }
 
-float getLinearInterpolate(float thres, float i, float j, float fi, float fj)
-{
-
-  return i + (j - i) * (thres - fi) / (fj - fi);
+int getMinIdx(std::vector<short> waveform) {
+  return std::distance( waveform.begin(), std::min_element(waveform.begin() + 1, waveform.end() - 23) );
 }
 
-float getLeadingEdge(std::vector<float> waveform)
-{
-
-  float LedingThres = (float)*std::max_element(waveform.begin() + 1, waveform.end() - 23) * 0.1;
-  int LedingInx = std::max_element(waveform.begin() + 1, waveform.end() - 23) - waveform.begin();
-
-  for (int i = LedingInx; i > 0; i--)
-    if (waveform.at(i) < LedingThres)
-      return getTime(getLinearInterpolate(LedingThres, i, i + 1, waveform.at(i), waveform.at(i + 1)));
-
-  return 0;
+int getMinIdxFrom(std::vector<short> waveform, int from, int end) {
+  int minus = waveform.size() - end;
+  return std::distance( waveform.begin(), std::min_element(waveform.begin() + from, waveform.end() - minus) );
 }
 
-std::vector<float> getPosition(std::vector<TBwaveform> dwcSet, float xCoeff, float xConst, float yCoeff, float yConst)
-{
+float interpolate(std::vector<short> waveform, int thrs_bin) {
+  float x0 = (float) (thrs_bin - 1) * 0.2;
+  float x1 = (float) thrs_bin * 0.2;
+  float y0 = (float) getPed(waveform) - waveform.at(thrs_bin-1);
+  float y1 = (float) getPed(waveform) - waveform.at(thrs_bin);
 
-  std::vector<float> time;
-  for (int i = 0; i < dwcSet.size(); i++)
-    time.push_back(getLeadingEdge(dwcSet.at(i).pedcorrectedWaveform(getPed(dwcSet.at(i).waveform()))));
+  float thrs = (getPed(waveform) - getMin(waveform)) * 0.3;
 
-  return time;
+  return (float)( x0 + (thrs - y0) * (x1 - x0) / (y1 - y0) );
 }
 
-float getDWCtimeWave(TBwaveform wave, float ped)
+std::vector<float> GetAvg(std::vector<short> waveform, int maxEntry)
 {
-  return getLeadingEdge(wave.pedcorrectedWaveform(ped));
+  std::vector<float> scaled_waveform;
+  for(int i = 0; i < waveform.size(); i++)
+    scaled_waveform.push_back( ( (float) waveform.at(i) / (float) maxEntry) );
+  return scaled_waveform;
 }
 
-std::vector<float> dwc_calib = {
-    -0.1740806676,
-    -0.1680572999,
-    -0.17424779576,
-    -0.053701300,
-    -0.17257273,
-    -0.579927452,
-    -0.1741203164,
-    -0.278179655};
-
-static float dwc1horizontalSlope = -0.1740806676;
-static float dwc1horizontalOffset = -0.1680572999;
-static float dwc1VerticalSlope = -0.17424779576;
-static float dwc1VerticalOffset = -0.053701300;
-
-static float dwc2horizontalSlope = -0.17257273;
-static float dwc2horizontalOffset = -0.579927452;
-static float dwc2VerticalSlope = -0.1741203164;
-static float dwc2VerticalOffset = -0.278179655;
-
-// static float dwc1Xoffset = 2.46;
-// static float dwc1Yoffset = -3.191;
-// static float dwc2Xoffset = 4.144;
-// static float dwc2Yoffset = -10.54;
-
-// Run624
-static float dwc1Xoffset = 2.954;
-static float dwc1Yoffset = -3.088;
-static float dwc2Xoffset = 4.554;
-static float dwc2Yoffset = -10.30;
-
-// static float dwc1Xoffset = 0.;
-// static float dwc1Yoffset = 0.;
-// static float dwc2Xoffset = 0.;
-// static float dwc2Yoffset = 0.;
-
-std::vector<float> getDWCposition(std::vector<int> dwcTime)
+float GetInt(std::vector<short> waveform, int startBin, int endBin)
 {
+  float ped = std::accumulate(waveform.begin() + 1, waveform.begin() + 101, 0.) / 100.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
 
-  std::vector<float> dec_pos;
-
-  dec_pos.push_back(-((float)(dwcTime.at(0) - dwcTime.at(1)) * 25. / 1000. * dwc1horizontalSlope + dwc1horizontalOffset) + dwc1Xoffset);
-  dec_pos.push_back((float)(dwcTime.at(2) - dwcTime.at(3)) * 25. / 1000. * dwc1VerticalSlope + dwc1VerticalOffset + dwc1Yoffset);
-  dec_pos.push_back(-((float)(dwcTime.at(4) - dwcTime.at(5)) * 25. / 1000. * dwc2horizontalSlope + dwc2horizontalOffset) + dwc2Xoffset);
-  dec_pos.push_back((float)(dwcTime.at(6) - dwcTime.at(7)) * 25. / 1000. * dwc2VerticalSlope + dwc2VerticalOffset + dwc2Yoffset);
-
-  return dec_pos;
+  return (std::accumulate(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin, 0.));
 }
 
-std::vector<float> getPositionFromDWC(std::vector<float> dwcPos)
+float GetPeak(std::vector<short> waveform, int startBin, int endBin)
 {
+  float ped = std::accumulate(waveform.begin() + 1, waveform.begin() + 101, 0.) / 100.;
+  
+  std::vector<float> pedCorrectedWave;
+  for (int i = 0; i < waveform.size(); i++)
+    pedCorrectedWave.push_back(ped - waveform.at(i));
 
-  std::vector<float> centerLen;
-
-  centerLen.push_back(std::sqrt(dwcPos.at(0) * dwcPos.at(0) + dwcPos.at(1) * dwcPos.at(1)));
-  centerLen.push_back(std::sqrt(dwcPos.at(2) * dwcPos.at(2) + dwcPos.at(3) * dwcPos.at(3)));
-
-  return centerLen;
+  return (*std::max_element(pedCorrectedWave.begin() + startBin, pedCorrectedWave.begin() + endBin));
 }
 
-float getLengthDiff(std::vector<float> dwcPos)
-{
-  return std::sqrt((dwcPos.at(0) - dwcPos.at(2)) * (dwcPos.at(0) - dwcPos.at(2)) + (dwcPos.at(1) - dwcPos.at(3)) * (dwcPos.at(1) - dwcPos.at(3)));
+std::map<std::string, std::vector<int>> getModuleConfigMap() {
+    std::map<std::string, std::vector<int>> map_btw_MIDCH_and_Name;
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("HW-Ceren", std::vector<int>{9, 2}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("H1-Ceren", std::vector<int>{9, 14}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("H2-Ceren", std::vector<int>{9, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("H3-Ceren", std::vector<int>{9, 20}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("HW-Scint", std::vector<int>{8, 2}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("H1-Scint", std::vector<int>{8, 14}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("H2-Scint", std::vector<int>{8, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("H3-Scint", std::vector<int>{8, 20}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L1-Ceren", std::vector<int>{9, 16}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L2-Ceren", std::vector<int>{9, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L3-Ceren", std::vector<int>{9, 22}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L4-Ceren", std::vector<int>{9, 18}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L1-Scint", std::vector<int>{8, 16}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L2-Scint", std::vector<int>{8, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L3-Scint", std::vector<int>{8, 22}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("L4-Scint", std::vector<int>{8, 18}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("mid-Ceren", std::vector<int>{9, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("W1-Ceren", std::vector<int>{9, 6}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("W2-Ceren", std::vector<int>{9, 8}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("W3-Ceren", std::vector<int>{9, 4}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("mid-Scint", std::vector<int>{8, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("W1-Scint", std::vector<int>{8, 6}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("W2-Scint", std::vector<int>{8, 8}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("W3-Scint", std::vector<int>{8, 4}));
+    
+    map_btw_MIDCH_and_Name.insert(std::make_pair("1-Ceren",  std::vector<int>  {3, 31}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("2-Ceren",  std::vector<int>  {3, 32}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("3-Ceren",  std::vector<int>  {4, 31}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("4-Ceren",  std::vector<int>  {4, 32}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("5-Ceren",  std::vector<int>  {4, 15}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("6-Ceren",  std::vector<int>  {3, 29}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("7-Ceren",  std::vector<int>  {3, 30}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("8-Ceren",  std::vector<int>  {4, 29}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("9-Ceren",  std::vector<int>  {4, 30}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("10-Ceren", std::vector<int>  {4, 13}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("11-Ceren", std::vector<int>  {3, 27}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("12-Ceren", std::vector<int>  {3, 28}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("13-Ceren", std::vector<int>  {4, 27}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("14-Ceren", std::vector<int>  {4, 28}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("15-Ceren", std::vector<int>  {4, 11}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("16-Ceren", std::vector<int>  {3, 14}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("17-Ceren", std::vector<int>  {3, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("18-Ceren", std::vector<int>  {4, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("19-Ceren", std::vector<int>  {4, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("20-Ceren", std::vector<int>  {4, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("21-Ceren", std::vector<int>  {3, 11}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("22-Ceren", std::vector<int>  {3, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("23-Ceren", std::vector<int>  {3, 13}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("24-Ceren", std::vector<int>  {3, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("25-Ceren", std::vector<int>  {3, 7} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("26-Ceren", std::vector<int>  {3, 23}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("27-Ceren", std::vector<int>  {3, 24}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("28-Ceren", std::vector<int>  {4, 7} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("29-Ceren", std::vector<int>  {4, 8} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("30-Ceren", std::vector<int>  {4, 23}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("31-Ceren", std::vector<int>  {3, 21}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("32-Ceren", std::vector<int>  {3, 22}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("33-Ceren", std::vector<int>  {4, 5} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("34-Ceren", std::vector<int>  {4, 6} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("35-Ceren", std::vector<int>  {4, 21}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("36-Ceren", std::vector<int>  {3, 19}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("37-Ceren", std::vector<int>  {3, 20}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("38-Ceren", std::vector<int>  {4, 3} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("39-Ceren", std::vector<int>  {4, 4} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("40-Ceren", std::vector<int>  {4, 19}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("41-Ceren", std::vector<int>  {3, 8} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("42-Ceren", std::vector<int>  {3, 5} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("43-Ceren", std::vector<int>  {3, 6} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("44-Ceren", std::vector<int>  {3, 3} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("45-Ceren", std::vector<int>  {3, 4} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("46-Ceren", std::vector<int>  {3, 2} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("47-Ceren", std::vector<int>  {3, 18}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("48-Ceren", std::vector<int>  {4, 18}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("49-Ceren", std::vector<int>  {4, 2} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("50-Ceren", std::vector<int>  {4, 20}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("1-Scint",  std::vector<int>  {1, 16}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("2-Scint",  std::vector<int>  {1, 31}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("3-Scint",  std::vector<int>  {1, 32}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("4-Scint",  std::vector<int>  {2, 15}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("5-Scint",  std::vector<int>  {2, 16}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("6-Scint",  std::vector<int>  {1, 14}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("7-Scint",  std::vector<int>  {1, 29}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("8-Scint",  std::vector<int>  {1, 30}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("9-Scint",  std::vector<int>  {2, 13}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("10-Scint", std::vector<int>  {2, 14}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("11-Scint", std::vector<int>  {1, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("12-Scint", std::vector<int>  {1, 27}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("13-Scint", std::vector<int>  {1, 28}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("14-Scint", std::vector<int>  {2, 11}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("15-Scint", std::vector<int>  {2, 12}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("16-Scint", std::vector<int>  {1, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("17-Scint", std::vector<int>  {1, 7}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("18-Scint", std::vector<int>  {1, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("19-Scint", std::vector<int>  {2, 29}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("20-Scint", std::vector<int>  {2, 10}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("21-Scint", std::vector<int>  {2, 27}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("22-Scint", std::vector<int>  {2, 28}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("23-Scint", std::vector<int>  {2, 30}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("24-Scint", std::vector<int>  {2, 26}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("25-Scint", std::vector<int>  {2, 24} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("26-Scint", std::vector<int>  {1, 8}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("27-Scint", std::vector<int>  {1, 23}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("28-Scint", std::vector<int>  {1, 24} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("29-Scint", std::vector<int>  {2, 7} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("30-Scint", std::vector<int>  {2, 8}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("31-Scint", std::vector<int>  {1, 6}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("32-Scint", std::vector<int>  {1, 21}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("33-Scint", std::vector<int>  {1, 22} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("34-Scint", std::vector<int>  {2, 5} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("35-Scint", std::vector<int>  {2, 6}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("36-Scint", std::vector<int>  {1, 4}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("37-Scint", std::vector<int>  {1, 19}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("38-Scint", std::vector<int>  {1, 20} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("39-Scint", std::vector<int>  {2, 3} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("40-Scint", std::vector<int>  {2, 4}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("41-Scint", std::vector<int>  {2, 23} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("42-Scint", std::vector<int>  {2, 21} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("43-Scint", std::vector<int>  {2, 22} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("44-Scint", std::vector<int>  {2, 19} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("45-Scint", std::vector<int>  {2, 20} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("46-Scint", std::vector<int>  {1, 2} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("47-Scint", std::vector<int>  {1, 3}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("48-Scint", std::vector<int>  {1, 18}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("49-Scint", std::vector<int>  {2, 18} ));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("50-Scint", std::vector<int>  {2, 2}));
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T1", std::vector<int> {8, 24}));  
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T2", std::vector<int> {9, 24})); 
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T3", std::vector<int> {8, 19})); 
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T4", std::vector<int> {9, 19})); 
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("C1", std::vector<int> {12, 8}));  
+    map_btw_MIDCH_and_Name.insert(std::make_pair("C2", std::vector<int> {12, 16}));  
+
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T1N", std::vector<int> {8, 7}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T2N", std::vector<int> {9, 7}));
+    map_btw_MIDCH_and_Name.insert(std::make_pair("T3N", std::vector<int> {9, 15})); 
+    map_btw_MIDCH_and_Name.insert(std::make_pair("Coin", std::vector<int> {8, 15}));
+
+    return map_btw_MIDCH_and_Name;
 }
 
-bool inVetoWithAlign(std::vector<float> centerPos)
+void printProgress(const int currentStep, const int totalStep)
 {
-  return (centerPos.at(0) <= 10) && (centerPos.at(1) <= 10);
-}
-
-bool inDWCaxisAlign(std::vector<float> dwcPos, double thres)
-{
-  return (std::abs(dwcPos.at(0) - dwcPos.at(2)) < thres && std::abs(dwcPos.at(1) - dwcPos.at(3)) < thres);
-}
-
-int getPID(double PS, double MU)
-{
-  float muMean = 495.9;
-  float muSigma = 444.6;
-  float psMean = 8208;
-  float psSigma = 1183;
-
-  if (MU < muMean + muSigma)
-  {
-    if (PS < psMean * 2.5)
+    // print progress
+    float progress = (float)currentStep / totalStep;
+    int barWidth = 70;
+    std::cout << "[";
+    int pos = barWidth * progress;
+    for (int i = 0; i < barWidth; i++)
     {
-      return 211;
+        if (i < pos)
+            std::cout << "=";
+        else if (i == pos)
+            std::cout << ">";
+        else
+            std::cout << " ";
     }
-    else
-    {
-      return 11;
-    }
-  }
-  else
-  {
-    return 13;
-  }
-
-  return -1;
-}
-
-bool psCut(double PS, double thres)
-{
-  if (PS > 8208. * thres)
-    return true;
-
-  return false;
-}
-
-bool muCut(double MU)
-{
-  if (MU < 495.9 + 444.6)
-    return true;
-
-  return false;
-}
-
-std::vector<float> getPeakRegion(std::vector<float> wave, int begin, int end)
-{
-  int peakIdx = std::max_element(wave.begin() + begin, wave.end() - end) - wave.begin();
-
-  // std::cout << peakIdx - 30 << " " << peakIdx << " " << peakIdx + 120 << std::endl;
-
-  if (peakIdx < begin + 30)
-    peakIdx = begin + 30;
-
-  if (peakIdx > 880)
-    peakIdx = 880;
-
-  std::vector<float> wave_refine;
-  for (int i = peakIdx - 60; i < peakIdx - 60 + 150; i++)
-    wave_refine.push_back(wave.at(i));
-
-  return wave_refine;
-}
-
-std::vector<float> getLeadEdgeRegion(std::vector<float> wave, int begin, int end)
-{
-  int peakIdx = std::max_element(wave.begin() + begin, wave.end() - end) - wave.begin();
-  float thres = *std::max_element(wave.begin() + begin, wave.end() - end) * 0.1;
-
-  int leIdx = peakIdx;
-  for (int i = peakIdx; i >= begin + 1; i--)
-  {
-    if (thres > wave.at(i))
-    {
-      leIdx = i;
-      break;
-    }
-  }
-
-  if (leIdx < 31)
-    leIdx = 31;
-
-  if (leIdx > 850)
-    leIdx = 850;
-
-  // std::cout << leIdx - 30 << " " << leIdx << " " << leIdx + 120 << std::endl;
-  std::vector<float> wave_refine;
-  for (int i = leIdx - 30; i < leIdx - 30 + 150; i++)
-    wave_refine.push_back(wave.at(i));
-
-  return wave_refine;
-}
-
-float getDWCtimeWavePeak(std::vector<short> wave)
-{
-
-  int peakidx = std::min_element(wave.begin() + 10, wave.end() - 23) - wave.begin();
-
-  return getTime((float)peakidx);
+    std::cout << "]  " << currentStep << "/" << totalStep << "  " << int(progress * 100.0) << "%\r";
+    std::cout.flush();
 }
