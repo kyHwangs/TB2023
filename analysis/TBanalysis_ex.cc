@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     TChain* evtChain = new TChain("event");
     for (int fn = 0; fn < 50; fn++) {
         std::string fileName = "ntuple_Run_" + std::to_string(runNum) + "_Wave_" + std::to_string(fn) + ".root";
-        std::string filePath = "/u/user/swkim/SE_UserHome/2023_DRC_TB_ntuple/Run_"  + std::to_string(runNum) + "/Run_" + std::to_string(runNum) + "_Wave/"+ fileName;
+        std::string filePath = "/pnfs/knu.ac.kr/data/cms/store/user/sungwon/2023_DRC_TB_ntuple/Run_"  + std::to_string(runNum) + "/Run_" + std::to_string(runNum) + "_Wave/"+ fileName;
         if ( !access(filePath.c_str(), F_OK) ){
             std::cout << fn << " Ntuple file added to TChain : " << filePath << std::endl;
             evtChain->Add(filePath.c_str());
